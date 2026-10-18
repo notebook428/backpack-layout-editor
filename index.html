@@ -349,7 +349,7 @@ async function copyPNG(){
     // clipboard writes if Blob creation is awaited before ClipboardItem setup.
     const blobPromise=canvasPngBlob(makePNGCanvas());
     await navigator.clipboard.write([new ClipboardItem({'image/png':blobPromise})]);
-    toast('画像をコピーしたよ！ このままチャットに Ctrl+V で貼り付けられます ♡');
+    toast('画像をコピーしました。このままチャットに Ctrl+V で貼り付けられます。');
   }catch(err){toast('画像コピーに失敗。PNG書き出しを使ってね');console.warn('Clipboard PNG:',err)}
 }
 function buildCatalog(){const cat=$('category'),old=cat.value;cat.replaceChildren(new Option('すべてのカテゴリ',''));const cats=[...new Set(definitions.map(p=>p.category||'その他'))].sort((a,b)=>a.localeCompare(b,'ja'));cats.forEach(v=>cat.append(new Option(v,v)));cat.value=cats.includes(old)?old:'';filterCatalog()}
