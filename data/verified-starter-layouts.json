@@ -79,6 +79,67 @@
         }
       ],
       "notes": "Centered Ranger Bag (2x3); leather bags (2x2) at left/right. Wooden Sword occupies (3,2)-(3,3), Lucky Clover occupies (4,2). All coordinates refer to actual filled cells."
+    },
+    "ranger-basket": {
+      "className": "レンジャー",
+      "name": "つる織りバスケット",
+      "starterSetId": "ranger-basket",
+      "submitted": "2026-10-19",
+      "status": "user-submitted-original-layout-recreation",
+      "evidence": "User-submitted 9×7 layout image in ChatGPT conversation",
+      "bags": [
+        {
+          "presetId": "start-ranger-basket",
+          "displayBottomLeft": [
+            2,
+            2
+          ],
+          "editorTopLeft": [
+            2,
+            2
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "base-leather-bag",
+          "displayBottomLeft": [
+            5,
+            2
+          ],
+          "editorTopLeft": [
+            5,
+            3
+          ],
+          "rot": 0
+        }
+      ],
+      "items": [
+        {
+          "presetId": "starter-herbs",
+          "displayBottomLeft": [
+            2,
+            4
+          ],
+          "editorTopLeft": [
+            2,
+            2
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "starter-stone",
+          "displayBottomLeft": [
+            3,
+            4
+          ],
+          "editorTopLeft": [
+            3,
+            2
+          ],
+          "rot": 0
+        }
+      ],
+      "notes": "Vineweave Basket occupies x2-4, y2-4. Healing Herbs and Stone are side by side on the top row of the basket, x2 and x3 at y4. Leather Bag occupies x5-6, y2-3, empty. The user provided this configuration as a recreation of the original game's initial layout."
     }
   }
 }
