@@ -143,7 +143,7 @@
     },
     "reaper-coffin": {
       "className": "リーパー",
-      "name": "棺桶バッグ（エディタ表記：棺型バッグ）",
+      "name": "棺型バッグ",
       "starterSetId": "reaper-coffin",
       "submitted": "2026-10-19",
       "status": "user-submitted-original-layout-recreation",
@@ -188,7 +188,80 @@
           "rot": 0
         }
       ],
-      "notes": "Coffin bag occupies x3-4, y1-4; leather bag x5-6, y1-2. Fly Agaric vertically occupies x4, y2-3. Image caption says 棺型バッグ; user calls it 棺桶バッグ. No on-board editor changes until agreed bulk update."
+      "notes": "Coffin bag occupies x3-4, y1-4; leather bag x5-6, y1-2. Fly Agaric vertically occupies x4, y2-3. Name confirmed by user as 棺型バッグ on 2026-10-19 (previous 棺桶バッグ reference was a slip). No editor changes until agreed bulk update."
+    },
+    "reaper-relic": {
+      "className": "リーパー",
+      "name": "レリックケース",
+      "starterSetId": "reaper-relic",
+      "submitted": "2026-10-19",
+      "status": "user-submitted-original-layout-recreation",
+      "evidence": "User-submitted 9×7 layout image in ChatGPT conversation",
+      "bags": [
+        {
+          "presetId": "start-adventurer-relic",
+          "displayBottomLeft": [
+            2,
+            2
+          ],
+          "editorTopLeft": [
+            2,
+            1
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "base-leather-bag",
+          "displayBottomLeft": [
+            3,
+            4
+          ],
+          "editorTopLeft": [
+            3,
+            1
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "base-leather-bag",
+          "displayBottomLeft": [
+            3,
+            2
+          ],
+          "editorTopLeft": [
+            3,
+            3
+          ],
+          "rot": 0
+        }
+      ],
+      "items": [
+        {
+          "presetId": "original-wooden-sword",
+          "displayBottomLeft": [
+            2,
+            2
+          ],
+          "editorTopLeft": [
+            2,
+            3
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "base-garlic",
+          "displayBottomLeft": [
+            3,
+            2
+          ],
+          "editorTopLeft": [
+            3,
+            3
+          ],
+          "rot": 0
+        }
+      ],
+      "notes": "Relic Case is the vertical 1×4 bag at x2,y2-5; leather bags at x3-4,y4-5 and x3-4,y2-3. Wooden Sword occupies x2,y2-3; Garlic occupies x3,y2-3. All shown vertical upright. Don't change published starter preset until complete batch."
     }
   }
 }
