@@ -1,0 +1,84 @@
+{
+  "format": "recho-verified-starter-layouts",
+  "version": 1,
+  "coordinateSystem": {
+    "display": "9×7 board, bottom-left origin (0,0), x right / y up",
+    "editor": "Internal item x/y use top-left origin; editorY = 7 - displayY - rotatedHeight"
+  },
+  "verificationPolicy": "User-provided recreation of an original-game startup arrangement. Do not claim a direct in-game screenshot or infer unprovided placement.",
+  "sets": {
+    "ranger-bag": {
+      "className": "レンジャー",
+      "name": "レンジャーのカバン",
+      "starterSetId": "ranger-bag",
+      "submitted": "2026-10-19",
+      "status": "user-submitted-original-layout-recreation",
+      "evidence": "User-submitted 9x7 layout image in ChatGPT conversation",
+      "bags": [
+        {
+          "presetId": "base-leather-bag",
+          "displayBottomLeft": [
+            1,
+            2
+          ],
+          "editorTopLeft": [
+            1,
+            3
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "start-ranger",
+          "displayBottomLeft": [
+            3,
+            2
+          ],
+          "editorTopLeft": [
+            3,
+            2
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "base-leather-bag",
+          "displayBottomLeft": [
+            5,
+            2
+          ],
+          "editorTopLeft": [
+            5,
+            3
+          ],
+          "rot": 0
+        }
+      ],
+      "items": [
+        {
+          "presetId": "original-wooden-sword",
+          "displayBottomLeft": [
+            3,
+            2
+          ],
+          "editorTopLeft": [
+            3,
+            3
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "starter-clover",
+          "displayBottomLeft": [
+            4,
+            2
+          ],
+          "editorTopLeft": [
+            4,
+            4
+          ],
+          "rot": 0
+        }
+      ],
+      "notes": "Centered Ranger Bag (2x3); leather bags (2x2) at left/right. Wooden Sword occupies (3,2)-(3,3), Lucky Clover occupies (4,2). All coordinates refer to actual filled cells."
+    }
+  }
+}
