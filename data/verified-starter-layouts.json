@@ -681,6 +681,79 @@
         }
       ],
       "notes": "Puzzlebox occupies six cells: (4,4),(2,3),(3,3),(4,3),(3,2),(3,1), i.e. x2-4/y1-4 bounding box. Leather Bag at x4-5/y1-2. Wand of Equilibrium occupies x3/y2-3 upright. Broom occupies x4/y1-4 and is rotated 180 degrees, visibly pointing down. Broom crosses cells covered by both Puzzlebox and Leather Bag; no bag-follow association can be determined from image, so do not infer linkBag. User called it パズルバッグ; on-screen item and existing preset name are パズルボックス. No editor code change until bulk integration."
+    },
+    "adventurer-giving": {
+      "className": "アドベンチャラー",
+      "name": "施し袋",
+      "starterSetId": "adventurer-giving",
+      "submitted": "2026-10-19",
+      "status": "user-submitted-original-layout-recreation",
+      "evidence": "User-submitted 9×7 layout image in ChatGPT conversation",
+      "bags": [
+        {
+          "presetId": "base-leather-bag",
+          "displayBottomLeft": [
+            0,
+            2
+          ],
+          "editorTopLeft": [
+            0,
+            3
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "start-adventurer-giving",
+          "displayBottomLeft": [
+            2,
+            2
+          ],
+          "editorTopLeft": [
+            2,
+            3
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "base-leather-bag",
+          "displayBottomLeft": [
+            5,
+            2
+          ],
+          "editorTopLeft": [
+            5,
+            3
+          ],
+          "rot": 0
+        }
+      ],
+      "items": [
+        {
+          "presetId": "starter-broccoli",
+          "displayBottomLeft": [
+            4,
+            2
+          ],
+          "editorTopLeft": [
+            4,
+            3
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "base-garlic",
+          "displayBottomLeft": [
+            5,
+            2
+          ],
+          "editorTopLeft": [
+            5,
+            3
+          ],
+          "rot": 0
+        }
+      ],
+      "notes": "Three horizontally adjacent bags, all y2-3: left Leather Bag x0-1, central Bag of Giving x2-4, right Leather Bag x5-6. Broccoli occupies x4/y2-3 upright inside Bag of Giving; Garlic occupies x5/y2-3 upright inside right Leather Bag. The image validates the shown two-cell vertical Broccoli placement, while existing preset notes may remain marked provisional until separately updated. No editor code change until bulk integration."
     }
   }
 }
