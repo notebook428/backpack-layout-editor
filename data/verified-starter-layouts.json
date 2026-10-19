@@ -140,6 +140,55 @@
         }
       ],
       "notes": "Vineweave Basket occupies x2-4, y2-4. Healing Herbs and Stone are side by side on the top row of the basket, x2 and x3 at y4. Leather Bag occupies x5-6, y2-3, empty. The user provided this configuration as a recreation of the original game's initial layout."
+    },
+    "reaper-coffin": {
+      "className": "リーパー",
+      "name": "棺桶バッグ（エディタ表記：棺型バッグ）",
+      "starterSetId": "reaper-coffin",
+      "submitted": "2026-10-19",
+      "status": "user-submitted-original-layout-recreation",
+      "evidence": "User-submitted 9×7 layout image in ChatGPT conversation",
+      "bags": [
+        {
+          "presetId": "start-reaper",
+          "displayBottomLeft": [
+            3,
+            1
+          ],
+          "editorTopLeft": [
+            3,
+            2
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "base-leather-bag",
+          "displayBottomLeft": [
+            5,
+            1
+          ],
+          "editorTopLeft": [
+            5,
+            4
+          ],
+          "rot": 0
+        }
+      ],
+      "items": [
+        {
+          "presetId": "original-mushroom",
+          "displayBottomLeft": [
+            4,
+            2
+          ],
+          "editorTopLeft": [
+            4,
+            3
+          ],
+          "rot": 0
+        }
+      ],
+      "notes": "Coffin bag occupies x3-4, y1-4; leather bag x5-6, y1-2. Fly Agaric vertically occupies x4, y2-3. Image caption says 棺型バッグ; user calls it 棺桶バッグ. No on-board editor changes until agreed bulk update."
     }
   }
 }
