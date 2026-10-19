@@ -37,8 +37,18 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 .coord-readout{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px 12px;margin-top:9px;color:#afc2de;font-size:12px}
 .coord-readout strong{color:#f4ddb3;font-weight:750;font-variant-numeric:tabular-nums}
 @media(max-width:780px){.board-outer{grid-template-columns:26px minmax(0,1fr);grid-template-rows:auto 25px}.axis-y span,.axis-x span{font-size:11px}.axis-y span{padding-right:5px}}
+
+[hidden]{display:none!important}
+.debug-tools{background:#1c2841;border:1px dashed #ae92ef;border-radius:10px;padding:10px 12px;margin:9px 0 12px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.debug-tools strong{color:#eed7ff;font-size:13px}.debug-tools .hint{font-size:11px;color:#bfcbe1}
+.debug-tools .debug-marker-btn{min-width:36px;font-size:19px;padding:4px 7px;line-height:1.3}
+.debug-tools .debug-marker-btn.active{background:#6a4b8d;border-color:#f2d5fa;color:#fff}
+.debug-tools .debug-marker-btn[data-symbol="erase"]{font-size:12px;min-width:55px}
+.debug-tools .debug-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.debug-tools #debugCount{color:#f1d49f;font-size:12px}
+#board.debug-active{cursor:crosshair;outline:2px solid #a88acb;outline-offset:1px}
 </style></head><body>
-<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><span class="version">Backpack Battles 非公式ツール · v0.8.5</span></header>
+<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><span class="version">Backpack Battles 非公式ツール · v0.8.6</span></header>
 <main>
 <aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><label class="priest-toggle"><input type="checkbox" id="showPriestess"> 非公式プリーステスのプリセットも表示する</label><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。</div></aside>
 <section class="panel center"><div class="starting-sets">
@@ -47,6 +57,21 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
   <div class="tiny" id="startSetInfo">ホタテくん確認済みの初期配置14セットを再現します。現在の配置がある場合は上書きを確認します。</div>
 </div><div class="toolbar"><button class="btn" id="new">新規</button><button class="btn" id="undo" title="Ctrl+Z">↶ 戻す</button><button class="btn" id="redo" title="Ctrl+Y">↷ やり直す</button><button class="btn" id="rotate" title="R キー">⟳ 回転</button><button class="btn danger" id="delete" title="Delete キー">削除</button><button class="btn" id="storeSelected" title="Bキーで選択中のアイテムを保管">▣ 保管する</button></div>
 <div class="mode-wrap"><label>選択レイヤー</label><button class="btn small modebtn active" data-mode="item">通常アイテム</button><button class="btn small modebtn" data-mode="bag">バッグ</button><button class="btn small modebtn" data-mode="gem">💎 宝石</button><span class="tiny">ドラッグして移動 · Rで回転</span><label class="move-together"><input id="moveTogether" type="checkbox" checked> バッグを中身ごと動かす</label></div>
+<div class="debug-tools" id="debugTools" hidden aria-label="開発用の説明マーカー">
+  <strong>✎ 説明用マーカー</strong><span class="hint">盤面のマスをクリックして置く／同じ記号を押し直して消す</span>
+  <button class="btn small debug-marker-btn active" type="button" data-symbol="☆" title="星印（影響範囲の説明）">☆</button>
+  <button class="btn small debug-marker-btn" type="button" data-symbol="□" title="四角">□</button>
+  <button class="btn small debug-marker-btn" type="button" data-symbol="△" title="三角">△</button>
+  <button class="btn small debug-marker-btn" type="button" data-symbol="◇" title="ひし形">◇</button>
+  <button class="btn small debug-marker-btn" type="button" data-symbol="◆" title="黒ひし形">◆</button>
+  <button class="btn small debug-marker-btn" type="button" data-symbol="▲" title="黒三角">▲</button>
+  <button class="btn small debug-marker-btn" type="button" data-symbol="erase" title="クリックしたマーカーを消去">消しゴム</button>
+  <span id="debugCount" aria-live="polite">0個</span>
+  <div class="debug-actions"><button class="btn small" id="debugCopyCoords" type="button">座標をコピー</button><button class="btn small" id="debugClear" type="button">全部消去</button>
+  <label class="tiny"><input id="debugPng" type="checkbox" checked> PNGにマーカーを入れる</label>
+  <button class="btn small" id="debugClose" type="button">閉じる</button></div>
+  <span class="hint">Shift+Dで閉じる。通常アイテムの移動は一時停止。JSON保存・Undo対応。</span>
+</div>
 <div class="board-frame"><div class="board-outer"><div class="axis-y" aria-label="Y座標の目盛り（下から0〜6）"><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span></div><canvas id="board" width="720" height="560" tabindex="0" aria-label="9列7行のバッグ配置盤面。左下が0,0で、右方向にX、上方向にYが増えます"></canvas><div class="axis-corner" aria-hidden="true">↗</div><div class="axis-x" aria-label="X座標の目盛り（左から0〜8）"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div></div></div><div class="coord-readout"><span>原点：左下 (0, 0) ・ X → / Y ↑</span><strong id="cursorCoord" aria-live="polite">カーソル：(－, －)</strong></div><div class="status" id="status" aria-live="polite"></div>
 <div class="stash" id="stashZone"><div class="stash-header"><h3>▣ 保管ボックス <span id="stashCount">0個</span></h3><span>盤面の外でアイテムを一時保管 · ドラッグでも移動できます</span></div><div class="stash-items" id="stashItems" aria-live="polite"></div></div>
 <div class="controls-footer"><button class="btn" id="save">JSON 保存</button><button class="btn" id="load">JSON 読み込み</button><input class="file-input" type="file" id="file" accept="application/json,.json"><button class="btn primary" id="copyPng" title="配置図と凡例を画像としてコピー">画像をコピー</button><button class="btn" id="png">PNG 書き出し</button><label><input id="pngStars" type="checkbox" checked> 画像に☆・◆を含める</label></div></section>
@@ -58,6 +83,13 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
    Each cell is an integer offset from the preset's top-left at rotation 0.
 */
 const PRESETS = [
+ // Common-item additions (v0.8.6); unknown star positions are deliberately not invented.
+ {id:'common-customer-card',name:'ショップ会員カード',alias:'Customer Card',category:'アクセサリー',bagGroup:'共通・追加',type:'item',shape:[[0,0]],stars:null,verified:'原作名確認／本体サイズは一部実機最終確認待ち／☆未確認',origin:'Backpack Battles 日本語Wiki／wiki.gg、2026-10-19照合',note:'本体1マス。実機で最終照合予定。 ☆マスは未確認のため表示しません。'},
+ {id:'common-unidentified-amulet',name:'未鑑定のアミュレット',alias:'Unidentified Amulet',category:'アクセサリー',bagGroup:'共通・追加',type:'item',shape:[[0,0]],stars:null,verified:'原作名確認／本体サイズは一部実機最終確認待ち／☆未確認',origin:'Backpack Battles 日本語Wiki／wiki.gg、2026-10-19照合',note:'本体1マス。使用時の効果は本エディタの対象外。 ☆マスは未確認のため表示しません。'},
+ {id:'common-amulet-life',name:'生命のアミュレット',alias:'Amulet of Life',category:'アクセサリー',bagGroup:'共通・追加',type:'item',shape:[[0,0]],stars:null,verified:'原作名確認／本体サイズは一部実機最終確認待ち／☆未確認',origin:'Backpack Battles 日本語Wiki／wiki.gg、2026-10-19照合',note:'本体1マス。 ☆マスは未確認のため表示しません。'},
+ {id:'common-amulet-steel',name:'鋼鉄のアミュレット',alias:'Amulet of Steel',category:'アクセサリー',bagGroup:'共通・追加',type:'item',shape:[[0,0]],stars:null,verified:'原作名確認／本体サイズは一部実機最終確認待ち／☆未確認',origin:'Backpack Battles 日本語Wiki／wiki.gg、2026-10-19照合',note:'本体1マス。☆位置は未照合。 ☆マスは未確認のため表示しません。'},
+ {id:'common-burning-torch',name:'燃えるたいまつ',alias:'Burning Torch',category:'武器',bagGroup:'共通・追加',type:'item',shape:[[0,0],[0,1]],stars:null,verified:'原作名確認／本体サイズは一部実機最終確認待ち／☆未確認',origin:'Backpack Battles 日本語Wiki／wiki.gg、2026-10-19照合',note:'縦2マス、たいまつの派生。初期向きは実機最終照合予定。 ☆マスは未確認のため表示しません。'},
+ {id:'common-corrupted-crystal',name:'堕落のクリスタル',alias:'Corrupted Crystal',category:'宝石',bagGroup:'共通・追加',type:'item',shape:[[0,0]],stars:null,verified:'原作名確認／本体サイズは一部実機最終確認待ち／☆未確認',origin:'Backpack Battles 日本語Wiki／wiki.gg、2026-10-19照合',note:'本体1マス。宝石として別レイヤーに配置可能。 ☆マスは未確認のため表示しません。'},
  // Neutral early-game items (v0.8.5); star positions not yet verified.
  {id:'common-walrus-tusk',name:'セイウチの牙',alias:'Walrus Tusk',category:'アクセサリー',bagGroup:'共通・序盤',type:'item',shape:[[0,0]],stars:null,origin:'Backpack Battles Wiki（共通アイテム） / 現行アイテムデータベース（2026-10-19照合）',verified:'本体形状登録／☆未確認',note:'1×1。本体形状の照合済み。 ☆位置は未確認。戦闘性能は表示のみ。'},
  {id:'common-pocket-sand',name:'ひとつかみの砂',alias:'Pocket Sand',category:'アクセサリー',bagGroup:'共通・序盤',type:'item',shape:[[0,0]],stars:null,origin:'Backpack Battles Wiki（共通アイテム） / 現行アイテムデータベース（2026-10-19照合）',verified:'本体形状登録／☆未確認',note:'1×1。本体形状の照合済み。 ☆位置は未確認。戦闘性能は表示のみ。'},
@@ -229,7 +261,7 @@ const READINGS={
 'priest-bible':'せいしょ','base-leather-bag':'かわのかばん','base-rat':'ねずみ','base-snowball':'ゆきだま'};
 const sorted=(a,b)=>(a.reading||READINGS[a.id]||a.name).localeCompare((b.reading||READINGS[b.id]||b.name),'ja');
 let definitions=[...PRESETS], byId=new Map(definitions.map(x=>[x.id,x]));
-let bags=[],items=[],stash=[],gems=[],selected=null,hovered=null,mode='item',drag=null,undoStack=[],redoStack=[],uidCounter=1;
+let bags=[],items=[],stash=[],gems=[],debugMarks=[],debugMode=false,debugSymbol='☆',selected=null,hovered=null,mode='item',drag=null,undoStack=[],redoStack=[],uidCounter=1;
 // Layout JSON is separate from browser-local display preferences.
 const OPTIONS_KEY='recho-backpack-options-v1';
 const options={itemInset:12,pngStars:true};
@@ -330,7 +362,7 @@ function drawItemLabel(ct,a,p,g){
   }
   ct.restore();
 }
-function renderBoard(ct,{exportStars=false,highlight=true}={}){
+function renderBoard(ct,{exportStars=false,highlight=true,exportDebug=debugMode}={}){
   ct.clearRect(0,0,W*C,H*C);ct.fillStyle='#101c2c';ct.fillRect(0,0,W*C,H*C);
   let v=validate();let bagMark=new Map();for(const a of bags)for(const [x,y] of absCells(a)){let k=mark(x,y);bagMark.set(k,[...(bagMark.get(k)||[]),a])}
   for(let y=0;y<H;y++)for(let x=0;x<W;x++){let bs=bagMark.get(mark(x,y));ct.fillStyle=bs?'#22384e':'#162135';ct.fillRect(x*C+1,y*C+1,C-2,C-2);ct.strokeStyle='#34435b';ct.lineWidth=1;ct.strokeRect(x*C+.5,y*C+.5,C-1,C-1)}
@@ -347,10 +379,20 @@ function renderBoard(ct,{exportStars=false,highlight=true}={}){
   for(const gem of gems.filter(onBoardGem)){const p=getP(gem),xy=gemCell(gem);if(!inBoard(xy.x,xy.y))continue;const cx=(xy.x+.5)*C,cy=(xy.y+.5)*C,sel=highlight&&selected===gem.uid;
    const ruby=/ruby|ルビー/i.test(p.id+' '+p.name),emerald=/emerald|エメラルド/i.test(p.id+' '+p.name);const color=ruby?'#dd5772':emerald?'#54c5a0':'#6d9fe6';ct.save();ct.translate(cx,cy);ct.beginPath();ct.moveTo(0,-23);ct.lineTo(22,-7);ct.lineTo(16,17);ct.lineTo(0,23);ct.lineTo(-16,17);ct.lineTo(-22,-7);ct.closePath();ct.fillStyle=color;ct.fill();ct.lineWidth=sel?5:2.5;ct.strokeStyle=sel?'#fff5ae':'#f0efff';ct.stroke();ct.beginPath();ct.moveTo(0,-23);ct.lineTo(0,23);ct.moveTo(-22,-7);ct.lineTo(22,-7);ct.lineWidth=1.5;ct.strokeStyle='#ffffff77';ct.stroke();ct.fillStyle='#fff';ct.font='bold 15px sans-serif';ct.textAlign='center';ct.textBaseline='middle';ct.fillText(gemDisplayName(p)[0]||'◆',0,4);ct.restore();
   }
+  // Manual communication markers are independent of bags/items and never change validation.
+  if(exportDebug)for(const marker of debugMarks){
+    if(!inBoard(marker.x,marker.y))continue;
+    const color=(marker.symbol==='☆')?'#ffe19c':(['◇','◆'].includes(marker.symbol)?'#d5b4ff':(['△','▲'].includes(marker.symbol)?'#aaf3df':'#ffc7d2'));
+    ct.save();const x=marker.x*C,y=marker.y*C;
+    ct.fillStyle='#121b31d9';ct.strokeStyle=color;ct.lineWidth=2;
+    rndRect(ct,x+C-44,y+5,38,38,9);ct.fill();ct.stroke();
+    ct.font='bold 29px "Yu Gothic",Meiryo,sans-serif';ct.textAlign='center';ct.textBaseline='middle';ct.fillStyle=color;
+    ct.fillText(marker.symbol,x+C-25,y+25);ct.restore();
+  }
   if(highlight){ct.textBaseline='alphabetic';}
   return v;
 }
-function render(){renderBoard(ctx);let v=validate();$('status').classList.toggle('bad',v.number>0);$('status').textContent=v.number?`⚠ ${v.number} 個のアイテムに配置エラー：${[...new Set([...v.flags.values()].flatMap(s=>[...s]))].join('・')}。このまま編集できます。`:`✓ 配置エラーなし。バッグ ${v.free.size} マス使用可能。クリックで選択、ドラッグして移動できます。`;
+function render(){renderBoard(ctx);if(debugMode)$('debugCount').textContent=debugMarks.length+'個';let v=validate();$('status').classList.toggle('bad',v.number>0);$('status').textContent=v.number?`⚠ ${v.number} 個のアイテムに配置エラー：${[...new Set([...v.flags.values()].flatMap(s=>[...s]))].join('・')}。このまま編集できます。`:`✓ 配置エラーなし。バッグ ${v.free.size} マス使用可能。クリックで選択、ドラッグして移動できます。`;
  $('coverage').textContent=`${v.free.size} / 63`;$('itemCount').textContent=items.length;$('gemCount').textContent=gems.length;
  const counts=new Map();for(const a of items){let k=a.presetId;counts.set(k,(counts.get(k)||0)+1)}
  $('legend').replaceChildren();for(const [id,n] of [...counts].sort(([a],[b])=>sorted(byId.get(a),byId.get(b)))){let p=byId.get(id),row=document.createElement('div');row.className='legend-item';let sw=document.createElement('span');sw.className='swatch';sw.style.background=items.find(a=>a.presetId===id)?.color||colorFor(p);let name=document.createElement('span');name.textContent=p.name;let count=document.createElement('span');count.className='count';count.textContent='×'+n;row.append(sw,name,count);$('legend').append(row)}if(!counts.size)$('legend').textContent='まだアイテムがありません。';
@@ -386,9 +428,47 @@ function stashSelected(){let a=items.find(x=>x.uid===selected),gem=gems.find(x=>
 function returnFromStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;let p=getP(a);let spot=findSpot(p,a.rot);record();stash=stash.filter(x=>x.uid!==id);a.x=spot.x;a.y=spot.y;items.push(a);mode='item';selected=id;render();toast(p.name+' を盤面に戻しました')}
 function rotateInStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;record();a.rot=(a.rot+1)%4;render()}
 function deleteFromStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;record();for(const gem of gems.filter(q=>q.hostId===id)){gem.hostId=null;gem.slot=null;gem.stored=true}stash=stash.filter(x=>x.uid!==id);render()}
+const DEBUG_SYMBOLS=['☆','□','△','◇','◆','▲'];
+function setDebugMode(next){
+  debugMode=!!next;const panel=$('debugTools');panel.hidden=!debugMode;
+  canvas.classList.toggle('debug-active',debugMode);
+  drag=null;canvas.classList.remove('dragging');hovered=null;
+  if(debugMode){setDebugSymbol(debugSymbol);toast('説明用マーカーを有効にしました（Shift+Dで終了）')}
+  else toast('通常の編集モードに戻りました');
+  render();
+}
+function setDebugSymbol(symbol){
+  if(symbol!=='erase'&&!DEBUG_SYMBOLS.includes(symbol))return;
+  debugSymbol=symbol;
+  document.querySelectorAll('.debug-marker-btn').forEach(el=>el.classList.toggle('active',el.dataset.symbol===symbol));
+}
+function paintDebugAt(x,y){
+  if(!debugMode||!inBoard(x,y))return;
+  const previous=debugMarks.find(m=>m.x===x&&m.y===y);
+  const next=debugSymbol==='erase'?null:(previous?.symbol===debugSymbol?null:{x,y,symbol:debugSymbol});
+  if(!previous&&!next)return;
+  record();debugMarks=debugMarks.filter(m=>m.x!==x||m.y!==y);
+  if(next)debugMarks.push(next);
+  render();
+}
+function clearDebugMarks(){
+  if(!debugMarks.length)return;
+  if(!confirm('説明用マーカー '+debugMarks.length+'個をすべて削除しますか？'))return;
+  record();debugMarks=[];render();
+}
+function debugCoordinates(){
+  const list=debugMarks.slice().sort((a,b)=>H-a.y-(H-b.y)||a.x-b.x)
+    .map(m=>m.symbol+' ('+m.x+','+(H-1-m.y)+')');
+  return list.length?'説明用マーカー（左下原点）\n'+list.join('、'):'説明用マーカーはありません';
+}
+async function copyDebugCoordinates(){
+  const text=debugCoordinates();
+  try{await navigator.clipboard.writeText(text);toast('座標リストをコピーしました')}
+  catch(_){window.prompt('以下の座標をコピーしてください',text)}
+}
 function setMode(v){mode=v;hovered=null;selected=null;render()}
-function state(){return deep({bags,items,stash,gems})}
-function restore(s){bags=deep(s.bags||[]);items=deep(s.items||[]);stash=deep(s.stash||[]);gems=deep(s.gems||[]);selected=null;hovered=null;drag=null;render()}
+function state(){return deep({bags,items,stash,gems,debugMarks})}
+function restore(s){bags=deep(s.bags||[]);items=deep(s.items||[]);stash=deep(s.stash||[]);gems=deep(s.gems||[]);debugMarks=deep(s.debugMarks||[]);selected=null;hovered=null;drag=null;render()}
 function record(){undoStack.push(state());if(undoStack.length>70)undoStack.shift();redoStack.length=0}
 function undo(){if(drag)return;if(undoStack.length){redoStack.push(state());restore(undoStack.pop())}}
 function redo(){if(drag)return;if(redoStack.length){undoStack.push(state());restore(redoStack.pop())}}
@@ -415,8 +495,8 @@ function moveRotate(a){let g=shape(a),newPos=clampPos(a,a.x,a.y);a.x=newPos.x;a.
 function rotateSelected(){let a=list().find(a=>a.uid===selected);if(!a)return;if(a.type==='gem'){toast('宝石は1マスなので回転不要です');return}if(!drag)record();if(a.type==='bag')rotateBagGroup(a);else{a.rot=(a.rot+1)%4;moveRotate(a)}render()}
 function deleteSelected(){const a=list().find(a=>a.uid===selected);if(!a)return;record();if(a.type==='item')for(const gem of gems.filter(g=>g.hostId===a.uid)){let c=gemCell(gem);gem.x=c.x;gem.y=c.y;gem.hostId=null;gem.slot=null;gem.stored=false}
  bags=bags.filter(x=>x.uid!==a.uid);items=items.filter(x=>x.uid!==a.uid);gems=gems.filter(x=>x.uid!==a.uid);selected=null;hovered=null;render()}
-canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;canvas.focus();let c=cellFromEvent(e);showCursorCoord(c);let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,moved:false};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
-canvas.addEventListener('pointermove',e=>{let c=cellFromEvent(e);showCursorCoord(c);if(drag){let a=list().find(x=>x.uid===drag.id);if(a&&inBoard(c.x,c.y)){
+canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;canvas.focus();let c=cellFromEvent(e);showCursorCoord(c);if(debugMode){paintDebugAt(c.x,c.y);return;}let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,moved:false};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
+canvas.addEventListener('pointermove',e=>{let c=cellFromEvent(e);showCursorCoord(c);if(debugMode)return;if(drag){let a=list().find(x=>x.uid===drag.id);if(a&&inBoard(c.x,c.y)){
  if(a.type==='bag') {const dx=c.x-drag.lastx,dy=c.y-drag.lasty;if(dx||dy){moveBagGroup(a,dx,dy);drag.moved=true}}
  else if(a.type==='gem'){if(c.x!==drag.lastx||c.y!==drag.lasty){a.hostId=null;a.slot=null;a.stored=false;Object.assign(a,clampPos(a,c.x,c.y));drag.moved=true}}
  else{let pos=clampPos(a,c.x-drag.offx,c.y-drag.offy);if(pos.x!==a.x||pos.y!==a.y){a.x=pos.x;a.y=pos.y;drag.moved=true}}
@@ -431,7 +511,7 @@ function download(data,name,type){let blob=data instanceof Blob?data:new Blob([d
 function exportJSON(){let used=new Set([...list(),...stash].map(a=>a.presetId)),doc={format:'recho-backpack-editor',version:2,createdAt:new Date().toISOString(),grid:{width:W,height:H},definitions:definitions.filter(p=>used.has(p.id)),...state()};download(JSON.stringify(doc,null,2),'backpack-layout.json','application/json');toast('JSONを保存しました')}
 function coordValid(n){return Number.isInteger(n)&&n>=-10&&n<=10}
 function validateDef(p){return !!(p&&typeof p.id==='string'&&/^[\w-]{1,90}$/.test(p.id)&&typeof p.name==='string'&&p.name.length<=80&&['bag','item'].includes(p.type)&&Array.isArray(p.shape)&&p.shape.length>=1&&p.shape.length<=63&&p.shape.every(a=>Array.isArray(a)&&a.length===2&&a.every(coordValid))&&[p.stars,p.diamonds].every(a=>a==null||Array.isArray(a)&&a.length<=80&&a.every(q=>Array.isArray(q)&&q.length===2&&q.every(coordValid))))}
-function loadJSON(text){let o=JSON.parse(text);if(o.format!=='recho-backpack-editor'||o.grid?.width!==W||o.grid?.height!==H||!Array.isArray(o.bags)||!Array.isArray(o.items))throw Error('本エディタ用9×7配置JSONではありません');if(!Array.isArray(o.stash)&&o.stash!=null)throw Error('保管データが不正です');if(o.gems!=null&&!Array.isArray(o.gems))throw Error('宝石データが不正です');if(o.items.length+o.bags.length+(o.stash?.length||0)+(o.gems?.length||0)>250)throw Error('配置・保管数が多すぎます（上限250個）');let incoming=new Map();for(const p of o.definitions||[])if(validateDef(p))incoming.set(p.id,p);let currentMap=new Map(byId);for(const [id,p] of incoming)if(!currentMap.has(id))currentMap.set(id,p);
+function loadJSON(text){let o=JSON.parse(text);if(o.format!=='recho-backpack-editor'||o.grid?.width!==W||o.grid?.height!==H||!Array.isArray(o.bags)||!Array.isArray(o.items))throw Error('本エディタ用9×7配置JSONではありません');if(!Array.isArray(o.stash)&&o.stash!=null)throw Error('保管データが不正です');if(o.gems!=null&&!Array.isArray(o.gems))throw Error('宝石データが不正です');if(o.debugMarks!=null&&!Array.isArray(o.debugMarks))throw Error('マーカーデータが不正です');if(o.items.length+o.bags.length+(o.stash?.length||0)+(o.gems?.length||0)>250)throw Error('配置・保管数が多すぎます（上限250個）');if((o.debugMarks?.length||0)>63)throw Error('マーカーは最大63マスです');let incoming=new Map();for(const p of o.definitions||[])if(validateDef(p))incoming.set(p.id,p);let currentMap=new Map(byId);for(const [id,p] of incoming)if(!currentMap.has(id))currentMap.set(id,p);
   let seen=new Set();function sanitize(a,type){if(!a||typeof a.presetId!=='string'||!currentMap.has(a.presetId))throw Error('未登録のプリセットがあります');const p=currentMap.get(a.presetId);if(p.type!==(type==='stash'?'item':type))throw Error('バッグ/アイテムの分類が一致しません');if(!p.shape?.length)throw Error('形状未確認のプリセットが含まれています');if(!Number.isInteger(a.x)||!Number.isInteger(a.y)||!Number.isInteger(a.rot)||a.rot<0||a.rot>3)throw Error('座標または回転値が不正です');let g=geom(p,a.rot),cells=g.body.map(([x,y])=>[x+a.x,y+a.y]);if(cells.some(([x,y])=>!inBoard(x,y))){if(['priest-cow','priest-lion'].includes(p.id)){const pos={x:Math.max(0,Math.min(a.x,W-g.width)),y:Math.max(0,Math.min(a.y,H-g.height))};a={...a,...pos};}else if(type!=='stash')throw Error('盤面外に出る配置があります');}let id=typeof a.uid==='string'&&a.uid.length<=80&&!seen.has(a.uid)?a.uid:uid();seen.add(id);return{uid:id,presetId:p.id,x:a.x,y:a.y,rot:a.rot,linkBag:typeof a.linkBag==='string'?a.linkBag:null,color:(typeof a.color==='string'&&(/^#[0-9a-f]{6}$/i.test(a.color)||/^hsl\(\d{1,3} \d{1,3}% \d{1,3}%\)$/.test(a.color)))?a.color:colorFor(p),type:p.type}}
   let nb=o.bags.map(a=>sanitize(a,'bag')),ni=o.items.map(a=>sanitize(a,'item')),ns=(o.stash||[]).map(a=>sanitize(a,'stash'));
  let ng=[];for(const a of (o.gems||[])){if(!a||!currentMap.has(a.presetId)||!isGemPreset(currentMap.get(a.presetId)))throw Error('不正な宝石が含まれています');let g=sanitize(a,'item');g.type='gem';g.stored=!!a.stored;g.hostId=typeof a.hostId==='string'?a.hostId:null;g.slot=Number.isInteger(a.slot)?a.slot:null;ng.push(g)}
@@ -439,7 +519,8 @@ function loadJSON(text){let o=JSON.parse(text);if(o.format!=='recho-backpack-edi
  for(const arr of [ni,ns])for(let i=arr.length-1;i>=0;i--)if(isGemPreset(currentMap.get(arr[i].presetId))){let a=arr.splice(i,1)[0];a.type='gem';a.hostId=null;a.slot=null;a.stored=arr===ns;ng.push(a)}
  const eligible=new Map([...ni,...ns].filter(a=>['武器','防具'].includes(currentMap.get(a.presetId)?.category)).map(a=>[a.uid,a]));
  for(const gem of ng)if(gem.hostId){const host=eligible.get(gem.hostId);if(!host||gem.slot===null||gem.slot<0||gem.slot>=geom(currentMap.get(host.presetId),host.rot).body.length){gem.hostId=null;gem.slot=null;gem.stored=true}else gem.stored=false}
- record();definitions=[...currentMap.values()];byId=currentMap;bags=nb;items=ni;stash=ns;gems=ng;selected=null;mode='item';hovered=null;buildCatalog();render();toast('配置を復元しました')}
+ const markerSeen=new Set();const nm=[];for(const m of (o.debugMarks||[])){if(!m||!Number.isInteger(m.x)||!Number.isInteger(m.y)||!inBoard(m.x,m.y)||!DEBUG_SYMBOLS.includes(m.symbol))throw Error('説明用マーカーの内容が不正です');let key=m.y*W+m.x;if(markerSeen.has(key))throw Error('同じマスに説明用マーカーが重複しています');markerSeen.add(key);nm.push({x:m.x,y:m.y,symbol:m.symbol})}
+ record();definitions=[...currentMap.values()];byId=currentMap;bags=nb;items=ni;stash=ns;gems=ng;debugMarks=nm;selected=null;mode='item';hovered=null;buildCatalog();render();toast('配置を復元しました')}
 function canExportImage(){let v=validate();return !v.number||confirm(`配置エラーが ${v.number} 個あります。警告を含めて画像を出力しますか？`)}
 function drawExportAxes(ct,originX,originY){
   ct.save();ct.textAlign='center';ct.textBaseline='middle';ct.font='bold 14px "Yu Gothic",sans-serif';ct.fillStyle='#d7e5fb';ct.strokeStyle='#9bb1cf';ct.lineWidth=1.5;
@@ -449,7 +530,7 @@ function drawExportAxes(ct,originX,originY){
 }
 function makePNGCanvas(){let v=validate();
   const legends=[...new Set(items.map(x=>x.presetId))].map(id=>byId.get(id)).sort(sorted);let bagDefs=[...new Set(bags.map(x=>x.presetId))].map(id=>byId.get(id)).sort(sorted);let cvs=document.createElement('canvas');cvs.width=1200;cvs.height=Math.max(752,270+(legends.length+bagDefs.length)*34);let c=cvs.getContext('2d');c.fillStyle='#101928';c.fillRect(0,0,cvs.width,cvs.height);c.textAlign='left';c.fillStyle='#f7e7bf';c.font='bold 27px sans-serif';c.fillText('BACKPACK LAYOUT',42,50);c.font='13px sans-serif';c.fillStyle='#b5c8e0';c.fillText('Backpack Battles · 9×7 · Recho editor · 原点：左下 (0,0)',44,72);
-  c.save();c.translate(40,103);renderBoard(c,{exportStars:options.pngStars,highlight:false});c.restore();drawExportAxes(c,40,103);c.font='bold 18px sans-serif';c.fillStyle='#f2d8a7';c.fillText('アイテム凡例',795,121);c.font='13px sans-serif';c.fillStyle='#b7c5db';c.fillText('向き：↑→↓←   /   ☆：対象マス',795,147);let counts=new Map();for(const a of items)counts.set(a.presetId,(counts.get(a.presetId)||0)+1);
+  c.save();c.translate(40,103);renderBoard(c,{exportStars:options.pngStars,highlight:false,exportDebug:debugMode&&$('debugPng').checked});c.restore();drawExportAxes(c,40,103);c.font='bold 18px sans-serif';c.fillStyle='#f2d8a7';c.fillText('アイテム凡例',795,121);c.font='13px sans-serif';c.fillStyle='#b7c5db';c.fillText('向き：↑→↓←   /   ☆：対象マス',795,147);let counts=new Map();for(const a of items)counts.set(a.presetId,(counts.get(a.presetId)||0)+1);
   legends.forEach((p,i)=>{let y=186+i*34;c.fillStyle=items.find(a=>a.presetId===p.id)?.color||colorFor(p);rndRect(c,795,y-16,18,18,4);c.fill();c.fillStyle='#eff4fb';c.font='14px sans-serif';c.fillText(p.name,824,y,295);c.fillStyle='#bac6d9';c.textAlign='right';c.fillText('×'+counts.get(p.id),1160,y);c.textAlign='left'});
   let bagStart=202+legends.length*34;c.font='bold 17px sans-serif';c.fillStyle='#f1d49f';c.fillText('バッグ',795,bagStart);
  let bc=new Map();for(const a of bags)bc.set(a.presetId,(bc.get(a.presetId)||0)+1);
@@ -457,6 +538,7 @@ function makePNGCanvas(){let v=validate();
  c.fillStyle=v.number?'#ff9ba8':'#add9bb';c.font='14px sans-serif';c.fillText(v.number?`⚠ 配置エラー ${v.number} 個（赤枠）`:'✓ 配置エラーなし',43,716);c.fillStyle='#91a0b9';c.font='12px sans-serif';c.fillText('※☆未確認の原作アイテムは☆を表示しません。',795,cvs.height-35);
   // A small, optional attribution in the blank footer; users may crop or remove it.
   c.save();c.fillStyle='#aab9cf';c.font='12px sans-serif';c.textAlign='right';c.fillText('Made with Backpack Layout Editor',1160,cvs.height-13);c.restore();
+  if(debugMode&&$('debugPng').checked&&debugMarks.length){c.fillStyle='#d6bee9';c.font='12px sans-serif';c.textAlign='left';c.fillText('☆ □ △ ◇ ◆ ▲ は説明用マーカー（効果や配置判定には影響しません）',795,cvs.height-52);}
   return cvs;
 }
 function canvasPngBlob(cvs){return new Promise((resolve,reject)=>cvs.toBlob(blob=>blob?resolve(blob):reject(Error('PNGの生成に失敗しました')),'image/png'))}
@@ -525,11 +607,11 @@ function buildStarterSets(){
 function starterSetPreview(spec){return spec.items.map(id=>byId.get(id).name).join('・')}
 function applyStarterSet(id){
  const spec=STARTER_SETS.find(x=>x.id===id);if(!spec)return false;
- if((list().length||stash.length)&&!confirm('現在の配置を「'+spec.className+'：'+spec.title+'」の原作初期配置に置き換えますか？'))return false;
+ if((list().length||stash.length||debugMarks.length)&&!confirm('現在の配置を「'+spec.className+'：'+spec.title+'」の原作初期配置に置き換えますか？'))return false;
  let parsed;
  try{parsed=verifyStarterPlacement(spec,VERIFIED_STARTER_LAYOUTS[id])}
  catch(err){alert('初期配置の読み込みに失敗：'+err.message);return false}
- record();bags=parsed.nextBags;items=parsed.nextItems;gems=[];stash=[];mode='item';selected=null;hovered=null;
+ record();bags=parsed.nextBags;items=parsed.nextItems;gems=[];stash=[];debugMarks=[];mode='item';selected=null;hovered=null;
  $('startSetInfo').textContent=spec.className+'｜'+spec.title+'｜持ち物：'+starterSetPreview(spec)+'（ユーザー再現図に基づく原作初期配置）';
  render();toast(spec.className+'の初期配置を再現しました');return true;
 }
@@ -537,20 +619,22 @@ function activeCatalogDefs(){return definitions.filter(p=>$('showPriestess').che
 function buildCatalog(){const cat=$('category'),old=cat.value;cat.replaceChildren(new Option('すべてのカテゴリ',''));const cats=[...new Set(activeCatalogDefs().map(p=>p.category||'その他'))].sort((a,b)=>a.localeCompare(b,'ja'));cats.forEach(v=>cat.append(new Option(v,v)));cat.value=cats.includes(old)?old:'';filterCatalog()}
 function filterCatalog(){let search=$('search').value.trim().normalize('NFKC').toLocaleLowerCase(),cat=$('category').value,available=activeCatalogDefs(),filtered=available.filter(p=>(!cat||p.category===cat)&&(!search||(p.name+(p.oldName||'')+(p.alias||'')+(p.bagGroup||'')).normalize('NFKC').toLocaleLowerCase().includes(search))).sort(sorted);$('catalogCount').textContent=`${filtered.length} / ${available.length} プリセットを表示${$('showPriestess').checked?'（非公式プリーステス含む）':''}`;let listEl=$('catalog');listEl.replaceChildren();let frag=document.createDocumentFragment();for(const p of filtered){let btn=document.createElement('button');btn.type='button';btn.className='preset';if(p.pending){btn.disabled=true;btn.classList.add('pending')}btn.title=(p.note||'')+'\n'+(p.verified||'');let sw=document.createElement('span');sw.className='swatch';sw.style.background=p.pending?'#777d90':colorFor(p);let body=document.createElement('span');body.style.flex='1';let name=document.createElement('strong');name.textContent=p.name;let txt=document.createElement('small');if(p.pending)txt.textContent=`${p.bagGroup||'バッグ'} · 形状調査中 · 配置不可`;else{let g=geom(p,0);txt.textContent=`${p.type==='bag'?(p.bagGroup||'バッグ'):p.category||'アイテム'} · ${g.width}×${g.height} · ${p.stars===null?'☆未確認':p.stars.length?'☆'+p.stars.length:'☆なし'}`;}body.append(name,txt);let plus=document.createElement('span');plus.className='plus';plus.textContent=p.pending?'🔒':'+';btn.append(sw,body,plus);if(!p.pending)btn.addEventListener('click',()=>addPreset(p.id));frag.append(btn)}listEl.append(frag)}
 function toast(s){let el=$('toast');el.textContent=s;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),1900)}
-function reset(){if((list().length||stash.length)&&!confirm('現在の配置を消して、新しい盤面にしますか？'))return;record();bags=[];items=[];stash=[];gems=[];selected=null;render()}
+function reset(){if((list().length||stash.length||debugMarks.length)&&!confirm('現在の配置を消して、新しい盤面にしますか？'))return;record();bags=[];items=[];stash=[];gems=[];debugMarks=[];selected=null;render()}
 document.querySelectorAll('.modebtn').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
 $('search').addEventListener('input',filterCatalog);$('category').addEventListener('change',filterCatalog);$('showPriestess').addEventListener('change',buildCatalog);
 $('startSet').addEventListener('change',e=>{if(!applyStarterSet(e.target.value))e.target.value=''});
+document.querySelectorAll('.debug-marker-btn').forEach(b=>b.addEventListener('click',()=>setDebugSymbol(b.dataset.symbol)));
+$('debugClear').addEventListener('click',clearDebugMarks);$('debugCopyCoords').addEventListener('click',copyDebugCoordinates);$('debugClose').addEventListener('click',()=>setDebugMode(false));$('debugPng').addEventListener('change',render);
 $('storeSelected').addEventListener('click',stashSelected);$('undo').addEventListener('click',undo);$('redo').addEventListener('click',redo);$('rotate').addEventListener('click',rotateSelected);$('delete').addEventListener('click',deleteSelected);$('new').addEventListener('click',reset);
 $('save').addEventListener('click',exportJSON);$('load').addEventListener('click',()=>$('file').click());$('png').addEventListener('click',exportPNG);$('copyPng').addEventListener('click',copyPNG);
 $('itemInset').value=options.itemInset;$('insetValue').textContent=options.itemInset+' px';$('pngStars').checked=options.pngStars;
 $('itemInset').addEventListener('input',e=>{options.itemInset=Number(e.target.value);$('insetValue').textContent=options.itemInset+' px';saveOptions();render()});
 $('pngStars').addEventListener('change',e=>{options.pngStars=e.target.checked;saveOptions()});
 $('file').addEventListener('change',async e=>{let f=e.target.files?.[0];e.target.value='';if(!f)return;try{if(f.size>4e6)throw Error('ファイルが大きすぎます');loadJSON(await f.text())}catch(err){alert('読み込み失敗：'+err.message)}});
-window.addEventListener('keydown',e=>{let tag=document.activeElement?.tagName;if(['INPUT','TEXTAREA','SELECT'].includes(tag))return;if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo()}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();redo()}else if(!e.ctrlKey&&!e.metaKey&&e.key.toLowerCase()==='r'){e.preventDefault();rotateSelected()}else if(!e.ctrlKey&&!e.metaKey&&e.key.toLowerCase()==='b'){e.preventDefault();stashSelected()}else if(['Delete','Backspace'].includes(e.key)){e.preventDefault();deleteSelected()}});
+window.addEventListener('keydown',e=>{let tag=document.activeElement?.tagName;if(['INPUT','TEXTAREA','SELECT'].includes(tag))return;if(e.shiftKey&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.key.toLowerCase()==='d'){e.preventDefault();setDebugMode(!debugMode);return;}if(e.key==='Escape'&&debugMode){e.preventDefault();setDebugMode(false);return;}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo()}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();redo()}else if(!e.ctrlKey&&!e.metaKey&&e.key.toLowerCase()==='r'){e.preventDefault();rotateSelected()}else if(!e.ctrlKey&&!e.metaKey&&e.key.toLowerCase()==='b'){e.preventDefault();stashSelected()}else if(['Delete','Backspace'].includes(e.key)){e.preventDefault();deleteSelected()}});
 buildStarterSets();buildCatalog();render();
 // Expose a limited, read-only test hook to automate verification without changing app state.
-window.__rechoTest={attachGem,bagCandidates,linkedBag,moveBagGroup,rotateBagGroup,stashAdd:stashSelected,stashReturn:returnFromStash,options:()=>deep(options),render:()=>render(),png:()=>makePNGCanvas(),counts:()=>({bags:bags.length,items:items.length,stash:stash.length,gems:gems.length,errors:validate().number,open:bagUnion().size}),displayCell:(x,y)=>displayCell(x,y),snapshot:()=>state(),geom:(id,r)=>geom(byId.get(id),r),load:loadJSON,starterSets:()=>STARTER_SETS.map(s=>({id:s.id,className:s.className,title:s.title,bags:s.bags,items:s.items})),applyStarterSet};
+window.__rechoTest={setDebugMode,setDebugSymbol,paintDebugAt,debugCoordinates,debugMarks:()=>deep(debugMarks),attachGem,bagCandidates,linkedBag,moveBagGroup,rotateBagGroup,stashAdd:stashSelected,stashReturn:returnFromStash,options:()=>deep(options),render:()=>render(),png:()=>makePNGCanvas(),counts:()=>({bags:bags.length,items:items.length,stash:stash.length,gems:gems.length,debugMarks:debugMarks.length,errors:validate().number,open:bagUnion().size}),displayCell:(x,y)=>displayCell(x,y),snapshot:()=>state(),geom:(id,r)=>geom(byId.get(id),r),load:loadJSON,starterSets:()=>STARTER_SETS.map(s=>({id:s.id,className:s.className,title:s.title,bags:s.bags,items:s.items})),applyStarterSet};
 })();
 
 </script>
