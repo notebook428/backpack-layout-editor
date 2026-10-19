@@ -262,6 +262,67 @@
         }
       ],
       "notes": "Relic Case is the vertical 1×4 bag at x2,y2-5; leather bags at x3-4,y4-5 and x3-4,y2-3. Wooden Sword occupies x2,y2-3; Garlic occupies x3,y2-3. All shown vertical upright. Don't change published starter preset until complete batch."
+    },
+    "berserker-duffle": {
+      "className": "バーサーカー",
+      "name": "ダッフルバッグ",
+      "starterSetId": "berserker-duffle",
+      "submitted": "2026-10-19",
+      "status": "user-submitted-original-layout-recreation",
+      "evidence": "User-submitted 9×7 layout image in ChatGPT conversation",
+      "bags": [
+        {
+          "presetId": "base-leather-bag",
+          "displayBottomLeft": [
+            1,
+            4
+          ],
+          "editorTopLeft": [
+            1,
+            1
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "base-leather-bag",
+          "displayBottomLeft": [
+            3,
+            4
+          ],
+          "editorTopLeft": [
+            3,
+            1
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "start-ber-duffle",
+          "displayBottomLeft": [
+            2,
+            2
+          ],
+          "editorTopLeft": [
+            2,
+            3
+          ],
+          "rot": 0
+        }
+      ],
+      "items": [
+        {
+          "presetId": "starter-hammer",
+          "displayBottomLeft": [
+            3,
+            2
+          ],
+          "editorTopLeft": [
+            3,
+            3
+          ],
+          "rot": 0
+        }
+      ],
+      "notes": "Two 2×2 Leather Bags at x1-2/y4-5 and x3-4/y4-5, with 3×2 Duffle Bag beneath at x2-4/y2-3. Forging Hammer occupies x3/y2-3 upright inside Duffle Bag. Image provides placed-cell coordinates; tool shape registration is provisional elsewhere."
     }
   }
 }
