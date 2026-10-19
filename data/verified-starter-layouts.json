@@ -620,6 +620,67 @@
         }
       ],
       "notes": "Scholar Bag occupies x1-3/y3-4. Two 2×2 Leather Bags are at x4-5/y3-4 (right) and x2-3/y1-2 (below). Magic for Dummies occupies x3/y3-4 upright; Blueberries one cell x2/y3. Positions are taken from user-created recreation screenshot, not independent capture from game."
+    },
+    "mage-puzzle": {
+      "className": "メイジ",
+      "name": "パズルボックス",
+      "starterSetId": "mage-puzzle",
+      "submitted": "2026-10-19",
+      "status": "user-submitted-original-layout-recreation",
+      "evidence": "User-submitted 9×7 editor layout image in ChatGPT conversation",
+      "bags": [
+        {
+          "presetId": "start-mage-puzzlebox",
+          "displayBottomLeft": [
+            2,
+            1
+          ],
+          "editorTopLeft": [
+            2,
+            2
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "base-leather-bag",
+          "displayBottomLeft": [
+            4,
+            1
+          ],
+          "editorTopLeft": [
+            4,
+            4
+          ],
+          "rot": 0
+        }
+      ],
+      "items": [
+        {
+          "presetId": "starter-balance-wand",
+          "displayBottomLeft": [
+            3,
+            2
+          ],
+          "editorTopLeft": [
+            3,
+            3
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "original-broom",
+          "displayBottomLeft": [
+            4,
+            1
+          ],
+          "editorTopLeft": [
+            4,
+            2
+          ],
+          "rot": 2
+        }
+      ],
+      "notes": "Puzzlebox occupies six cells: (4,4),(2,3),(3,3),(4,3),(3,2),(3,1), i.e. x2-4/y1-4 bounding box. Leather Bag at x4-5/y1-2. Wand of Equilibrium occupies x3/y2-3 upright. Broom occupies x4/y1-4 and is rotated 180 degrees, visibly pointing down. Broom crosses cells covered by both Puzzlebox and Leather Bag; no bag-follow association can be determined from image, so do not infer linkBag. User called it パズルバッグ; on-screen item and existing preset name are パズルボックス. No editor code change until bulk integration."
     }
   }
 }
