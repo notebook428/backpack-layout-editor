@@ -48,7 +48,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 .debug-tools #debugCount{color:#f1d49f;font-size:12px}
 #board.debug-active{cursor:crosshair;outline:2px solid #a88acb;outline-offset:1px}
 </style></head><body>
-<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><span class="version">Backpack Battles 非公式ツール · v0.22.0</span></header>
+<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><span class="version">Backpack Battles 非公式ツール · v0.23.0</span></header>
 <main>
 <aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><label class="priest-toggle"><input type="checkbox" id="showPriestess"> 非公式プリーステスのプリセットも表示する</label><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。Shift+Pでプリーステスだけを一覧表示できます。</div></aside>
 <section class="panel center"><div class="starting-sets">
@@ -83,6 +83,13 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
    Each cell is an integer offset from the preset's top-left at rotation 0.
 */
 const PRESETS = [
+ // v0.23.0: Complete six remaining shared skills on the Japanese Wiki list, provisional 1-cell shapes.
+ {id:"common-skill-more-power",name:"もっと力を！",category:'スキル',bagGroup:'共通・スキル',type:'item',shape:[[0,0]],stars:null,verified:'共通スキルの本体1マスは暫定形状／実機照合待ち・☆未確認',origin:'Backpack Battles Wiki*「クラス/共通」共通スキル一覧（2026-10-19照合）',note:"ラウンド10で必ず出現する共通スキル。最大HPと武器の与ダメージに関係。☆は原作説明に記載なし。 エディタでは戦闘・ショップの効果計算は行いません。"},
+ {id:"common-skill-time-melting",name:"時間融解",category:'スキル',bagGroup:'共通・スキル',type:'item',shape:[[0,0]],stars:null,verified:'共通スキルの本体1マスは暫定形状／実機照合待ち・☆未確認',origin:'Backpack Battles Wiki*「クラス/共通」共通スキル一覧（2026-10-19照合）',note:"ヒートと☆内アイテムの効果時間に関係するスキル。☆の座標は未確認。 エディタでは戦闘・ショップの効果計算は行いません。"},
+ {id:"common-skill-full-body-protection",name:"全身防備",category:'スキル',bagGroup:'共通・スキル',type:'item',shape:[[0,0]],stars:null,verified:'共通スキルの本体1マスは暫定形状／実機照合待ち・☆未確認',origin:'Backpack Battles Wiki*「クラス/共通」共通スキル一覧（2026-10-19照合）',note:"☆にあるアイテムのシールド獲得と鎧・兜・靴の構成に関係するスキル。☆の座標は未確認。 エディタでは戦闘・ショップの効果計算は行いません。"},
+ {id:"common-skill-animal-dialogue",name:"動物との対話",category:'スキル',bagGroup:'共通・スキル',type:'item',shape:[[0,0]],stars:null,verified:'共通スキルの本体1マスは暫定形状／実機照合待ち・☆未確認',origin:'Backpack Battles Wiki*「クラス/共通」共通スキル一覧（2026-10-19照合）',note:"全クラスのペットをショップに出現可能にし、☆のペットの発動に関係するスキル。☆の座標は未確認。 エディタでは戦闘・ショップの効果計算は行いません。"},
+ {id:"common-skill-glittering-king",name:"キンキラ・キング",category:'スキル',bagGroup:'共通・スキル',type:'item',shape:[[0,0]],stars:null,verified:'共通スキルの本体1マスは暫定形状／実機照合待ち・☆未確認',origin:'Backpack Battles Wiki*「クラス/共通」共通スキル一覧（2026-10-19照合）',note:"宝石や指輪・アミュレットに関わるスキル。☆の指輪参照位置は未確認。 エディタでは戦闘・ショップの効果計算は行いません。"},
+ {id:"common-skill-deal-struck",name:"交渉成立",category:'スキル',bagGroup:'共通・スキル',type:'item',shape:[[0,0]],stars:null,verified:'共通スキルの本体1マスは暫定形状／実機照合待ち・☆未確認',origin:'Backpack Battles Wiki*「クラス/共通」共通スキル一覧（2026-10-19照合）',note:"ショップのトレード提示とリジェネ・ラック・マナ等の消費に関わるスキル。 エディタでは戦闘・ショップの効果計算は行いません。"},
  // v0.22.0: Ten shared skills verified by Japanese Wiki; provisional footprints, star/diamond coordinates unverified.
  {id:"common-skill-echoing-battle-cry",name:"こだまする雄叫び",alias:"Echoing Battle Cry",category:'スキル',bagGroup:'共通・スキル',type:'item',shape:[[0,0]],stars:null,verified:'共通スキル本体1マス仮登録／実機照合待ち・☆◇位置未確認',origin:'Backpack Battles Wiki*「クラス/共通」スキル一覧（2026-10-19確認）',note:"バトル開始時効果を再発動する共通スキル。☆にあるバトル開始時アイテムを参照。☆座標は未確認。 原作の戦闘・ショップ効果はシミュレーションしません。"},
  {id:"common-skill-weapon-enchantment",name:"武器エンチャント",alias:"Weapon Enchantment",category:'スキル',bagGroup:'共通・スキル',type:'item',shape:[[0,0]],stars:null,verified:'共通スキル本体1マス仮登録／実機照合待ち・☆◇位置未確認',origin:'Backpack Battles Wiki*「クラス/共通」スキル一覧（2026-10-19確認）',note:"☆の武器の攻撃時効果に関わり、周期的に最少バフを獲得するスキル。☆座標は未確認。 原作の戦闘・ショップ効果はシミュレーションしません。"},
