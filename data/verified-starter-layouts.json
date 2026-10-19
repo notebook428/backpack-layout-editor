@@ -322,7 +322,74 @@
           "rot": 0
         }
       ],
-      "notes": "Two 2×2 Leather Bags at x1-2/y4-5 and x3-4/y4-5, with 3×2 Duffle Bag beneath at x2-4/y2-3. Forging Hammer occupies x3/y2-3 upright inside Duffle Bag. Image provides placed-cell coordinates; tool shape registration is provisional elsewhere."
+      "notes": "Two 2×2 Leather Bags at x1-2/y4-5 and x3-4/y4-5, with 3×2 Duffle Bag beneath at x2-4/y2-3. Forging Hammer occupies x3/y2-3 upright inside Duffle Bag. User confirmed on 2026-10-19 that the current 1×2 upright hammer shape is correct.",
+      "confirmedShapes": {
+        "starter-hammer": {
+          "shape": "1×2 upright",
+          "confirmedByUser": "2026-10-19"
+        }
+      }
+    },
+    "berserker-utility": {
+      "className": "バーサーカー",
+      "name": "便利ポーチ",
+      "starterSetId": "berserker-utility",
+      "submitted": "2026-10-19",
+      "status": "user-submitted-original-layout-recreation",
+      "evidence": "User-submitted 9×7 editor layout image in ChatGPT conversation",
+      "bags": [
+        {
+          "presetId": "start-ber-utility",
+          "displayBottomLeft": [
+            1,
+            2
+          ],
+          "editorTopLeft": [
+            1,
+            2
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "base-leather-bag",
+          "displayBottomLeft": [
+            4,
+            3
+          ],
+          "editorTopLeft": [
+            4,
+            2
+          ],
+          "rot": 0
+        }
+      ],
+      "items": [
+        {
+          "presetId": "original-banana",
+          "displayBottomLeft": [
+            2,
+            3
+          ],
+          "editorTopLeft": [
+            2,
+            2
+          ],
+          "rot": 1
+        },
+        {
+          "presetId": "original-stone",
+          "displayBottomLeft": [
+            1,
+            2
+          ],
+          "editorTopLeft": [
+            1,
+            4
+          ],
+          "rot": 0
+        }
+      ],
+      "notes": "Utility Pouch x1-3/y2-4 with bottom-center hole at (2,2); Leather Bag x4-5/y3-4. Banana rot 1 is right-facing 3-cell L occupying (2,3),(2,4),(3,4). Coal occupies (1,2). All displayBottomLeft coordinates use visible lower-left origin; editorTopLeft is top-down coordinate."
     }
   }
 }
