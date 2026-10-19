@@ -463,6 +463,92 @@
         }
       ],
       "notes": "3×3 Fire Pit x2-4/y2-4 with two Flames vertically at x3/y4 and x3/y3, and Wooden Sword upright occupying x4/y3-4. Empty 2×2 Leather Bag x5-6/y2-3. User calls it 焚火台; official editor preset label is たき火台. Positions reproduce the submitted image, not an independent screenshot of original gameplay."
+    },
+    "pyro-offering": {
+      "className": "パイロマンサー",
+      "name": "供物皿",
+      "starterSetId": "pyro-offering",
+      "submitted": "2026-10-19",
+      "status": "partial-user-submitted-original-layout-recreation",
+      "evidence": "User-submitted 9×7 layout image in ChatGPT conversation",
+      "bags": [
+        {
+          "presetId": null,
+          "displayBottomLeft": [
+            2,
+            3
+          ],
+          "editorTopLeft": [
+            2,
+            2
+          ],
+          "rot": 0,
+          "identityStatus": "unconfirmed"
+        },
+        {
+          "presetId": null,
+          "displayBottomLeft": [
+            1,
+            1
+          ],
+          "editorTopLeft": [
+            1,
+            4
+          ],
+          "rot": 0,
+          "identityStatus": "unconfirmed"
+        },
+        {
+          "presetId": null,
+          "displayBottomLeft": [
+            3,
+            1
+          ],
+          "editorTopLeft": [
+            3,
+            4
+          ],
+          "rot": 0,
+          "identityStatus": "unconfirmed"
+        }
+      ],
+      "bagIdentityConstraint": {
+        "presetCounts": {
+          "start-pyro-offer": 1,
+          "base-leather-bag": 2
+        },
+        "reason": "All three are visually identical 2×2 rectangles and are drawn in the same color, so the user screenshot alone cannot identify which is Offering Bowl."
+      },
+      "items": [
+        {
+          "presetId": "original-dagger",
+          "displayBottomLeft": [
+            1,
+            1
+          ],
+          "editorTopLeft": [
+            1,
+            4
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "starter-shell",
+          "displayBottomLeft": [
+            2,
+            2
+          ],
+          "editorTopLeft": [
+            2,
+            4
+          ],
+          "rot": 0
+        }
+      ],
+      "unresolved": [
+        "Determine whether the Offering Bowl is the upper (2,3), lower-left (1,1), or lower-right (3,1) 2×2 bag."
+      ],
+      "notes": "All locations and items transcribed from submitted image. Dagger upright occupies x1/y1-2; Shiny Shell x2/y2. One Offering Bowl and two Leather Bags, but identity-to-position correspondence is pending user confirmation. Do not apply to published editor until resolved."
     }
   }
 }
