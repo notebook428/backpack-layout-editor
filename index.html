@@ -38,7 +38,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 .coord-readout strong{color:#f4ddb3;font-weight:750;font-variant-numeric:tabular-nums}
 @media(max-width:780px){.board-outer{grid-template-columns:26px minmax(0,1fr);grid-template-rows:auto 25px}.axis-y span,.axis-x span{font-size:11px}.axis-y span{padding-right:5px}}
 </style></head><body>
-<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><span class="version">Backpack Battles 非公式ツール · v0.8.3</span></header>
+<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><span class="version">Backpack Battles 非公式ツール · v0.8.4</span></header>
 <main>
 <aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><label class="priest-toggle"><input type="checkbox" id="showPriestess"> 非公式プリーステスのプリセットも表示する</label><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。</div></aside>
 <section class="panel center"><div class="starting-sets">
@@ -58,6 +58,12 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
    Each cell is an integer offset from the preset's top-left at rotation 0.
 */
 const PRESETS = [
+ // Shared/neutral items checked against item shape databases (2026-10-19).
+ {id:'common-whetstone',name:'砥石',alias:'Whetstone',category:'アクセサリー',type:'item',shape:[[0,0]],stars:null,verified:'日本語名・1×1形状確認／☆座標未確認',origin:'Backpack Battles Wiki 共通 / Backpack Battles Database Whetstone',note:'配置図用の本体形状のみ収録。☆の詳細と戦闘効果は表現しません。'},
+ {id:'common-piggybank',name:'ブタちゃん貯金箱',alias:'Piggybank',category:'アクセサリー',type:'item',shape:[[0,0],[1,0]],stars:null,verified:'日本語名・2×1形状確認／☆座標未確認',origin:'Backpack Battles Wiki 共通 / Backpack Battles Database Piggybank',note:'配置図用の本体形状のみ収録。☆の詳細と戦闘効果は表現しません。'},
+ {id:'common-bunch-coins',name:'コインの山',alias:'Bunch of Coins',category:'アクセサリー',type:'item',shape:[[0,0]],stars:[],verified:'日本語名・1×1形状確認／☆なし',origin:'Backpack Battles Wiki 共通 / Backpack Battles Database Bunch of Coins',note:'配置図用の本体形状のみ収録。☆の詳細と戦闘効果は表現しません。'},
+ {id:'common-mana-orb',name:'マナオーブ',alias:'Mana Orb',category:'アクセサリー',type:'item',shape:[[0,0]],stars:null,verified:'日本語名・1×1形状確認／☆座標未確認',origin:'Backpack Battles Wiki 共通 / Backpack Battles Database Mana Orb',note:'配置図用の本体形状のみ収録。☆の詳細と戦闘効果は表現しません。'},
+ {id:'common-burning-coal',name:'燃える石炭',alias:'Burning Coal',category:'宝石',type:'item',shape:[[0,0]],stars:[],verified:'日本語名・1×1形状確認／宝石ソケット配置可',origin:'Backpack Battles Wiki 共通 / Backpack Battles Database Burning Coal',note:'配置図用の本体形状のみ収録。☆の詳細と戦闘効果は表現しません。'},
  // Custom class: coordinates are grounded in Priestess design doc or 2026-10-18 handoff.
  {id:'priest-ark',name:'ノアの箱舟',category:'プリーステス',type:'item',kind:'pet-support',shape:[[0,0],[1,0],[2,0],[3,0]],stars:[[0,-1],[1,-1],[2,-1],[3,-1],[0,-2],[1,-2],[2,-2],[3,-2]],starMode:'ark',origin:'設計引継ぎ 2026-10-18',note:'逆向き180°では☆が消える。その他の向きは回転。',verified:'設計案'},
  {id:'priest-lamb',name:'子羊',category:'プリーステス',type:'item',kind:'animal',shape:[[0,0]],stars:[],origin:'設計資料 Ver.0.16',verified:'設計確定'},
