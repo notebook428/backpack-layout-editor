@@ -390,6 +390,79 @@
         }
       ],
       "notes": "Utility Pouch x1-3/y2-4 with bottom-center hole at (2,2); Leather Bag x4-5/y3-4. Banana rot 1 is right-facing 3-cell L occupying (2,3),(2,4),(3,4). Coal occupies (1,2). All displayBottomLeft coordinates use visible lower-left origin; editorTopLeft is top-down coordinate."
+    },
+    "pyro-firepit": {
+      "className": "パイロマンサー",
+      "name": "たき火台",
+      "starterSetId": "pyro-firepit",
+      "submitted": "2026-10-19",
+      "status": "user-submitted-original-layout-recreation",
+      "evidence": "User-submitted 9×7 layout image in ChatGPT conversation",
+      "bags": [
+        {
+          "presetId": "start-pyro-firepit",
+          "displayBottomLeft": [
+            2,
+            2
+          ],
+          "editorTopLeft": [
+            2,
+            2
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "base-leather-bag",
+          "displayBottomLeft": [
+            5,
+            2
+          ],
+          "editorTopLeft": [
+            5,
+            3
+          ],
+          "rot": 0
+        }
+      ],
+      "items": [
+        {
+          "presetId": "starter-flame",
+          "displayBottomLeft": [
+            3,
+            4
+          ],
+          "editorTopLeft": [
+            3,
+            2
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "starter-flame",
+          "displayBottomLeft": [
+            3,
+            3
+          ],
+          "editorTopLeft": [
+            3,
+            3
+          ],
+          "rot": 0
+        },
+        {
+          "presetId": "original-wooden-sword",
+          "displayBottomLeft": [
+            4,
+            3
+          ],
+          "editorTopLeft": [
+            4,
+            2
+          ],
+          "rot": 0
+        }
+      ],
+      "notes": "3×3 Fire Pit x2-4/y2-4 with two Flames vertically at x3/y4 and x3/y3, and Wooden Sword upright occupying x4/y3-4. Empty 2×2 Leather Bag x5-6/y2-3. User calls it 焚火台; official editor preset label is たき火台. Positions reproduce the submitted image, not an independent screenshot of original gameplay."
     }
   }
 }
