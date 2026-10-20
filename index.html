@@ -509,7 +509,7 @@ function drawShape(ct,a,fill,stroke,inset,alpha=1,lineWidth=1.7){
     ct.fillRect(l,t,r-l,b-t);
   }
   ct.globalAlpha=1;ct.strokeStyle=stroke;ct.lineWidth=lineWidth;
-  ct.lineCap='square';ct.lineJoin='miter';ct.beginPath();
+  ct.lineCap='butt';ct.lineJoin='miter';ct.beginPath();
   for(const [x,y] of cells){
     const left=has(x-1,y),right=has(x+1,y),top=has(x,y-1),bottom=has(x,y+1);
     const l=x*C+(left?0:inset),r=(x+1)*C-(right?0:inset);
