@@ -21,7 +21,7 @@
 .stash-item-text{min-width:0;flex:1}.stash-item-text strong{display:block;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stash-item-text small{display:block;color:#aebed5;font-size:11px}
 .stash-actions{display:flex;gap:4px;align-items:center}.stash-actions .btn{padding:4px 6px;font-size:11px}
 .stash-empty{align-self:center;color:#8ea0ba;font-size:12px}
-#storeSelected{border-color:#9881bc;background:#41335e}
+#storeSelected,#storeAll{border-color:#9881bc;background:#41335e}.btn.range-active{background:#625286;border-color:#f1d49f}.range-hint{margin:-6px 0 12px;min-height:16px}canvas#board.range-active{outline:2px solid #ac92ef;outline-offset:1px}
 
 /* Coordinates are cell coordinates, origin at lower-left. Board drawing stays top-down internally. */
 .board-outer{max-width:710px;aspect-ratio:auto;display:grid;grid-template-columns:33px minmax(0,1fr);grid-template-rows:auto 30px;align-items:stretch;gap:0}
@@ -55,7 +55,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
   <div class="start-caption"><strong>🧳 初期装備セット</strong><span>7クラス・全14種</span></div>
   <select id="startSet" class="field" aria-label="呼び出す初期装備セット"><option value="">クラスを選ぶと初期配置を呼び出します…</option></select>
   <div class="tiny" id="startSetInfo">初期配置14セットを再現します。現在の配置がある場合は上書きを確認します。</div>
-</div><div class="toolbar"><button class="btn" id="new">新規</button><button class="btn" id="undo" title="Ctrl+Z">↶ 戻す</button><button class="btn" id="redo" title="Ctrl+Y">↷ やり直す</button><button class="btn" id="rotate" title="R キー">⟳ 回転</button><button class="btn danger" id="delete" title="D / Delete キー">削除</button><button class="btn" id="storeSelected" title="Bキーで選択中のアイテムを保管">▣ 保管する</button></div>
+</div><div class="toolbar"><button class="btn danger" id="new" title="バッグ・アイテム・宝石・保管中のアイテムをすべて消去">全消去</button><button class="btn" id="undo" title="Ctrl+Z">↶ 戻す</button><button class="btn" id="redo" title="Ctrl+Y">↷ やり直す</button><button class="btn" id="rotate" title="R キー">⟳ 回転</button><button class="btn danger" id="delete" title="D / Delete キー">削除</button><button class="btn" id="storeSelected" title="Bキーで選択中のアイテムを保管">▣ 保管する</button><button class="btn" id="storeAll" title="盤面上の通常アイテムと宝石をまとめて保管。バッグは残ります">▣ 全部保管</button><button class="btn" id="rangeSelect" title="Shift+Sでも切替可能。盤面をドラッグして範囲指定">▧ 範囲選択</button></div><div class="tiny range-hint" id="rangeHint" aria-live="polite">範囲選択：ボタンまたはShift+S → ドラッグで囲む → ドラッグで移動／Rで一括回転</div>
 <div class="mode-wrap"><label>選択レイヤー</label><button class="btn small modebtn active" data-mode="item">通常アイテム</button><button class="btn small modebtn" data-mode="bag">バッグ</button><button class="btn small modebtn" data-mode="gem">💎 宝石</button><span class="tiny">Ctrl単独：レイヤー切替（バッグ→通常→宝石） · 右クリック/R：回転 · D：削除 · Shift+P：プリーステス一覧</span><label class="move-together"><input id="moveTogether" type="checkbox" checked> バッグを中身ごと動かす</label></div>
 <div class="debug-tools" id="debugTools" hidden aria-label="開発用の説明マーカー">
   <strong>✎ 説明用マーカー</strong><span class="hint">盤面のマスをクリックして置く／同じ記号を押し直して消す</span>
@@ -457,6 +457,7 @@ const sorted=(a,b)=>(a.reading||READINGS[a.id]||a.name).localeCompare((b.reading
 let definitions=[...PRESETS], byId=new Map(definitions.map(x=>[x.id,x]));
 let bags=[],items=[],stash=[],gems=[],debugMarks=[],debugMode=false,debugSymbol='☆',selected=null,hovered=null,mode='item',drag=null,undoStack=[],redoStack=[],uidCounter=1;
 let priestessOnly=false,ctrlSoloArmed=false; // priestessOnly is the legacy flag name; true now means include Priestess in the normal catalog.
+let rangeMode=false,rangeSelection=new Set(),rangeDrag=null; // temporary multi-selection, excluded from JSON exports
 const isEditableTarget=el=>!!(el&&(['INPUT','TEXTAREA','SELECT'].includes(el.tagName)||el.isContentEditable));
 // Layout JSON is separate from browser-local display preferences.
 const OPTIONS_KEY='recho-backpack-options-v1';
@@ -592,8 +593,8 @@ function renderBoard(ct,{exportStars=false,highlight=true,exportDebug=debugMode}
   ct.clearRect(0,0,W*C,H*C);ct.fillStyle='#101c2c';ct.fillRect(0,0,W*C,H*C);
   let v=validate();let bagMark=new Map();for(const a of bags)for(const [x,y] of absCells(a)){let k=mark(x,y);bagMark.set(k,[...(bagMark.get(k)||[]),a])}
   for(let y=0;y<H;y++)for(let x=0;x<W;x++){let bs=bagMark.get(mark(x,y));ct.fillStyle=bs?'#22384e':'#162135';ct.fillRect(x*C+1,y*C+1,C-2,C-2);ct.strokeStyle='#34435b';ct.lineWidth=1;ct.strokeRect(x*C+.5,y*C+.5,C-1,C-1)}
-  for(const a of bags){let p=getP(a),isSel=highlight&&selected===a.uid;drawShape(ct,a,p.id==='priest-altar'?'#5d4a7d':'#304f64',isSel?'#ffdf9b':'#7391ac',2,.82,2);if(isSel){let g=shape(a),cx=a.x*C+g.width*C/2,cy=a.y*C+g.height*C/2;ct.fillStyle='#ffe7b4';ct.textAlign='center';ct.font='bold 11px sans-serif';ct.fillText(shortName(p.name),cx,cy+4,Math.max(C-6,g.width*C-12));}}
-  for(const a of items){let p=getP(a),f=v.flags.get(a.uid),isSel=highlight&&selected===a.uid;drawShape(ct,a,a.color||colorFor(p),f?'#ff667a':isSel?'#fff4bd':'#d9e6ed',options.itemInset,.96,f?4:1.8);let g=shape(a),cx=a.x*C+g.width*C/2,cy=a.y*C+g.height*C/2;
+  for(const a of bags){let p=getP(a),isSel=highlight&&(selected===a.uid||rangeMembers().some(q=>q.uid===a.uid));drawShape(ct,a,p.id==='priest-altar'?'#5d4a7d':'#304f64',isSel?'#ffdf9b':'#7391ac',2,.82,2);if(isSel){let g=shape(a),cx=a.x*C+g.width*C/2,cy=a.y*C+g.height*C/2;ct.fillStyle='#ffe7b4';ct.textAlign='center';ct.font='bold 11px sans-serif';ct.fillText(shortName(p.name),cx,cy+4,Math.max(C-6,g.width*C-12));}}
+  for(const a of items){let p=getP(a),f=v.flags.get(a.uid),isSel=highlight&&(selected===a.uid||rangeMembers().some(q=>q.uid===a.uid));drawShape(ct,a,a.color||colorFor(p),f?'#ff667a':isSel?'#fff4bd':'#d9e6ed',options.itemInset,.96,f?4:1.8);let g=shape(a),cx=a.x*C+g.width*C/2,cy=a.y*C+g.height*C/2;
   drawItemLabel(ct,a,p,g);
   const arrows=['↑','→','↓','←'];ct.font='bold 17px sans-serif';ct.fillStyle='#fff0a8';ct.fillText(arrows[a.rot],a.x*C+20,a.y*C+22,30);
   }
@@ -603,7 +604,7 @@ function renderBoard(ct,{exportStars=false,highlight=true,exportDebug=debugMode}
   for(const a of show){const p=getP(a),g=shape(a);for(const [kind,coords] of [['star',g.stars],['diamond',g.diamonds],['hollowDiamond',g.hollowDiamonds],['triangle',g.triangles]])if(coords)for(const [dx,dy] of coords){let x=a.x+dx,y=a.y+dy;if(!inBoard(x,y))continue;const symbol=kind==='star'?'☆':kind==='diamond'?'◆':kind==='hollowDiamond'?'◇':'△';const gold=kind==='star',reserve=kind==='triangle';const color=gold?'#f2d269':reserve?'#7be0ce':'#a58bff';ct.save();ct.globalAlpha=.18;ct.fillStyle=color;rndRect(ct,x*C+6,y*C+6,C-12,C-12,9);ct.fill();ct.restore();ct.textAlign='center';ct.textBaseline='middle';ct.font='bold 25px sans-serif';ct.strokeStyle='#1a1b34';ct.lineWidth=3;ct.strokeText(symbol,x*C+C-19,y*C+20);ct.fillStyle=gold?'#fff3b9':reserve?'#bbffe8':'#e0d5ff';ct.fillText(symbol,x*C+C-19,y*C+20)}
   }
   // Gems live above weapons/armor; their attachment points move and rotate with the host.
-  for(const gem of gems.filter(onBoardGem)){const p=getP(gem),xy=gemCell(gem);if(!inBoard(xy.x,xy.y))continue;const cx=(xy.x+.5)*C,cy=(xy.y+.5)*C,sel=highlight&&selected===gem.uid;
+  for(const gem of gems.filter(onBoardGem)){const p=getP(gem),xy=gemCell(gem);if(!inBoard(xy.x,xy.y))continue;const cx=(xy.x+.5)*C,cy=(xy.y+.5)*C,sel=highlight&&(selected===gem.uid||rangeSelection.has(gem.uid));
    const ruby=/ruby|ルビー/i.test(p.id+' '+p.name),emerald=/emerald|エメラルド/i.test(p.id+' '+p.name);const color=ruby?'#dd5772':emerald?'#54c5a0':'#6d9fe6';ct.save();ct.translate(cx,cy);ct.beginPath();ct.moveTo(0,-23);ct.lineTo(22,-7);ct.lineTo(16,17);ct.lineTo(0,23);ct.lineTo(-16,17);ct.lineTo(-22,-7);ct.closePath();ct.fillStyle=color;ct.fill();ct.lineWidth=sel?5:2.5;ct.strokeStyle=sel?'#fff5ae':'#f0efff';ct.stroke();ct.beginPath();ct.moveTo(0,-23);ct.lineTo(0,23);ct.moveTo(-22,-7);ct.lineTo(22,-7);ct.lineWidth=1.5;ct.strokeStyle='#ffffff77';ct.stroke();ct.fillStyle='#fff';ct.font='bold 15px sans-serif';ct.textAlign='center';ct.textBaseline='middle';ct.fillText(gemDisplayName(p)[0]||'◆',0,4);ct.restore();
   }
   // Manual communication markers are independent of bags/items and never change validation.
@@ -615,6 +616,11 @@ function renderBoard(ct,{exportStars=false,highlight=true,exportDebug=debugMode}
     rndRect(ct,x+C-44,y+5,38,38,9);ct.fill();ct.stroke();
     ct.font='bold 29px "Yu Gothic",Meiryo,sans-serif';ct.textAlign='center';ct.textBaseline='middle';ct.fillStyle=color;
     ct.fillText(marker.symbol,x+C-25,y+25);ct.restore();
+  }
+  if(highlight&&rangeDrag?.kind==='select'){
+    const x1=Math.max(0,Math.min(rangeDrag.start.x,rangeDrag.end.x)),x2=Math.min(W-1,Math.max(rangeDrag.start.x,rangeDrag.end.x));
+    const y1=Math.max(0,Math.min(rangeDrag.start.y,rangeDrag.end.y)),y2=Math.min(H-1,Math.max(rangeDrag.start.y,rangeDrag.end.y));
+    ct.save();ct.fillStyle='#bca4f533';ct.strokeStyle='#ffe3a0';ct.lineWidth=2;ct.setLineDash([8,5]);ct.fillRect(x1*C,y1*C,(x2-x1+1)*C,(y2-y1+1)*C);ct.strokeRect(x1*C+1,y1*C+1,(x2-x1+1)*C-2,(y2-y1+1)*C-2);ct.restore();
   }
   if(highlight){ct.textBaseline='alphabetic';}
   return v;
@@ -637,8 +643,11 @@ function render(){renderBoard(ctx);if(debugMode)$('debugCount').textContent=debu
  for(const b of candidates)sel.append(new Option(getP(b).name+' · '+b.uid.slice(-4),b.uid));sel.value=found.linkBag||'';sel.addEventListener('change',()=>{record();found.linkBag=sel.value||null;render()});pane.append(sel);
  const descr=document.createElement('div');descr.textContent=chosen?'追従：'+getP(chosen).name:candidates.length>1?'複数のバッグに接触。追従先を選んでね。':'現在のバッグには完全に収まっていません。';pane.append(descr);
  }}
- }else pane.textContent='盤面のアイテムをクリックして選択。';
- $('undo').disabled=!undoStack.length;$('redo').disabled=!redoStack.length;document.querySelectorAll('.modebtn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));$('delete').disabled=!found;$('rotate').disabled=!found;$('storeSelected').disabled=!(found&&found.type==='item'||found&&found.type==='gem'&&!found.hostId);renderStash();
+ }else pane.textContent=rangeSelection.size?'範囲選択：'+rangeMembers().length+'個（バッグの追従アイテムを含む）':'盤面のアイテムをクリックして選択。';
+ $('rangeSelect').classList.toggle('range-active',rangeMode);
+ $('rangeSelect').setAttribute('aria-pressed',String(rangeMode));
+ $('rangeHint').textContent=rangeMode?(rangeSelection.size?'選択中：'+rangeMembers().length+'個。範囲内をドラッグで移動／Rで一括回転。空きマスをドラッグすると選択し直します。':'範囲選択中：盤面をドラッグして囲んでね。'):'範囲選択：ボタンまたはShift+S → ドラッグで囲む → ドラッグで移動／Rで一括回転';
+ $('undo').disabled=!undoStack.length;$('redo').disabled=!redoStack.length;document.querySelectorAll('.modebtn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));$('delete').disabled=!found;$('rotate').disabled=!found&&!rangeSelection.size;$('storeSelected').disabled=!(found&&found.type==='item'||found&&found.type==='gem'&&!found.hostId);$('storeAll').disabled=!items.length&&!gems.some(g=>!g.stored&&!g.hostId);renderStash();
 }
 function renderStash(){
  const root=$('stashItems');root.replaceChildren();$('stashCount').textContent=(stash.length+gems.filter(g=>g.stored&&!g.hostId).length)+'個';
@@ -651,13 +660,21 @@ function renderStash(){
  }
  for(const gem of gems.filter(g=>g.stored&&!g.hostId)){const card=document.createElement('div');card.className='stash-item';const label=document.createElement('div');label.className='stash-item-text';label.textContent='💎 '+getP(gem).name;const back=document.createElement('button');back.className='btn small';back.textContent='戻す';back.addEventListener('click',()=>{record();gem.stored=false;let spot=findSpot(getP(gem));gem.x=spot.x;gem.y=spot.y;render()});card.append(label,back);root.append(card)}
 }
+function stashAll(){
+ const loose=gems.filter(g=>!g.stored&&!g.hostId);
+ if(!items.length&&!loose.length){toast('保管するアイテムがありません');return}
+ if(!confirm('盤面上のアイテム'+items.length+'個と未装着の宝石'+loose.length+'個を保管しますか？ バッグは残します。'))return;
+ record();stash.push(...items);items=[];
+ for(const g of gems){if(g.hostId&&stash.some(a=>a.uid===g.hostId))g.stored=false;else if(!g.hostId)g.stored=true}
+ rangeSelection.clear();selected=null;hovered=null;render();toast('アイテムをまとめて保管しました');
+}
 function stashSelected(){let a=items.find(x=>x.uid===selected),gem=gems.find(x=>x.uid===selected);if(!a&&!gem)return;if(gem&&gem.hostId){toast('装着中の宝石は先に外してね');return}record();if(a){items=items.filter(x=>x.uid!==a.uid);stash.push(a)}else{gem.stored=true}selected=null;hovered=null;render();toast('保管ボックスへ移動しました')}
 function returnFromStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;let p=getP(a);let spot=findSpot(p,a.rot);record();stash=stash.filter(x=>x.uid!==id);a.x=spot.x;a.y=spot.y;items.push(a);mode='item';selected=id;render();toast(p.name+' を盤面に戻しました')}
 function rotateInStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;record();a.rot=(a.rot+1)%4;render()}
 function deleteFromStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;record();for(const gem of gems.filter(q=>q.hostId===id)){gem.hostId=null;gem.slot=null;gem.stored=true}stash=stash.filter(x=>x.uid!==id);render()}
 const DEBUG_SYMBOLS=['☆','□','△','◇','◆','▲'];
 function setDebugMode(next){
-  debugMode=!!next;const panel=$('debugTools');panel.hidden=!debugMode;
+  debugMode=!!next;if(debugMode&&rangeMode)toggleRangeMode(false);const panel=$('debugTools');panel.hidden=!debugMode;
   canvas.classList.toggle('debug-active',debugMode);
   drag=null;canvas.classList.remove('dragging');hovered=null;
   if(debugMode){setDebugSymbol(debugSymbol);toast('説明用マーカーを有効にしました（Shift+Dで終了）')}
@@ -696,8 +713,60 @@ async function copyDebugCoordinates(){
 function setMode(v){mode=v;hovered=null;selected=null;render()}
 function cycleMode(){const order=['bag','item','gem'];setMode(order[(order.indexOf(mode)+1)%order.length]);toast('操作レイヤー：'+({bag:'バッグ',item:'通常アイテム',gem:'宝石'}[mode]));}
 function togglePriestessCatalog(){priestessOnly=!priestessOnly;$('search').value='';$('category').value='';if(priestessOnly)$('auditOnly').checked=false;$('auditOnly').disabled=priestessOnly;$('auditKind').disabled=priestessOnly;buildCatalog();toast(priestessOnly?'通常アイテム＋プリーステスを表示':'通常アイテムのみ表示');}
+function rangeMembers(){
+ const active=new Map([...bags,...items,...gems.filter(g=>onBoardGem(g)&&!g.hostId)].filter(a=>rangeSelection.has(a.uid)).map(a=>[a.uid,a]));
+ if($('moveTogether').checked)for(const b of [...active.values()].filter(a=>a.type==='bag'))for(const child of childrenOf(b))active.set(child.uid,child);
+ return [...active.values()];
+}
+function resetRange(){rangeSelection.clear();rangeDrag=null;canvas.classList.remove('dragging')}
+function toggleRangeMode(force){
+ rangeMode=force===undefined?!rangeMode:!!force;
+ resetRange();selected=null;hovered=null;
+ if(rangeMode&&debugMode)setDebugMode(false);
+ canvas.classList.toggle('range-active',rangeMode);
+ render();
+}
+function inRange(a,x1,y1,x2,y2){
+ const cells=a.type==='gem'?[[a.x,a.y]]:absCells(a);
+ return cells.some(([x,y])=>x>=x1&&x<=x2&&y>=y1&&y<=y2);
+}
+function chooseRange(start,end){
+ const x1=Math.max(0,Math.min(start.x,end.x)),x2=Math.min(W-1,Math.max(start.x,end.x));
+ const y1=Math.max(0,Math.min(start.y,end.y)),y2=Math.min(H-1,Math.max(start.y,end.y));
+ rangeSelection=new Set([...bags,...items,...gems.filter(g=>onBoardGem(g)&&!g.hostId)].filter(a=>inRange(a,x1,y1,x2,y2)).map(a=>a.uid));
+ selected=null;hovered=null;
+}
+function rangeHit(x,y){
+ const list=[...items,...bags,...gems.filter(g=>onBoardGem(g)&&!g.hostId)];
+ return list.findLast(a=>inRange(a,x,y,x,y))||null;
+}
+function moveRange(dx,dy){
+ const members=rangeMembers();if(!members.length||(!dx&&!dy))return [0,0];
+ const minDx=Math.max(...members.map(a=>-a.x)),maxDx=Math.min(...members.map(a=>W-shape(a).width-a.x));
+ const minDy=Math.max(...members.map(a=>-a.y)),maxDy=Math.min(...members.map(a=>H-shape(a).height-a.y));
+ dx=Math.max(minDx,Math.min(maxDx,dx));dy=Math.max(minDy,Math.min(maxDy,dy));
+ for(const a of members){a.x+=dx;a.y+=dy}
+ return [dx,dy];
+}
+function rotateRange(){
+ const members=rangeMembers();if(!members.length)return;
+ const cells=members.flatMap(a=>a.type==='gem'?[[a.x,a.y]]:absCells(a));
+ const left=Math.min(...cells.map(q=>q[0])),top=Math.min(...cells.map(q=>q[1]));
+ const height=Math.max(...cells.map(q=>q[1]))-top+1;
+ const rotated=members.map(a=>{
+   const coords=(a.type==='gem'?[[a.x,a.y]]:absCells(a)).map(([x,y])=>[left+height-1-(y-top),top+(x-left)]);
+   return{a,x:Math.min(...coords.map(q=>q[0])),y:Math.min(...coords.map(q=>q[1])),rot:a.type==='gem'?a.rot:(a.rot+1)%4};
+ });
+ const minx=Math.min(...rotated.map(v=>v.x)),miny=Math.min(...rotated.map(v=>v.y));
+ const maxx=Math.max(...rotated.map(v=>v.x+geom(getP(v.a),v.rot).width));
+ const maxy=Math.max(...rotated.map(v=>v.y+geom(getP(v.a),v.rot).height));
+ if(maxx-minx>W||maxy-miny>H){toast('選択範囲が回転後の盤面に収まらないため中止しました');return}
+ const dx=Math.max(-minx,Math.min(0,W-maxx)),dy=Math.max(-miny,Math.min(0,H-maxy));
+ record();for(const v of rotated){v.a.x=v.x+dx;v.a.y=v.y+dy;v.a.rot=v.rot}
+ render();toast('選択範囲をまとめて90°回転しました');
+}
 function state(){return deep({bags,items,stash,gems,debugMarks})}
-function restore(s){bags=deep(s.bags||[]);items=deep(s.items||[]);stash=deep(s.stash||[]);gems=deep(s.gems||[]);debugMarks=deep(s.debugMarks||[]);selected=null;hovered=null;drag=null;render()}
+function restore(s){bags=deep(s.bags||[]);items=deep(s.items||[]);stash=deep(s.stash||[]);gems=deep(s.gems||[]);debugMarks=deep(s.debugMarks||[]);selected=null;hovered=null;drag=null;resetRange();render()}
 function record(){undoStack.push(state());if(undoStack.length>70)undoStack.shift();redoStack.length=0}
 function undo(){if(drag)return;if(undoStack.length){redoStack.push(state());restore(undoStack.pop())}}
 function redo(){if(drag)return;if(redoStack.length){undoStack.push(state());restore(redoStack.pop())}}
@@ -722,7 +791,7 @@ function cellFromEvent(e){let r=canvas.getBoundingClientRect();let mx=(e.clientX
 function atCell(x,y){if(mode==='gem')return gemAt(x,y);let src=mode==='bag'?bags:items;for(let i=src.length-1;i>=0;i--)if(absCells(src[i]).some(([cx,cy])=>cx===x&&cy===y))return src[i];return null}
 function moveRotate(a){let g=shape(a),newPos=clampPos(a,a.x,a.y);a.x=newPos.x;a.y=newPos.y}
 function hitFrom(collection,x,y){for(let i=collection.length-1;i>=0;i--)if(absCells(collection[i]).some(([cx,cy])=>cx===x&&cy===y))return collection[i];return null}
-function rotateAtCell(x,y){if(debugMode||!inBoard(x,y))return false;
+function rotateAtCell(x,y){if(debugMode||!inBoard(x,y))return false;if(rangeMode&&rangeSelection.size){const hit=rangeHit(x,y);if(hit&&rangeMembers().some(a=>a.uid===hit.uid)){rotateRange();return true}}
  const bag=hitFrom(bags,x,y),item=hitFrom(items,x,y);
  // Respect the layer where possible. In gem mode, avoid rotating the host underneath a gem.
  if(mode==='gem'&&gemAt(x,y))return false;
@@ -731,17 +800,45 @@ function rotateAtCell(x,y){if(debugMode||!inBoard(x,y))return false;
  mode=target.type;selected=target.uid;hovered=target.uid;drag=null;
  rotateSelected();return true;
 }
-function rotateSelected(){let a=list().find(a=>a.uid===selected);if(!a)return;if(a.type==='gem'){toast('宝石は1マスなので回転不要です');return}if(!drag)record();if(a.type==='bag')rotateBagGroup(a);else{a.rot=(a.rot+1)%4;moveRotate(a)}render()}
+function rotateSelected(){if(rangeSelection.size){rotateRange();return}let a=list().find(a=>a.uid===selected);if(!a)return;if(a.type==='gem'){toast('宝石は1マスなので回転不要です');return}if(!drag)record();if(a.type==='bag')rotateBagGroup(a);else{a.rot=(a.rot+1)%4;moveRotate(a)}render()}
 function deleteSelected(){const a=list().find(a=>a.uid===selected);if(!a)return;record();if(a.type==='item')for(const gem of gems.filter(g=>g.hostId===a.uid)){let c=gemCell(gem);gem.x=c.x;gem.y=c.y;gem.hostId=null;gem.slot=null;gem.stored=false}
  bags=bags.filter(x=>x.uid!==a.uid);items=items.filter(x=>x.uid!==a.uid);gems=gems.filter(x=>x.uid!==a.uid);selected=null;hovered=null;render()}
 canvas.addEventListener('contextmenu',e=>{e.preventDefault();if(debugMode)return;const c=cellFromEvent(e);showCursorCoord(c);rotateAtCell(c.x,c.y)});
-canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;canvas.focus();let c=cellFromEvent(e);showCursorCoord(c);if(debugMode){paintDebugAt(c.x,c.y);return;}let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,moved:false};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
-canvas.addEventListener('pointermove',e=>{let c=cellFromEvent(e);showCursorCoord(c);if(debugMode)return;if(drag){let a=list().find(x=>x.uid===drag.id);if(a&&inBoard(c.x,c.y)){
+canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;canvas.focus();let c=cellFromEvent(e);showCursorCoord(c);if(debugMode){paintDebugAt(c.x,c.y);return;}
+ if(rangeMode||e.shiftKey){
+   if(!rangeMode)toggleRangeMode(true);
+   const hit=inBoard(c.x,c.y)?rangeHit(c.x,c.y):null;
+   if(!e.shiftKey&&hit&&rangeMembers().some(a=>a.uid===hit.uid)){
+     rangeDrag={kind:'move',last:c,before:state(),pointer:e.pointerId,moved:false};
+   }else{
+     rangeSelection.clear();rangeDrag={kind:'select',start:c,end:c,pointer:e.pointerId};
+   }
+   selected=null;hovered=null;canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging');render();return;
+ }
+ let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,moved:false};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
+canvas.addEventListener('pointermove',e=>{let c=cellFromEvent(e);showCursorCoord(c);if(debugMode)return;
+ if(rangeDrag){
+   if(rangeDrag.kind==='select'){rangeDrag.end={x:Math.max(0,Math.min(W-1,c.x)),y:Math.max(0,Math.min(H-1,c.y))}}
+   else if(inBoard(c.x,c.y)){
+     const [dx,dy]=moveRange(c.x-rangeDrag.last.x,c.y-rangeDrag.last.y);
+     if(dx||dy)rangeDrag.moved=true;
+     rangeDrag.last=c;
+   }
+   render();return;
+ }
+ if(drag){let a=list().find(x=>x.uid===drag.id);if(a&&inBoard(c.x,c.y)){
  if(a.type==='bag') {const dx=c.x-drag.lastx,dy=c.y-drag.lasty;if(dx||dy){moveBagGroup(a,dx,dy);drag.moved=true}}
  else if(a.type==='gem'){if(c.x!==drag.lastx||c.y!==drag.lasty){a.hostId=null;a.slot=null;a.stored=false;Object.assign(a,clampPos(a,c.x,c.y));drag.moved=true}}
  else{let pos=clampPos(a,c.x-drag.offx,c.y-drag.offy);if(pos.x!==a.x||pos.y!==a.y){a.x=pos.x;a.y=pos.y;drag.moved=true}}
  drag.lastx=c.x;drag.lasty=c.y;render()}}else{let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;if(hovered!==a?.uid){hovered=a?.uid||null;render()}}});
-function endDrag(e){if(!drag)return;canvas.classList.remove('dragging');const a=list().find(x=>x.uid===drag.id);if(a&&drag.moved&&a.type==='gem'&&e){const c=cellFromEvent(e);if(inBoard(c.x,c.y)){const hosts=items.filter(canSocket).filter(q=>absCells(q).some(([x,y])=>x===c.x&&y===c.y));const host=hosts.at(-1);if(host&&!attachGem(a,host,c.x,c.y))toast('このマスには別の宝石が装着されています');}}
+function endDrag(e){
+ if(rangeDrag){
+   const r=rangeDrag;rangeDrag=null;canvas.classList.remove('dragging');
+   if(r.kind==='select'){chooseRange(r.start,r.end);toast(rangeSelection.size?rangeMembers().length+'個を選択しました':'選択範囲にアイテムがありません')}
+   else if(r.moved&&JSON.stringify(state())!==JSON.stringify(r.before)){undoStack.push(r.before);if(undoStack.length>70)undoStack.shift();redoStack.length=0}
+   render();return;
+ }
+ if(!drag)return;canvas.classList.remove('dragging');const a=list().find(x=>x.uid===drag.id);if(a&&drag.moved&&a.type==='gem'&&e){const c=cellFromEvent(e);if(inBoard(c.x,c.y)){const hosts=items.filter(canSocket).filter(q=>absCells(q).some(([x,y])=>x===c.x&&y===c.y));const host=hosts.at(-1);if(host&&!attachGem(a,host,c.x,c.y))toast('このマスには別の宝石が装着されています');}}
  if(a&&a.type==='item'&&e){const z=$('stashZone').getBoundingClientRect();if(e.clientX>=z.left&&e.clientX<=z.right&&e.clientY>=z.top&&e.clientY<=z.bottom){items=items.filter(x=>x.uid!==a.uid);stash.push(a);selected=null;hovered=null;toast('アイテムを宝石ごと保管しました')}}
  if(JSON.stringify(state())!==JSON.stringify(drag.before)){undoStack.push(drag.before);if(undoStack.length>70)undoStack.shift();redoStack.length=0}drag=null;render()}
 canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);canvas.addEventListener('lostpointercapture',endDrag);canvas.addEventListener('pointerleave',()=>{if(!drag){hovered=null;showCursorCoord({x:-1,y:-1});render()}});
@@ -760,7 +857,7 @@ function loadJSON(text){let o=JSON.parse(text);if(o.format!=='recho-backpack-edi
  const eligible=new Map([...ni,...ns].filter(a=>['武器','防具'].includes(currentMap.get(a.presetId)?.category)).map(a=>[a.uid,a]));
  for(const gem of ng)if(gem.hostId){const host=eligible.get(gem.hostId);if(!host||gem.slot===null||gem.slot<0||gem.slot>=geom(currentMap.get(host.presetId),host.rot).body.length){gem.hostId=null;gem.slot=null;gem.stored=true}else gem.stored=false}
  const markerSeen=new Set();const nm=[];for(const m of (o.debugMarks||[])){if(!m||!Number.isInteger(m.x)||!Number.isInteger(m.y)||!inBoard(m.x,m.y)||!DEBUG_SYMBOLS.includes(m.symbol))throw Error('説明用マーカーの内容が不正です');let key=m.y*W+m.x;if(markerSeen.has(key))throw Error('同じマスに説明用マーカーが重複しています');markerSeen.add(key);nm.push({x:m.x,y:m.y,symbol:m.symbol})}
- record();definitions=[...currentMap.values()];byId=currentMap;bags=nb;items=ni;stash=ns;gems=ng;debugMarks=nm;selected=null;mode='item';hovered=null;buildCatalog();render();toast('配置を復元しました')}
+ record();definitions=[...currentMap.values()];byId=currentMap;bags=nb;items=ni;stash=ns;gems=ng;debugMarks=nm;selected=null;mode='item';hovered=null;resetRange();buildCatalog();render();toast('配置を復元しました')}
 function canExportImage(){let v=validate();return !v.number||confirm(`配置エラーが ${v.number} 個あります。警告を含めて画像を出力しますか？`)}
 function drawExportAxes(ct,originX,originY){
   ct.save();ct.textAlign='center';ct.textBaseline='middle';ct.font='bold 14px "Yu Gothic",sans-serif';ct.fillStyle='#d7e5fb';ct.strokeStyle='#9bb1cf';ct.lineWidth=1.5;
@@ -851,7 +948,7 @@ function applyStarterSet(id){
  let parsed;
  try{parsed=verifyStarterPlacement(spec,VERIFIED_STARTER_LAYOUTS[id])}
  catch(err){alert('初期配置の読み込みに失敗：'+err.message);return false}
- record();bags=parsed.nextBags;items=parsed.nextItems;gems=[];stash=[];debugMarks=[];mode='item';selected=null;hovered=null;
+ record();bags=parsed.nextBags;items=parsed.nextItems;gems=[];stash=[];debugMarks=[];mode='item';selected=null;hovered=null;resetRange();
  $('startSetInfo').textContent=spec.className+'｜'+spec.title+'｜持ち物：'+starterSetPreview(spec)+'（ユーザー再現図に基づく原作初期配置）';
  render();toast(spec.className+'の初期配置を再現しました');return true;
 }
@@ -860,13 +957,13 @@ function buildCatalog(){const cat=$('category'),old=cat.value;cat.replaceChildre
 function needsShapeAudit(p){const v=p.verified||'';const withoutStars=v.replace(/☆[^／]*|星[^／]*|ソケット[^／]*/g,'');return !!p.pending||/仮形状|暫定|形状未|形状は未|未照合|実機照合待ち|実機要照合|未確認|未確定/.test(withoutStars)}
 function filterCatalog(){let search=$('search').value.trim().normalize('NFKC').toLocaleLowerCase(),cat=$('category').value,available=activeCatalogDefs(),filtered=available.filter(p=>(!$('auditOnly').checked||(p.id.startsWith('common-')&&( $('auditKind').value==='stars'?p.stars===null:$('auditKind').value==='shape'?needsShapeAudit(p):needsShapeAudit(p)||p.stars===null)))&&(!cat||p.category===cat)&&(!search||(p.name+(p.oldName||'')+(p.alias||'')+(p.oldAlias||'')+(p.bagGroup||'')).normalize('NFKC').toLocaleLowerCase().includes(search))).sort(sorted);$('catalogCount').textContent=`${filtered.length} / ${available.length} プリセットを表示${priestessOnly?'（プリーステス追加中）':''}`;let listEl=$('catalog');listEl.replaceChildren();let frag=document.createDocumentFragment();for(const p of filtered){let btn=document.createElement('button');btn.type='button';btn.className='preset';if(p.pending){btn.disabled=true;btn.classList.add('pending')}btn.title=(p.note||'')+'\n'+(p.verified||'');let sw=document.createElement('span');sw.className='swatch';sw.style.background=p.pending?'#777d90':colorFor(p);let body=document.createElement('span');body.style.flex='1';let name=document.createElement('strong');name.textContent=p.name;let txt=document.createElement('small');if(p.pending)txt.textContent=`${p.bagGroup||'バッグ'} · ${p.outerSize?'外接'+p.outerSize.join('×')+' · ':''}${p.pendingReason||'形状調査中'} · 配置不可`;else{let g=geom(p,0);txt.textContent=`${p.type==='bag'?(p.bagGroup||'バッグ'):p.category||'アイテム'} · ${g.width}×${g.height} · ${p.stars===null?'☆未確認':p.stars.length?'☆'+p.stars.length:'☆なし'}`;}body.append(name,txt);let plus=document.createElement('span');plus.className='plus';plus.textContent=p.pending?'🔒':'+';btn.append(sw,body,plus);if(!p.pending)btn.addEventListener('click',()=>addPreset(p.id));frag.append(btn)}listEl.append(frag);if(!filtered.length){let msg=document.createElement('div');msg.className='tiny';msg.textContent='条件に一致するプリセットがありません。検索語や絞り込みを変更してください。';listEl.append(msg)}}
 function toast(s){let el=$('toast');el.textContent=s;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),1900)}
-function reset(){if((list().length||stash.length||debugMarks.length)&&!confirm('現在の配置を消して、新しい盤面にしますか？'))return;record();bags=[];items=[];stash=[];gems=[];debugMarks=[];selected=null;render()}
+function reset(){if((list().length||stash.length||debugMarks.length)&&!confirm('バッグ・アイテム・宝石・保管箱・説明マーカーをすべて消去しますか？（Ctrl+Zで元に戻せます）'))return;record();bags=[];items=[];stash=[];gems=[];debugMarks=[];selected=null;resetRange();render()}
 document.querySelectorAll('.modebtn').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
 $('auditOnly').addEventListener('change',filterCatalog);$('auditKind').addEventListener('change',filterCatalog);$('search').addEventListener('input',filterCatalog);$('category').addEventListener('change',filterCatalog);
 $('startSet').addEventListener('change',e=>{if(!applyStarterSet(e.target.value))e.target.value=''});
 document.querySelectorAll('.debug-marker-btn').forEach(b=>b.addEventListener('click',()=>setDebugSymbol(b.dataset.symbol)));
 $('debugClear').addEventListener('click',clearDebugMarks);$('debugCopyCoords').addEventListener('click',copyDebugCoordinates);$('debugClose').addEventListener('click',()=>setDebugMode(false));$('debugPng').addEventListener('change',render);
-$('storeSelected').addEventListener('click',stashSelected);$('undo').addEventListener('click',undo);$('redo').addEventListener('click',redo);$('rotate').addEventListener('click',rotateSelected);$('delete').addEventListener('click',deleteSelected);$('new').addEventListener('click',reset);
+$('storeSelected').addEventListener('click',stashSelected);$('storeAll').addEventListener('click',stashAll);$('rangeSelect').addEventListener('click',()=>toggleRangeMode());$('undo').addEventListener('click',undo);$('redo').addEventListener('click',redo);$('rotate').addEventListener('click',rotateSelected);$('delete').addEventListener('click',deleteSelected);$('new').addEventListener('click',reset);
 $('save').addEventListener('click',exportJSON);$('load').addEventListener('click',()=>$('file').click());$('png').addEventListener('click',exportPNG);$('copyPng').addEventListener('click',copyPNG);
 $('itemInset').value=options.itemInset;$('insetValue').textContent=options.itemInset+' px';$('pngStars').checked=options.pngStars;
 $('itemInset').addEventListener('input',e=>{options.itemInset=Number(e.target.value);$('insetValue').textContent=options.itemInset+' px';saveOptions();render()});
@@ -878,8 +975,10 @@ window.addEventListener('keydown',e=>{
  if(ctrlSoloArmed)ctrlSoloArmed=false;
  if(isEditableTarget(e.target))return;
  const key=e.key.toLowerCase();
+ if(!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.shiftKey&&key==='s'){e.preventDefault();toggleRangeMode();return;}
  if(!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.shiftKey&&key==='p'){e.preventDefault();togglePriestessCatalog();return;}
  if(!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.shiftKey&&key==='d'){e.preventDefault();setDebugMode(!debugMode);return;}
+ if(e.key==='Escape'&&rangeMode){e.preventDefault();toggleRangeMode(false);return;}
  if(e.key==='Escape'&&debugMode){e.preventDefault();setDebugMode(false);return;}
  if((e.ctrlKey||e.metaKey)&&key==='z'){e.preventDefault();e.shiftKey?redo():undo();}
  else if((e.ctrlKey||e.metaKey)&&key==='y'){e.preventDefault();redo();}
@@ -898,7 +997,7 @@ window.addEventListener('blur',()=>{ctrlSoloArmed=false;});
 canvas.addEventListener('pointerdown',()=>{ctrlSoloArmed=false;});
 buildStarterSets();buildCatalog();render();
 // Expose a limited, read-only test hook to automate verification without changing app state.
-window.__rechoTest={cycleMode,togglePriestessCatalog,rotateAtCell,activeCatalogDefs,getMode:()=>mode,priestessOnly:()=>priestessOnly,setMode,deleteSelected,setSelected:(id)=>{selected=id;render()},setDebugMode,setDebugSymbol,paintDebugAt,debugCoordinates,debugMarks:()=>deep(debugMarks),attachGem,bagCandidates,linkedBag,moveBagGroup,rotateBagGroup,stashAdd:stashSelected,stashReturn:returnFromStash,options:()=>deep(options),render:()=>render(),png:()=>makePNGCanvas(),counts:()=>({bags:bags.length,items:items.length,stash:stash.length,gems:gems.length,debugMarks:debugMarks.length,errors:validate().number,open:bagUnion().size}),displayCell:(x,y)=>displayCell(x,y),snapshot:()=>state(),geom:(id,r)=>geom(byId.get(id),r),load:loadJSON,starterSets:()=>STARTER_SETS.map(s=>({id:s.id,className:s.className,title:s.title,bags:s.bags,items:s.items})),applyStarterSet};
+window.__rechoTest={cycleMode,togglePriestessCatalog,rotateAtCell,activeCatalogDefs,getMode:()=>mode,priestessOnly:()=>priestessOnly,setMode,deleteSelected,setSelected:(id)=>{selected=id;render()},setDebugMode,setDebugSymbol,paintDebugAt,debugCoordinates,debugMarks:()=>deep(debugMarks),attachGem,bagCandidates,linkedBag,moveBagGroup,rotateBagGroup,stashAdd:stashSelected,stashAll,stashReturn:returnFromStash,range:()=>({mode:rangeMode,selected:[...rangeSelection]}),chooseRange,moveRange,rotateRange,toggleRangeMode,options:()=>deep(options),render:()=>render(),png:()=>makePNGCanvas(),counts:()=>({bags:bags.length,items:items.length,stash:stash.length,gems:gems.length,debugMarks:debugMarks.length,errors:validate().number,open:bagUnion().size}),displayCell:(x,y)=>displayCell(x,y),snapshot:()=>state(),geom:(id,r)=>geom(byId.get(id),r),load:loadJSON,starterSets:()=>STARTER_SETS.map(s=>({id:s.id,className:s.className,title:s.title,bags:s.bags,items:s.items})),applyStarterSet};
 })();
 
 </script>
