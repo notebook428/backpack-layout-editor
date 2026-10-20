@@ -501,25 +501,55 @@ function rndRect(ct,x,y,w,h,r){ct.beginPath();ct.roundRect(x,y,w,h,r)}
 function drawShape(ct,a,fill,stroke,inset,alpha=1,lineWidth=1.7){
   const cells=absCells(a),set=new Set(cells.map(([x,y])=>mark(x,y)));
   const has=(x,y)=>set.has(mark(x,y));
-  ct.save();ct.globalAlpha=alpha;ct.fillStyle=fill;
+  // Per-cell edge strokes create gaps and protrusions at concave corners.
+  // Collect directed exposed edges and trace continuous outlines instead.
+  const edges=[];
   for(const [x,y] of cells){
-    const left=has(x-1,y),right=has(x+1,y),top=has(x,y-1),bottom=has(x,y+1);
-    const l=x*C+(left?0:inset),r=(x+1)*C-(right?0:inset);
-    const t=y*C+(top?0:inset),b=(y+1)*C-(bottom?0:inset);
-    ct.fillRect(l,t,r-l,b-t);
+    if(!has(x,y-1))edges.push({x1:x,y1:y,x2:x+1,y2:y,d:0});
+    if(!has(x+1,y))edges.push({x1:x+1,y1:y,x2:x+1,y2:y+1,d:1});
+    if(!has(x,y+1))edges.push({x1:x+1,y1:y+1,x2:x,y2:y+1,d:2});
+    if(!has(x-1,y))edges.push({x1:x,y1:y+1,x2:x,y2:y,d:3});
   }
+  const starts=new Map();
+  edges.forEach((e,i)=>{
+    const key=mark(e.x1,e.y1);
+    if(!starts.has(key))starts.set(key,[]);
+    starts.get(key).push(i);
+  });
+  // Prefer a right turn when components only meet at a diagonal corner.
+  const nextEdge=i=>{
+    const e=edges[i],choices=starts.get(mark(e.x2,e.y2))||[];
+    for(const d of [(e.d+1)%4,e.d,(e.d+3)%4,(e.d+2)%4]){
+      const j=choices.find(index=>edges[index].d===d);
+      if(j!==undefined)return j;
+    }
+    return -1;
+  };
+  const traced=new Set();
+  ct.save();ct.globalAlpha=alpha;ct.beginPath();
+  for(let i=0;i<edges.length;i++){
+    if(traced.has(i))continue;
+    const loop=[];let j=i;
+    while(j>=0&&!traced.has(j)){
+      traced.add(j);loop.push(edges[j]);j=nextEdge(j);
+    }
+    if(!loop.length)continue;
+    // Intersect inward-offset adjacent edges at each corner. This keeps
+    // both convex and concave joins aligned instead of leaving short stubs.
+    for(let k=0;k<loop.length;k++){
+      const e=loop[k],prev=loop[(k+loop.length-1)%loop.length];
+      const dx1=prev.x2-prev.x1,dy1=prev.y2-prev.y1;
+      const dx2=e.x2-e.x1,dy2=e.y2-e.y1;
+      const straight=dx1===dx2&&dy1===dy2;
+      const x=e.x1*C+inset*(-dy1+(straight?0:-dy2));
+      const y=e.y1*C+inset*(dx1+(straight?0:dx2));
+      if(k===0)ct.moveTo(x,y);else ct.lineTo(x,y);
+    }
+    ct.closePath();
+  }
+  ct.fillStyle=fill;ct.fill('evenodd');
   ct.globalAlpha=1;ct.strokeStyle=stroke;ct.lineWidth=lineWidth;
-  ct.lineCap='butt';ct.lineJoin='miter';ct.beginPath();
-  for(const [x,y] of cells){
-    const left=has(x-1,y),right=has(x+1,y),top=has(x,y-1),bottom=has(x,y+1);
-    const l=x*C+(left?0:inset),r=(x+1)*C-(right?0:inset);
-    const t=y*C+(top?0:inset),b=(y+1)*C-(bottom?0:inset);
-    if(!top){ct.moveTo(l,t);ct.lineTo(r,t)}
-    if(!right){ct.moveTo(r,t);ct.lineTo(r,b)}
-    if(!bottom){ct.moveTo(r,b);ct.lineTo(l,b)}
-    if(!left){ct.moveTo(l,b);ct.lineTo(l,t)}
-  }
-  ct.stroke();ct.restore();
+  ct.lineCap='butt';ct.lineJoin='miter';ct.stroke();ct.restore();
 }
 function shortName(n){return n.replace(/・/g,'').replace(/\s[AB]$/,'').slice(0,8)}
 function drawItemLabel(ct,a,p,g){
