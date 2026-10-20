@@ -646,7 +646,7 @@ function render(){renderBoard(ctx);if(debugMode)$('debugCount').textContent=debu
  }else pane.textContent=rangeSelection.size?'範囲選択：'+rangeMembers().length+'個（バッグの追従アイテムを含む）':'盤面のアイテムをクリックして選択。';
  $('rangeSelect').classList.toggle('range-active',rangeMode);
  $('rangeSelect').setAttribute('aria-pressed',String(rangeMode));
- $('rangeHint').textContent=rangeMode?(rangeSelection.size?'選択中：'+rangeMembers().length+'個。範囲内をドラッグで移動／Rで一括回転。空きマスをドラッグすると選択し直します。':'範囲選択中：盤面をドラッグして囲んでね。'):'範囲選択：ボタンまたはShift+S → ドラッグで囲む → ドラッグで移動／Rで一括回転';
+ $('rangeHint').textContent=rangeMode?(rangeSelection.size?'選択中：'+rangeMembers().length+'個。選択したものをドラッグで移動／Rで一括回転。':'範囲選択中：現在の操作レイヤー（'+({bag:'バッグ',item:'通常アイテム',gem:'宝石'}[mode]||mode)+'）をドラッグで囲んでね。'):'範囲選択：ボタンまたはShift+S → ドラッグで囲む → ドラッグで移動／Rで一括回転';
  $('undo').disabled=!undoStack.length;$('redo').disabled=!redoStack.length;document.querySelectorAll('.modebtn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));$('delete').disabled=!found;$('rotate').disabled=!found&&!rangeSelection.size;$('storeSelected').disabled=!(found&&found.type==='item'||found&&found.type==='gem'&&!found.hostId);$('storeAll').disabled=!items.length&&!gems.some(g=>!g.stored&&!g.hostId);renderStash();
 }
 function renderStash(){
@@ -710,7 +710,7 @@ async function copyDebugCoordinates(){
   try{await navigator.clipboard.writeText(text);toast('座標リストをコピーしました')}
   catch(_){window.prompt('以下の座標をコピーしてください',text)}
 }
-function setMode(v){mode=v;hovered=null;selected=null;render()}
+function setMode(v){if(mode!==v&&rangeMode)resetRange();mode=v;hovered=null;selected=null;render()}
 function cycleMode(){const order=['bag','item','gem'];setMode(order[(order.indexOf(mode)+1)%order.length]);toast('操作レイヤー：'+({bag:'バッグ',item:'通常アイテム',gem:'宝石'}[mode]));}
 function togglePriestessCatalog(){priestessOnly=!priestessOnly;$('search').value='';$('category').value='';if(priestessOnly)$('auditOnly').checked=false;$('auditOnly').disabled=priestessOnly;$('auditKind').disabled=priestessOnly;buildCatalog();toast(priestessOnly?'通常アイテム＋プリーステスを表示':'通常アイテムのみ表示');}
 function rangeMembers(){
@@ -730,15 +730,20 @@ function inRange(a,x1,y1,x2,y2){
  const cells=a.type==='gem'?[[a.x,a.y]]:absCells(a);
  return cells.some(([x,y])=>x>=x1&&x<=x2&&y>=y1&&y<=y2);
 }
+function rangeLayerObjects(){
+ // Only select objects on the active layer. Picking up background bags while
+ // selecting weapons changes the group's bounding box and rotation pivot.
+ return mode==='bag'?bags:mode==='gem'?gems.filter(g=>onBoardGem(g)&&!g.hostId):items;
+}
 function chooseRange(start,end){
  const x1=Math.max(0,Math.min(start.x,end.x)),x2=Math.min(W-1,Math.max(start.x,end.x));
  const y1=Math.max(0,Math.min(start.y,end.y)),y2=Math.min(H-1,Math.max(start.y,end.y));
- rangeSelection=new Set([...bags,...items,...gems.filter(g=>onBoardGem(g)&&!g.hostId)].filter(a=>inRange(a,x1,y1,x2,y2)).map(a=>a.uid));
+ rangeSelection=new Set(rangeLayerObjects().filter(a=>inRange(a,x1,y1,x2,y2)).map(a=>a.uid));
  selected=null;hovered=null;
 }
 function rangeHit(x,y){
- const list=[...items,...bags,...gems.filter(g=>onBoardGem(g)&&!g.hostId)];
- return list.findLast(a=>inRange(a,x,y,x,y))||null;
+ // An item in the current group wins over any other object under the cursor.
+ return rangeLayerObjects().findLast(a=>rangeSelection.has(a.uid)&&inRange(a,x,y,x,y))||null;
 }
 function moveRange(dx,dy){
  const members=rangeMembers();if(!members.length||(!dx&&!dy))return [0,0];
@@ -791,7 +796,7 @@ function cellFromEvent(e){let r=canvas.getBoundingClientRect();let mx=(e.clientX
 function atCell(x,y){if(mode==='gem')return gemAt(x,y);let src=mode==='bag'?bags:items;for(let i=src.length-1;i>=0;i--)if(absCells(src[i]).some(([cx,cy])=>cx===x&&cy===y))return src[i];return null}
 function moveRotate(a){let g=shape(a),newPos=clampPos(a,a.x,a.y);a.x=newPos.x;a.y=newPos.y}
 function hitFrom(collection,x,y){for(let i=collection.length-1;i>=0;i--)if(absCells(collection[i]).some(([cx,cy])=>cx===x&&cy===y))return collection[i];return null}
-function rotateAtCell(x,y){if(debugMode||!inBoard(x,y))return false;if(rangeMode&&rangeSelection.size){const hit=rangeHit(x,y);if(hit&&rangeMembers().some(a=>a.uid===hit.uid)){rotateRange();return true}}
+function rotateAtCell(x,y){if(debugMode||!inBoard(x,y))return false;if(rangeMode){const hit=rangeHit(x,y);if(hit&&rangeMembers().some(a=>a.uid===hit.uid)){rotateRange();return true}return false}
  const bag=hitFrom(bags,x,y),item=hitFrom(items,x,y);
  // Respect the layer where possible. In gem mode, avoid rotating the host underneath a gem.
  if(mode==='gem'&&gemAt(x,y))return false;
