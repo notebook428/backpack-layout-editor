@@ -48,7 +48,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 .debug-tools #debugCount{color:#f1d49f;font-size:12px}
 #board.debug-active{cursor:crosshair;outline:2px solid #a88acb;outline-offset:1px}
 </style></head><body>
-<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><span class="version">Backpack Battles 非公式ツール · v0.61.7</span></header>
+<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><span class="version">Backpack Battles 非公式ツール · v0.61.8</span></header>
 <main>
 <aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><label class="tiny" style="display:block;margin:0 0 6px"><input type="checkbox" id="auditOnly"> 共通アイテムの要照合だけ表示</label><select class="field" id="auditKind" aria-label="要照合の種類" style="margin-bottom:9px"><option value="all">形状または☆が未照合</option><option value="shape">形状が暫定・未照合</option><option value="stars">☆が未確認</option></select><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。Shift+Pで通常の一覧にプリーステスのアイテムを追加・解除できます。</div></aside>
 <section class="panel center"><div class="starting-sets">
@@ -763,8 +763,9 @@ function rangeHit(x,y){
  // An item in the current group wins over any other object under the cursor.
  return rangeLayerObjects().findLast(a=>rangeSelection.has(a.uid)&&inRange(a,x,y,x,y))||null;
 }
-function moveRange(dx,dy){
- const members=rangeMembers();if(!members.length||(!dx&&!dy))return [0,0];
+function moveRange(dx,dy,lockedMembers=null){
+ // The range's contents must remain fixed while crossing other bags.
+ const members=lockedMembers??rangeMembers();if(!members.length||(!dx&&!dy))return [0,0];
  const minDx=Math.max(...members.map(a=>-a.x)),maxDx=Math.min(...members.map(a=>W-shape(a).width-a.x));
  const minDy=Math.max(...members.map(a=>-a.y)),maxDy=Math.min(...members.map(a=>H-shape(a).height-a.y));
  dx=Math.max(minDx,Math.min(maxDx,dx));dy=Math.max(minDy,Math.min(maxDy,dy));
@@ -797,7 +798,7 @@ function bagCandidates(a){const cells=absCells(a).map(([x,y])=>y*W+x);return bag
 function linkedBag(a){if(a.linkBag){return bags.find(b=>b.uid===a.linkBag)||null}const cells=absCells(a).map(([x,y])=>y*W+x);const containing=bags.filter(b=>{const bc=new Set(absCells(b).map(([x,y])=>y*W+x));return cells.every(c=>bc.has(c))});return containing.length===1?containing[0]:null}
 function childrenOf(b){return items.filter(a=>linkedBag(a)?.uid===b.uid)}
 function groupMembers(b){return [$('moveTogether').checked?childrenOf(b):[],b].flat()}
-function moveBagGroup(b,dx,dy){const members=groupMembers(b);const minimumX=Math.max(...members.map(a=>-a.x)),maximumX=Math.min(...members.map(a=>W-shape(a).width-a.x));const minimumY=Math.max(...members.map(a=>-a.y)),maximumY=Math.min(...members.map(a=>H-shape(a).height-a.y));dx=Math.max(minimumX,Math.min(maximumX,dx));dy=Math.max(minimumY,Math.min(maximumY,dy));for(const a of members){a.x+=dx;a.y+=dy}}
+function moveBagGroup(b,dx,dy,lockedMembers=null){const members=lockedMembers??groupMembers(b);const minimumX=Math.max(...members.map(a=>-a.x)),maximumX=Math.min(...members.map(a=>W-shape(a).width-a.x));const minimumY=Math.max(...members.map(a=>-a.y)),maximumY=Math.min(...members.map(a=>H-shape(a).height-a.y));dx=Math.max(minimumX,Math.min(maximumX,dx));dy=Math.max(minimumY,Math.min(maximumY,dy));for(const a of members){a.x+=dx;a.y+=dy}}
 function rotateBagGroup(b){if(!$('moveTogether').checked){b.rot=(b.rot+1)%4;moveRotate(b);return}
  const children=childrenOf(b),members=[b,...children],backups=members.map(a=>({...a})),bh=shape(b).height,bx=b.x,by=b.y;
  const rotated=members.map(a=>{let cells=absCells(a).map(([x,y])=>[bx+bh-(y-by)-1,by+(x-bx)]);let xs=cells.map(q=>q[0]),ys=cells.map(q=>q[1]);return{a,x:Math.min(...xs),y:Math.min(...ys),rot:(a.rot+1)%4}});
@@ -852,25 +853,25 @@ canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;canvas.focus();
    if(!rangeMode)toggleRangeMode(true);
    const hit=inBoard(c.x,c.y)?rangeHit(c.x,c.y):null;
    if(!e.shiftKey&&hit&&rangeMembers().some(a=>a.uid===hit.uid)){
-     rangeDrag={kind:'move',last:c,before:state(),pointer:e.pointerId,moved:false};
+     rangeDrag={kind:'move',last:c,before:state(),pointer:e.pointerId,moved:false,members:rangeMembers()};
    }else{
      rangeSelection.clear();rangeDrag={kind:'select',start:c,end:c,pointer:e.pointerId};
    }
    selected=null;hovered=null;canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging');render();return;
  }
- let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,moved:false};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
+ let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,moved:false,members:a.type==='bag'?groupMembers(a):null};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
 canvas.addEventListener('pointermove',e=>{let c=cellFromEvent(e);showCursorCoord(c);if(debugMode)return;
  if(rangeDrag){
    if(rangeDrag.kind==='select'){rangeDrag.end={x:Math.max(0,Math.min(W-1,c.x)),y:Math.max(0,Math.min(H-1,c.y))}}
    else if(inBoard(c.x,c.y)){
-     const [dx,dy]=moveRange(c.x-rangeDrag.last.x,c.y-rangeDrag.last.y);
+     const [dx,dy]=moveRange(c.x-rangeDrag.last.x,c.y-rangeDrag.last.y,rangeDrag.members);
      if(dx||dy)rangeDrag.moved=true;
      rangeDrag.last=c;
    }
    render();return;
  }
  if(drag){let a=list().find(x=>x.uid===drag.id);if(a&&inBoard(c.x,c.y)){
- if(a.type==='bag') {const dx=c.x-drag.lastx,dy=c.y-drag.lasty;if(dx||dy){moveBagGroup(a,dx,dy);drag.moved=true}}
+ if(a.type==='bag') {const dx=c.x-drag.lastx,dy=c.y-drag.lasty;if(dx||dy){moveBagGroup(a,dx,dy,drag.members);drag.moved=true}}
  else if(a.type==='gem'){if(c.x!==drag.lastx||c.y!==drag.lasty){a.hostId=null;a.slot=null;a.stored=false;Object.assign(a,clampPos(a,c.x,c.y));drag.moved=true}}
  else{let pos=clampPos(a,c.x-drag.offx,c.y-drag.offy);if(pos.x!==a.x||pos.y!==a.y){a.x=pos.x;a.y=pos.y;drag.moved=true}}
  drag.lastx=c.x;drag.lasty=c.y;render()}}else{let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;if(hovered!==a?.uid){hovered=a?.uid||null;render()}}});
