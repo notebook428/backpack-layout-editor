@@ -48,7 +48,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 .debug-tools #debugCount{color:#f1d49f;font-size:12px}
 #board.debug-active{cursor:crosshair;outline:2px solid #a88acb;outline-offset:1px}
 </style></head><body>
-<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.13</span></header>
+<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.14</span></header>
 <main>
 <aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><label class="tiny" style="display:block;margin:0 0 6px"><input type="checkbox" id="auditOnly"> 共通アイテムの要照合だけ表示</label><select class="field" id="auditKind" aria-label="要照合の種類" style="margin-bottom:9px"><option value="all">形状または☆が未照合</option><option value="shape">形状が暫定・未照合</option><option value="stars">☆が未確認</option></select><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。Shift+Pで通常の一覧にプリーステスのアイテムを追加・解除できます。</div></aside>
 <section class="panel center"><div class="starting-sets">
@@ -435,7 +435,7 @@ const PRESETS = [
  // Exact original positions are not verified; some footprints remain provisional.
  {id:'starter-clover',name:'幸運のクローバー',alias:'Lucky Clover',category:'アクセサリー',type:'item',shape:[[0,0]],stars:[],verified:'初期装備名確認／1マス',origin:'Backpack Battles Wiki クラス'},
  {id:'starter-herbs',name:'癒しのハーブ',alias:'Healing Herbs',category:'アクセサリー',type:'item',shape:[[0,0]],stars:[],verified:'初期装備名確認／1マス',origin:'Backpack Battles Wiki クラス'},
- {id:'starter-stone',name:'石',alias:'Stone',category:'武器',type:'item',shape:[[0,0]],stars:[],verified:'初期装備名と1マス確認',origin:'Backpack Battles Wiki / Item Database'},
+ {"id":"starter-stone","name":"石","alias":"Stone","category":"武器","type":"item","shape":[[0,0]],"stars":[],"verified":"本体1×1・☆◇△⚡なしを確認済み（2026-10-21）","origin":"ホタテくん確認済み登録JSON（2026-10-21）／日本語Wiki「石」","className":"共通","tags":["自然","遠隔"],"price":1,"rarity":"コモン","socketCount":0,"buffs":["シールド"],"debuffs":[],"note":"自然・遠隔、価格1G、ソケット0。命中時に相手のシールドを4破壊（獲得ではない）。バフ関連「シールド」は破壊対象、デバフなし。"},
  {id:'starter-hammer',name:'鍛冶屋のハンマー',alias:'Forging Hammer',category:'武器',type:'item',shape:[[0,0],[0,1]],stars:null,verified:'初期装備名確認／形状暫定',note:'形状は仮登録。原作画面との再照合が必要です。',origin:'Backpack Battles Wiki クラス'},
  {id:'starter-flame',name:'フレイム',alias:'Flame',category:'アクセサリー',type:'item',shape:[[0,0]],stars:[],verified:'初期装備名確認／1マス',origin:'Backpack Battles Wiki クラス'},
  {id:'starter-shell',name:'輝く殻',alias:'Shiny Shell',category:'アクセサリー',type:'item',shape:[[0,0]],stars:null,verified:'初期装備名と1マス確認／☆未確認',origin:'Backpack Battles Wiki / Item Database'},
