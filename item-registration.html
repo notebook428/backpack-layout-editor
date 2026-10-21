@@ -11,7 +11,7 @@
 #priceExtra,#socketsExtra{margin-top:6px}
 .sub{color:#b5c4d9;font-size:12px}.buttons{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0}.buttons button,.tool{background:#34486a;color:var(--text);border:1px solid #7083aa;border-radius:7px;cursor:pointer;padding:7px 9px;font:inherit}.tool.on,.buttons button.main{background:#725c9a;border-color:#cdb7ef}.boardwrap{overflow:auto;border:1px solid var(--border);background:#0e192c;border-radius:9px;padding:8px}.board{display:grid;grid-template-columns:repeat(21,27px);grid-template-rows:repeat(17,27px);width:max-content}.sq{width:27px;height:27px;background:#1b2a43;border:1px solid #3a4c67;color:#ffe7b0;font-size:15px;padding:0;cursor:crosshair}.sq:nth-child(2n){background:#21314b}.sq.body{background:#6c92be;border-color:#a5c7e4}.sq:hover{filter:brightness(1.4)}.status{display:grid;grid-template-columns:55px 1fr;gap:8px;align-items:center;margin:7px 0}.status select{padding:5px}.note{font-size:12px;color:#bfd1e4;background:#102137;border:1px solid var(--border);padding:9px;border-radius:7px;margin:9px 0}.baglist{max-height:150px;overflow:auto}.baglist label{display:block;font-size:12px}#candidate{max-width:100%}#catalogInfo{margin-bottom:12px}.prefilled{color:#d5bbfa}#out{width:100%;height:320px;font:12px/1.4 ui-monospace,Consolas,monospace;resize:vertical}footer{font-size:12px;color:#a9bed4}@media(max-width:1160px){main{grid-template-columns:310px minmax(430px,1fr)}main .panel:last-child{grid-column:1/-1}}@media(max-width:750px){main{display:block;padding:8px}main .panel{margin-bottom:12px}header{padding:12px}}
 </style></head><body>
-<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.3.1</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
+<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.4.0</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
 <section class="panel"><h2>① 基本情報</h2>
 <div class="note">既存の登録データから事前入力できます。候補を検索して読み込むだけで、IDや名前、既知の形状を反映するよ。</div><label class="field"><span>登録済みアイテムを検索（名前・英語名・ID）</span><input id="lookup" placeholder="例：フェドーラ帽 / Fedora"></label><label class="field"><span>候補一覧</span><select id="candidate" aria-label="候補のアイテム"><option value="">候補データを読み込み中...</option></select></label><div class="buttons"><button id="applyCandidate" class="main" type="button">既存情報を入力欄に反映</button></div><div id="catalogInfo" class="sub" role="status">データベースを確認中</div>
 
@@ -19,6 +19,8 @@
 <fieldset class="pick-panel"><legend>クラス</legend><input type="hidden" id="klass"><div class="choices" id="klassChoices"></div><label class="field more-field" id="klassMore" hidden><span>その他のクラス</span><input id="klassExtra" placeholder="クラス名を入力"></label></fieldset>
 <fieldset class="pick-panel"><legend>アイテム分類</legend><input type="hidden" id="category"><div class="choices" id="categoryChoices"></div><label class="field more-field" id="categoryMore" hidden><span>その他の分類</span><input id="categoryExtra" placeholder="分類を入力"></label></fieldset>
 <fieldset class="pick-panel"><legend>属性・タグ（複数選択可）</legend><input type="hidden" id="tags"><div class="choices" id="tagChoices"></div><label class="field"><span>その他のタグ（カンマ区切り）</span><input id="tagsExtra" placeholder="一覧にない属性があれば入力"></label></fieldset>
+<fieldset class="pick-panel"><legend>関連するバフ（8種類・複数選択可）</legend><div class="choices" id="buffChoices"></div><label class="field"><span>確認状況</span><select id="buffStatus"><option value="unknown">未確認</option><option value="confirmed">確認済み（チェックした項目）</option><option value="none">該当なし（確認済み）</option></select></label></fieldset>
+<fieldset class="pick-panel"><legend>関連するデバフ（3種類・複数選択可）</legend><div class="choices" id="debuffChoices"></div><label class="field"><span>確認状況</span><select id="debuffStatus"><option value="unknown">未確認</option><option value="confirmed">確認済み（チェックした項目）</option><option value="none">該当なし（確認済み）</option></select></label></fieldset>
 <div class="two">
 <label class="field"><span>値段（G）</span><input type="hidden" id="price"><select id="priceChoice" aria-label="価格を選択"></select><input id="priceExtra" type="number" min="0" step="1" placeholder="金額を入力" hidden></label>
 <label class="field"><span>ソケット数</span><input type="hidden" id="sockets"><select id="socketsChoice" aria-label="ソケット数を選択"></select><input id="socketsExtra" type="number" min="0" step="1" placeholder="個数を入力" hidden></label>
@@ -30,17 +32,19 @@
 'use strict';
 const $=id=>document.getElementById(id),W=21,H=17,SYMS=['☆','◇','◆','□','△','▲'],KEYS=['stars','hollowDiamonds','diamonds','squares','triangles','filledTriangles'],FIELDS=['ja','en','id','klass','category','tags','price','rarity','sockets','origin','note'],key=(x,y)=>x+','+y,xy=s=>s.split(',').map(Number);
 let body=new Set(),marks=KEYS.map(()=>new Set()),states=KEYS.map(()=>'unknown'),bodyState='unknown',tool='body',editor=null;
+let effectChoices={buffs:new Set(),debuffs:new Set()},effectStatus={buffs:'unknown',debuffs:'unknown'};
 const sort=s=>[...s].map(xy).sort((a,b)=>a[1]-b[1]||a[0]-b[0]);
 const values=()=>Object.fromEntries(FIELDS.map(k=>[k,$(k).value]));
 const valid=([x,y])=>Number.isInteger(x)&&Number.isInteger(y)&&x>=0&&x<W&&y>=0&&y<H;
-function save(){try{localStorage.setItem('recho-item-entry-v1',JSON.stringify({values:values(),body:[...body],marks:marks.map(m=>[...m]),states,bodyState}))}catch(e){}}
-function reset(){body=new Set();marks=KEYS.map(()=>new Set());states=KEYS.map(()=>'unknown');bodyState='unknown'}
+function save(){try{localStorage.setItem('recho-item-entry-v1',JSON.stringify({values:values(),body:[...body],marks:marks.map(m=>[...m]),states,bodyState,effectChoices:{buffs:[...effectChoices.buffs],debuffs:[...effectChoices.debuffs]},effectStatus}))}catch(e){}}
+function reset(){body=new Set();marks=KEYS.map(()=>new Set());states=KEYS.map(()=>'unknown');bodyState='unknown';effectChoices={buffs:new Set(),debuffs:new Set()};effectStatus={buffs:'unknown',debuffs:'unknown'}}
 function geometry(){const a=sort(body);if(!a.length)return null;const x=Math.min(...a.map(v=>v[0])),y=Math.min(...a.map(v=>v[1]));return {shape:a.map(v=>[v[0]-x,v[1]-y]),size:{width:Math.max(...a.map(v=>v[0]))-x+1,height:Math.max(...a.map(v=>v[1]))-y+1,occupied:a.length},marks:marks.map(m=>sort(m).map(v=>[v[0]-x,v[1]-y]))};}
 const str=id=>$(id).value.trim()||null,num=id=>$(id).value.trim()===''?null:Number($(id).value);
-function data(){const g=geometry(),extra={};KEYS.forEach((k,i)=>extra[k]=!g||states[i]==='unknown'?null:states[i]==='none'?[]:g.marks[i]);return {format:'recho-item-registration',version:1,id:str('id'),name:str('ja'),alias:str('en'),className:str('klass'),category:str('category'),tags:[...new Set($('tags').value.split(/[,、\n]/).map(s=>s.trim()).filter(Boolean))],price:num('price'),rarity:str('rarity'),socketCount:num('sockets'),shape:g?.shape||null,size:g?.size||null,...extra,review:{shape:bodyState,markers:Object.fromEntries(KEYS.map((k,i)=>[k,states[i]]))},origin:str('origin'),note:str('note')};}
-function missing(d){const a=[];[['name','日本語名'],['alias','英語名'],['id','ID'],['className','クラス'],['category','分類'],['shape','本体']].forEach(([k,label])=>{if(!d[k])a.push(label)});if(d.id&&!/^[A-Za-z0-9_-]+$/.test(d.id))a.push('ID書式');if(d.shape&&bodyState!=='confirmed')a.push('本体の確認');KEYS.forEach((k,i)=>{if(states[i]==='unknown')a.push(SYMS[i]+'有無');if(states[i]==='draft')a.push(SYMS[i]+'の確認')});return a}
+function data(){const g=geometry(),extra={};KEYS.forEach((k,i)=>extra[k]=!g||states[i]==='unknown'?null:states[i]==='none'?[]:g.marks[i]);return {format:'recho-item-registration',version:1,id:str('id'),name:str('ja'),alias:str('en'),className:str('klass'),category:str('category'),tags:[...new Set($('tags').value.split(/[,、\n]/).map(s=>s.trim()).filter(Boolean))],price:num('price'),rarity:str('rarity'),socketCount:num('sockets'),buffs:effectStatus.buffs==='unknown'?null:[...effectChoices.buffs],debuffs:effectStatus.debuffs==='unknown'?null:[...effectChoices.debuffs],shape:g?.shape||null,size:g?.size||null,...extra,review:{shape:bodyState,markers:Object.fromEntries(KEYS.map((k,i)=>[k,states[i]])),effects:{...effectStatus}},origin:str('origin'),note:str('note')};}
+function missing(d){const a=[];[['name','日本語名'],['alias','英語名'],['id','ID'],['className','クラス'],['category','分類'],['shape','本体']].forEach(([k,label])=>{if(!d[k])a.push(label)});if(d.id&&!/^[A-Za-z0-9_-]+$/.test(d.id))a.push('ID書式');if(d.shape&&bodyState!=='confirmed')a.push('本体の確認');KEYS.forEach((k,i)=>{if(states[i]==='unknown')a.push(SYMS[i]+'有無');if(states[i]==='draft')a.push(SYMS[i]+'の確認')});if(effectStatus.buffs==='unknown')a.push('バフの関係');if(effectStatus.debuffs==='unknown')a.push('デバフの関係');return a}
 function paint(){
 syncControls();
+syncEffectControls();
 for(const b of $('board').children){const k=key(+b.dataset.x,+b.dataset.y);b.classList.toggle('body',body.has(k));b.textContent=SYMS.filter((s,i)=>marks[i].has(k)).join('')}
 $('bodyStatus').value=bodyState;KEYS.forEach((k,i)=>{$('s'+i).value=states[i];$('c'+i).textContent=marks[i].size});
 const d=data();$('out').value=JSON.stringify(d,null,2);$('size').textContent=d.size?d.size.width+'×'+d.size.height+' / '+d.size.occupied+'マス':'本体未入力';const m=missing(d);$('check').textContent=m.length?'確認待ち：'+m.join('、'):'必要項目を確認済み';save();
@@ -52,7 +56,7 @@ KEYS.forEach((k,i)=>{const div=document.createElement('label');div.className='st
 function rotate(x,y,r){return r===0?[x,y]:r===1?[-y,x]:r===2?[-x,-y]:[y,-x]}
 function importEditor(d){if(d.format!=='recho-backpack-editor'||d.grid?.width!==9||d.grid?.height!==7||!Array.isArray(d.bags)||!Array.isArray(d.debugMarks))throw Error('9×7エディタJSONが必要');editor=d;const defs=new Map((d.definitions||[]).map(p=>[p.id,p]));$('bagList').replaceChildren();d.bags.forEach((b,i)=>{const l=document.createElement('label'),c=document.createElement('input');c.type='checkbox';c.checked=true;c.value=i;c.className='bagSelect';l.append(c,document.createTextNode(' '+(defs.get(b.presetId)?.name||b.presetId)+' ('+b.x+','+b.y+')'));$('bagList').append(l)});$('importBox').hidden=false}
 function applyImport(){if(!editor)return;const defs=new Map((editor.definitions||[]).map(p=>[p.id,p])),a=[];document.querySelectorAll('.bagSelect:checked').forEach(c=>{const b=editor.bags[+c.value],p=defs.get(b.presetId);if(!p?.shape)throw Error('バッグ定義がない');const raw=p.shape.map(q=>rotate(q[0],q[1],b.rot)),mx=Math.min(...raw.map(v=>v[0])),my=Math.min(...raw.map(v=>v[1]));raw.forEach(([x,y])=>a.push([b.x+x-mx,b.y+y-my]))});if(!a.length)throw Error('バッグを選んでね');const dx=6-Math.min(...a.map(v=>v[0])),dy=6-Math.min(...a.map(v=>v[1]));const b=new Set(a.map(([x,y])=>key(x+dx,y+dy))),m=KEYS.map(()=>new Set());editor.debugMarks.forEach(v=>{const i=SYMS.indexOf(v.symbol);if(i>=0)m[i].add(key(v.x+dx,v.y+dy))});if(![...b,...m.flatMap(v=>[...v])].map(xy).every(valid))throw Error('盤面内に収まらない');body=b;marks=m;bodyState='draft';states=m.map(v=>v.size?'draft':'unknown');paint()}
-function openEntry(d){if(d.format!=='recho-item-registration'||!d.shape?.length)throw Error('本体形状入りの登録JSONが必要');const x0=Math.min(...d.shape.map(v=>v[0])),y0=Math.min(...d.shape.map(v=>v[1])),dx=6-x0,dy=6-y0,b=new Set(d.shape.map(v=>key(v[0]+dx,v[1]+dy))),m=KEYS.map(k=>new Set((d[k]||[]).map(v=>key(v[0]+dx,v[1]+dy))));if(![...b,...m.flatMap(v=>[...v])].map(xy).every(valid))throw Error('盤面からはみ出す');body=b;marks=m;bodyState=d.review?.shape||'draft';states=KEYS.map((k,i)=>d.review?.markers?.[k]||(d[k]===null?'unknown':m[i].size?'draft':'none'));const v={ja:d.name,en:d.alias,id:d.id,klass:d.className,category:d.category,tags:(d.tags||[]).join(', '),price:d.price,rarity:d.rarity,sockets:d.socketCount,origin:d.origin,note:d.note};FIELDS.forEach(f=>$(f).value=v[f]??'');Object.keys(customActive).forEach(k=>customActive[k]=false);paint()}
+function openEntry(d){if(d.format!=='recho-item-registration'||!d.shape?.length)throw Error('本体形状入りの登録JSONが必要');const x0=Math.min(...d.shape.map(v=>v[0])),y0=Math.min(...d.shape.map(v=>v[1])),dx=6-x0,dy=6-y0,b=new Set(d.shape.map(v=>key(v[0]+dx,v[1]+dy))),m=KEYS.map(k=>new Set((d[k]||[]).map(v=>key(v[0]+dx,v[1]+dy))));if(![...b,...m.flatMap(v=>[...v])].map(xy).every(valid))throw Error('盤面からはみ出す');body=b;marks=m;bodyState=d.review?.shape||'draft';states=KEYS.map((k,i)=>d.review?.markers?.[k]||(d[k]===null?'unknown':m[i].size?'draft':'none'));const v={ja:d.name,en:d.alias,id:d.id,klass:d.className,category:d.category,tags:(d.tags||[]).join(', '),price:d.price,rarity:d.rarity,sockets:d.socketCount,origin:d.origin,note:d.note};FIELDS.forEach(f=>$(f).value=v[f]??'');Object.keys(customActive).forEach(k=>customActive[k]=false);loadEffects(d);paint()}
 async function readFile(e,cb){const f=e.target.files?.[0];e.target.value='';if(!f)return;try{if(f.size>3000000)throw Error('JSONが大きすぎる');cb(JSON.parse(await f.text()))}catch(err){alert('読み込み失敗：'+err.message)}}
 async function copy(text){try{await navigator.clipboard.writeText(text);$('message').textContent='コピーできたよ。チャットに貼り付けてね'}catch(e){$('out').focus();$('out').select();$('message').textContent='出力欄を選択したよ。Ctrl+Cでコピーしてね'}}
 function download(){const u=URL.createObjectURL(new Blob([$('out').value],{type:'application/json'})),a=document.createElement('a');a.href=u;a.download=($('id').value.trim().replace(/[^A-Za-z0-9_-]/g,'_')||'item-draft')+'.registration.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),2000)}
@@ -64,10 +68,10 @@ $('copyJSON').addEventListener('click',()=>copy($('out').value));$('copyText').a
 
 const RADIO_OPTIONS={
  klass:['共通','レンジャー','リーパー','バーサーカー','パイロマンサー','メイジ','アドベンチャラー','エンジニア','プリーステス'],
- category:['武器','防具','バッグ','食べ物','ペット','アクセサリー','ポーション','宝石','スキル','カード'],
+ category:['武器','防具','バッグ','食べ物','ペット','アクセサリー','ポーション','宝石','スキル','カード','チェスの駒'],
  rarity:['コモン','レア','エピック','レジェンダリー','ゴッド','ユニーク']
 };
-const TAG_OPTIONS=['自然','神聖','暗黒','魔法','火炎','氷結','吸血','音楽','毒','ヒート','ラック','エンパワー'];
+const TAG_OPTIONS=['自然','神聖','暗黒','魔法','火炎','氷結','吸血','音楽','毒','ヒート','ラック','エンパワー','近接','遠隔','効果'];
 const numericOptions={price:[...Array.from({length:41},(_,i)=>String(i)),'50','60','70','80','90','100'],sockets:Array.from({length:11},(_,i)=>String(i))};
 const customActive={klass:false,category:false,rarity:false,price:false,sockets:false};
 function addOption(parent,value,label){
@@ -146,12 +150,67 @@ function syncControls(){
 }
 function buildPickerControls(){
  for(const id of ['klass','category','rarity'])makeRadioField(id);
- makeTagField();
+ makeTagField();makeEffectControls();
  for(const id of ['price','sockets'])makeNumericField(id);
+}
+
+const EFFECT_TYPES={
+ buffs:['シールド','リジェネ','幸運','トゲ','吸血','マナ','ヒート','強化'],
+ debuffs:['毒','目くらまし','フリーズ']
+};
+function syncEffectControls(){
+ for(const [type,options] of Object.entries(EFFECT_TYPES)){
+  const chosen=effectChoices[type];
+  for(const cb of document.querySelectorAll('input[data-effect="'+type+'"]'))cb.checked=chosen.has(cb.value);
+  $(type==='buffs'?'buffStatus':'debuffStatus').value=effectStatus[type];
+ }
+}
+function makeEffectControls(){
+ for(const [type,options] of Object.entries(EFFECT_TYPES)){
+  const wrap=$(type==='buffs'?'buffChoices':'debuffChoices');
+  for(const labelText of options){
+   const label=document.createElement('label');label.className='pick-chip';
+   const cb=document.createElement('input');cb.type='checkbox';cb.value=labelText;cb.dataset.effect=type;
+   const caption=document.createElement('span');caption.textContent=labelText;
+   label.append(cb,caption);wrap.append(label);
+   cb.addEventListener('change',()=>{
+    if(cb.checked)effectChoices[type].add(labelText);
+    else effectChoices[type].delete(labelText);
+    effectStatus[type]=effectChoices[type].size?'confirmed':'unknown';
+    paint();
+   });
+  }
+  const select=$(type==='buffs'?'buffStatus':'debuffStatus');
+  select.addEventListener('change',()=>{
+   if(select.value==='none'||select.value==='unknown')effectChoices[type].clear();
+   effectStatus[type]=select.value;
+   paint();
+  });
+ }
+}
+function loadEffects(d){
+ for(const type of ['buffs','debuffs']){
+  const valid=EFFECT_TYPES[type];
+  const values=Array.isArray(d[type])?d[type].filter(v=>valid.includes(v)):[];
+  effectChoices[type]=new Set(values);
+  const oldState=d.review?.effects?.[type];
+  effectStatus[type]=['unknown','confirmed','none'].includes(oldState)?oldState:(Array.isArray(d[type])?(values.length?'confirmed':'none'):'unknown');
+  if(effectStatus[type]==='none'||effectStatus[type]==='unknown')effectChoices[type].clear();
+ }
+}
+function loadEffectsDraft(o){
+ for(const type of ['buffs','debuffs']){
+  const valid=EFFECT_TYPES[type];
+  const entries=Array.isArray(o.effectChoices?.[type])?o.effectChoices[type].filter(x=>valid.includes(x)):[];
+  effectChoices[type]=new Set(entries);
+  const status=o.effectStatus?.[type];
+  effectStatus[type]=['unknown','confirmed','none'].includes(status)?status:'unknown';
+  if(effectStatus[type]==='none'||effectStatus[type]==='unknown')effectChoices[type].clear();
+ }
 }
 buildPickerControls();
 
-try{const s=localStorage.getItem('recho-item-entry-v1');if(s){const o=JSON.parse(s);FIELDS.forEach(f=>$(f).value=o.values?.[f]??'');body=new Set(o.body||[]);marks=KEYS.map((k,i)=>new Set(o.marks?.[i]||[]));states=o.states||states;bodyState=o.bodyState||bodyState}}catch(e){}paint();
+try{const s=localStorage.getItem('recho-item-entry-v1');if(s){const o=JSON.parse(s);FIELDS.forEach(f=>$(f).value=o.values?.[f]??'');body=new Set(o.body||[]);marks=KEYS.map((k,i)=>new Set(o.marks?.[i]||[]));states=o.states||states;bodyState=o.bodyState||bodyState;loadEffectsDraft(o)}}catch(e){}paint();
 window.__itemRegisterTest={data,geometry,missing,change,importEditor,applyImport,openEntry};
 
 const look=$('lookup'),candidate=$('candidate'),catalogInfo=$('catalogInfo');
