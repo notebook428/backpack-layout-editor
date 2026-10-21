@@ -28,7 +28,7 @@ header{padding:12px}
 
 <label class="field"><span>日本語名（必須）</span><input id="ja" placeholder="フェドーラ帽"></label><label class="field"><span>英語名（必須）</span><input id="en" placeholder="Fedora"></label><label class="field"><span>ID（既存データを優先。新規のみ自動発行）</span><input id="id" placeholder="自動で取得・発行できます"></label><div class="buttons"><button type="button" id="makeId">IDを自動で決める</button></div>
 <fieldset class="pick-panel"><legend>クラス</legend><input type="hidden" id="klass"><div class="choices" id="klassChoices"></div><label class="field more-field" id="klassMore" hidden><span>その他のクラス</span><input id="klassExtra" placeholder="クラス名を入力"></label></fieldset>
-<fieldset class="pick-panel"><legend>アイテム分類</legend><input type="hidden" id="category"><div class="choices" id="categoryChoices"></div><div class="sub">旧データの「防具」は原作の独立分類ではないため、盾・鎧・兜・靴から選び直してね。</div><label class="field more-field" id="categoryMore" hidden><span>その他の分類</span><input id="categoryExtra" placeholder="分類を入力"></label></fieldset>
+<fieldset class="pick-panel"><legend>アイテム分類</legend><input type="hidden" id="category"><div class="choices" id="categoryChoices"></div><div class="sub">旧データの「防具」は原作の独立分類ではないため、盾・鎧・兜・靴・手袋から選び直してね。</div><label class="field more-field" id="categoryMore" hidden><span>その他の分類</span><input id="categoryExtra" placeholder="分類を入力"></label></fieldset>
 <fieldset class="pick-panel"><legend>属性・タグ（複数選択可）</legend><input type="hidden" id="tags"><div class="choices" id="tagChoices"></div><label class="field"><span>その他のタグ（カンマ区切り）</span><input id="tagsExtra" placeholder="一覧にない属性があれば入力"></label><label class="field"><span>確認状況</span><select id="tagStatus"><option value="unknown">未確認</option><option value="confirmed">確認済み（選択したタグ）</option><option value="none">該当なし（確認済み）</option></select></label></fieldset>
 <fieldset class="pick-panel"><legend>関連するバフ（8種類・複数選択可）</legend><div class="choices" id="buffChoices"></div><label class="field"><span>確認状況</span><select id="buffStatus"><option value="unknown">未確認</option><option value="confirmed">確認済み（チェックした項目）</option><option value="none">該当なし（確認済み）</option></select></label></fieldset>
 <fieldset class="pick-panel"><legend>関連するデバフ（3種類・複数選択可）</legend><div class="choices" id="debuffChoices"></div><label class="field"><span>確認状況</span><select id="debuffStatus"><option value="unknown">未確認</option><option value="confirmed">確認済み（チェックした項目）</option><option value="none">該当なし（確認済み）</option></select></label></fieldset>
@@ -61,7 +61,7 @@ function missing(d){
   if(!d[key])a.push(label+'が未確認');
  }
  if(d.id&&!/^[A-Za-z0-9_-]{1,90}$/.test(d.id))a.push('IDの形式が不正');
- if(d.category==='防具')a.push('旧分類「防具」は使用できません。盾・鎧・兜・靴から選び直してね');
+ if(d.category==='防具')a.push('旧分類「防具」は使用できません。盾・鎧・兜・靴・手袋から選び直してね');
  if(d.price===null||!Number.isInteger(d.price)||d.price<0)a.push('値段が未確認・不正');
  if(d.socketCount===null||!Number.isInteger(d.socketCount)||d.socketCount<0)a.push('ソケット数が未確認・不正');
  if(d.shape&&bodyState!=='confirmed')a.push('本体形状の最終確認');
@@ -102,7 +102,7 @@ $('copyJSON').addEventListener('click',()=>{if(allowExport())copy($('out').value
 
 const RADIO_OPTIONS={
  klass:['共通','レンジャー','リーパー','バーサーカー','パイロマンサー','メイジ','アドベンチャラー','エンジニア','プリーステス'],
- category:['武器','盾','鎧','兜','靴','バッグ','食べ物','ペット','アクセサリー','ポーション','宝石','スキル','カード','チェスの駒'],
+ category:['武器','盾','鎧','兜','靴','手袋','バッグ','食べ物','ペット','アクセサリー','ポーション','宝石','スキル','カード','チェスの駒'],
  rarity:['コモン','レア','エピック','レジェンダリー','ゴッド','ユニーク']
 };
 const TAG_OPTIONS=['自然','神聖','暗黒','魔法','火炎','氷結','吸血','音楽','毒','ヒート','ラック','エンパワー','近接','遠隔','効果'];
