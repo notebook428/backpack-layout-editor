@@ -29573,6 +29573,947 @@
       "type": "item",
       "bagGroup": "アドベンチャラー・食べ物",
       "verified": "本体2×3（占有6マス）・☆10個・◇0個・△0個・⚡0個、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "adventurer-boomerang",
+      "name": "ブーメラン",
+      "alias": "Boomerang",
+      "className": "アドベンチャラー",
+      "category": "武器",
+      "tags": [
+        "遠隔",
+        "遠距離"
+      ],
+      "price": 8,
+      "rarity": "レア",
+      "socketCount": 2,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 3
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」（2026-10-15更新・2026-10-22照合）／The Backpack Battles Wiki「Adventurer」「Items」「Subclass」（2026-10-22照合）",
+      "note": "5分プロトコル・アドベンチャラー第1回。確認済み基本データのみ登録。 本体2×2（占有3マス）・☆0個・◇0個・△0個・⚡0個、ソケット2、バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "アドベンチャラー・武器",
+      "verified": "本体2×2・占有3マス、☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット2・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "adventurer-daggerang",
+      "name": "ダガーラン",
+      "alias": "Daggerang",
+      "className": "アドベンチャラー",
+      "category": "武器",
+      "tags": [
+        "遠隔",
+        "遠距離"
+      ],
+      "price": 12,
+      "rarity": "エピック",
+      "socketCount": 2,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 3
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」（2026-10-15更新・2026-10-22照合）／The Backpack Battles Wiki「Adventurer」「Items」「Subclass」（2026-10-22照合）",
+      "note": "5分プロトコル・アドベンチャラー第1回。確認済み基本データのみ登録。 本体2×2（占有3マス）・☆0個・◇0個・△0個・⚡0個、ソケット2、バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "アドベンチャラー・武器",
+      "verified": "本体2×2・占有3マス、☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット2・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "adventurer-hero-shield",
+      "name": "英雄の盾",
+      "alias": "Hero Shield",
+      "className": "アドベンチャラー",
+      "category": "盾",
+      "tags": [],
+      "price": 10,
+      "rarity": "レア",
+      "socketCount": 1,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 4
+      },
+      "stars": [
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」「ブロッコツリー」（クラス一覧2026-10-15更新、2026-10-22確認）／The Backpack Battles Wiki「Items」「Adventurer」「Rainbow Goobert Gigabrocolomega」「Spin to Win」（2026-10-22照合）",
+      "note": "5分プロトコル・アドベンチャラー第2回。星の武器の与ダメージを上げる盾。 本体 本体2×2（占有4マス）・☆8個・◇0個・△0個・⚡0個、ソケット1、バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "アドベンチャラー・盾",
+      "verified": "本体2×2・占有4マス、☆8個・◇0個・△0個・⚡0個、分類・属性・ソケット1・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "adventurer-rope",
+      "name": "ロープ",
+      "alias": "Rope",
+      "className": "アドベンチャラー",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 4,
+      "rarity": "レア",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 1,
+        "occupied": 2
+      },
+      "stars": [
+        [
+          0,
+          1
+        ]
+      ],
+      "hollowDiamonds": [
+        [
+          2,
+          0
+        ]
+      ],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "confirmed",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」（2026-10-15更新・2026-10-22照合）／The Backpack Battles Wiki「Adventurer」「Items」「Subclass」（2026-10-22照合）",
+      "note": "5分プロトコル・アドベンチャラー第1回。確認済み基本データのみ登録。 本体2×1（占有2マス）・☆1個・◇1個・△0個・⚡0個、ソケット0、バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "アドベンチャラー・アクセサリー",
+      "verified": "本体2×1・占有2マス、☆1個・◇1個・△0個・⚡0個、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "adventurer-treasure-chest",
+      "name": "宝箱",
+      "alias": "Treasure Chest",
+      "className": "アドベンチャラー",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 7,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 4
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」（2026-10-15更新・2026-10-22照合）／The Backpack Battles Wiki「Adventurer」「Items」「Subclass」（2026-10-22照合）",
+      "note": "5分プロトコル・アドベンチャラー第1回。確認済み基本データのみ登録。 本体2×2（占有4マス）・☆0個・◇0個・△0個・⚡0個、ソケット0、バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "アドベンチャラー・アクセサリー",
+      "verified": "本体2×2・占有4マス、☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "adventurer-very-long-spear",
+      "name": "ベリーロングスピア",
+      "alias": "Very Long Spear",
+      "className": "アドベンチャラー",
+      "category": "武器",
+      "tags": [
+        "近接"
+      ],
+      "price": 14,
+      "rarity": "エピック",
+      "socketCount": 4,
+      "buffs": [
+        "シールド"
+      ],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 6,
+        "occupied": 6
+      },
+      "stars": [
+        [
+          0,
+          -3
+        ],
+        [
+          -1,
+          -2
+        ],
+        [
+          0,
+          -2
+        ],
+        [
+          1,
+          -2
+        ],
+        [
+          -2,
+          -1
+        ],
+        [
+          -1,
+          -1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          2,
+          -1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」（2026-10-15更新・2026-10-22照合）／The Backpack Battles Wiki「Adventurer」「Items」「Subclass」（2026-10-22照合）",
+      "note": "5分プロトコル・アドベンチャラー第1回。確認済み基本データのみ登録。 本体1×6（占有6マス）・☆9個・◇0個・△0個・⚡0個、ソケット4、バフ（シールド）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "アドベンチャラー・武器",
+      "verified": "本体1×6・占有6マス、☆9個・◇0個・△0個・⚡0個、分類・属性・ソケット4・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "adventurer-employee-uniform",
+      "name": "従業員の制服",
+      "alias": "Employee Uniform",
+      "className": "アドベンチャラー",
+      "category": "鎧",
+      "tags": [],
+      "price": 13,
+      "rarity": "エピック",
+      "socketCount": 2,
+      "buffs": [
+        "シールド"
+      ],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 3,
+        "occupied": 6
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」「ブロッコツリー」（クラス一覧2026-10-15更新、2026-10-22確認）／The Backpack Battles Wiki「Items」「Adventurer」「Rainbow Goobert Gigabrocolomega」「Spin to Win」（2026-10-22照合）",
+      "note": "5分プロトコル・アドベンチャラー第2回。バトル開始時シールド獲得・デバフ無効化。 本体 本体2×3（占有6マス）・☆0個・◇0個・△0個・⚡0個、ソケット2、バフ（シールド）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "アドベンチャラー・鎧",
+      "verified": "本体2×3・占有6マス、☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット2・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "adventurer-piggy-of-riches",
+      "name": "富のブタちゃん",
+      "alias": "Piggy of Riches",
+      "className": "アドベンチャラー",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 10,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 1,
+        "occupied": 2
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」（2026-10-15更新・2026-10-22照合）／The Backpack Battles Wiki「Adventurer」「Items」「Subclass」（2026-10-22照合）",
+      "note": "5分プロトコル・アドベンチャラー第1回。確認済み基本データのみ登録。 本体2×1（占有2マス）・☆0個・◇0個・△0個・⚡0個、ソケット0、バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "アドベンチャラー・アクセサリー",
+      "verified": "本体2×1・占有2マス、☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "adventurer-magic-ring",
+      "name": "魔法の指輪",
+      "alias": "Magic Ring",
+      "className": "アドベンチャラー",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 7,
+      "rarity": "レジェンダリー",
+      "socketCount": 0,
+      "buffs": [
+        "幸運",
+        "リジェネ",
+        "トゲ",
+        "マナ",
+        "ヒート",
+        "吸血",
+        "強化"
+      ],
+      "debuffs": [
+        "毒",
+        "目くらまし",
+        "フリーズ"
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」（2026-10-15更新・2026-10-22照合）／The Backpack Battles Wiki「Adventurer」「Items」「Subclass」（2026-10-22照合）",
+      "note": "5分プロトコル・アドベンチャラー第1回。確認済み基本データのみ登録。 本体1×1（占有1マス）・☆0個・◇0個・△0個・⚡0個、ソケット0、バフ（幸運、リジェネ、トゲ、マナ、ヒート、吸血、強化）・デバフ（毒、目くらまし、フリーズ）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "アドベンチャラー・アクセサリー",
+      "verified": "本体1×1・占有1マス、☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "adventurer-superior-ring",
+      "name": "至高の指輪",
+      "alias": "Superior Ring",
+      "className": "アドベンチャラー",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 14,
+      "rarity": "ゴッド",
+      "socketCount": 0,
+      "buffs": [
+        "幸運",
+        "リジェネ",
+        "トゲ",
+        "マナ",
+        "ヒート",
+        "吸血",
+        "強化"
+      ],
+      "debuffs": [
+        "毒",
+        "目くらまし",
+        "フリーズ"
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」（2026-10-15更新・2026-10-22照合）／The Backpack Battles Wiki「Adventurer」「Items」「Subclass」（2026-10-22照合）",
+      "note": "5分プロトコル・アドベンチャラー第1回。確認済み基本データのみ登録。 本体1×1（占有1マス）・☆0個・◇0個・△0個・⚡0個、ソケット0、バフ（幸運、リジェネ、トゲ、マナ、ヒート、吸血、強化）・デバフ（毒、目くらまし、フリーズ）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "アドベンチャラー・アクセサリー",
+      "verified": "本体1×1・占有1マス、☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "adventurer-impractically-large-bloodthorne",
+      "name": "あまりにも大きすぎるブラッドソーン",
+      "alias": "Impractically Large Bloodthorne",
+      "className": "アドベンチャラー",
+      "category": "武器",
+      "tags": [
+        "近接",
+        "吸血",
+        "自然"
+      ],
+      "price": 31,
+      "rarity": "ゴッド",
+      "socketCount": 5,
+      "buffs": [
+        "吸血",
+        "トゲ",
+        "リジェネ",
+        "強化"
+      ],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 4,
+        "occupied": 8
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」（2026-10-15更新・2026-10-22照合）／The Backpack Battles Wiki「Adventurer」「Items」「Subclass」（2026-10-22照合）",
+      "note": "5分プロトコル・アドベンチャラー第1回。確認済み基本データのみ登録。 本体2×4（占有8マス）・☆0個・◇0個・△0個・⚡0個、ソケット5、バフ（吸血、トゲ、リジェネ、強化）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "アドベンチャラー・武器",
+      "verified": "本体2×4・占有8マス、☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット5・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "adventurer-scissorswords",
+      "name": "シザーソード",
+      "alias": "Scissorswords",
+      "className": "アドベンチャラー",
+      "category": "武器",
+      "tags": [
+        "近接",
+        "神聖"
+      ],
+      "price": 23,
+      "rarity": "ゴッド",
+      "socketCount": 3,
+      "buffs": [
+        "幸運",
+        "リジェネ"
+      ],
+      "debuffs": [
+        "目くらまし"
+      ],
+      "shape": [
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "size": {
+        "width": 4,
+        "height": 3,
+        "occupied": 6
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」（2026-10-15更新・2026-10-22照合）／The Backpack Battles Wiki「Adventurer」「Items」「Subclass」（2026-10-22照合）",
+      "note": "5分プロトコル・アドベンチャラー第1回。確認済み基本データのみ登録。 価格履歴：旧24G → 現23G（2026-10-23登録JSON）。 本体4×3（占有6マス）・☆0個・◇0個・△0個・⚡0個、ソケット3、バフ（幸運、リジェネ）・デバフ（目くらまし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "アドベンチャラー・武器",
+      "verified": "本体4×3・占有6マス、☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット3・効果を登録JSONで確認済み（2026-10-23）。"
     }
   ]
 }
