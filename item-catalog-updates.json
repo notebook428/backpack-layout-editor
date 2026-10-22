@@ -28009,6 +28009,347 @@
         "メイジ",
         "アドベンチャラー"
       ]
+    },
+    {
+      "id": "mage-skill-super-awakening",
+      "name": "超覚醒",
+      "alias": "Ultima Ascension",
+      "className": "メイジ",
+      "category": "スキル",
+      "tags": [
+        "魔法"
+      ],
+      "price": 5,
+      "rarity": "ユニーク",
+      "socketCount": 0,
+      "buffs": [
+        "幸運",
+        "トゲ",
+        "シールド",
+        "リジェネ"
+      ],
+      "debuffs": [
+        "フリーズ"
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [
+        [
+          -2,
+          -3
+        ],
+        [
+          2,
+          -3
+        ],
+        [
+          -3,
+          -2
+        ],
+        [
+          -2,
+          -2
+        ],
+        [
+          -1,
+          -2
+        ],
+        [
+          1,
+          -2
+        ],
+        [
+          2,
+          -2
+        ],
+        [
+          3,
+          -2
+        ],
+        [
+          -2,
+          -1
+        ],
+        [
+          -1,
+          -1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          2,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          -2,
+          1
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          -3,
+          2
+        ],
+        [
+          -2,
+          2
+        ],
+        [
+          -1,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          -2,
+          3
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/メイジ」・各アイテムページ（2026-10-22照合）／The Backpack Battles Wiki「Mage」「Subclass」（2026-10-22照合）",
+      "note": "5分プロトコル・メイジ第4回。日英名称・分類・価格・レアリティ・属性と明記された効果を記録。星にある自然・氷結・神聖・暗黒アイテムに応じた効果。 英語名「Ultima Ascension」はThe Backpack Battles Wikiの専用ページ（2026-10-23照合）で確認。 本体1×1（占有1マス）・☆28個・◇0個・△⚡なし、ソケット0、バフ（幸運・トゲ・シールド・リジェネ）・デバフ（フリーズ）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "メイジ・スキル",
+      "verified": "本体1×1・占有1マス、☆28個・◇0個・△⚡なし、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。英語名「Ultima Ascension」を英語Wikiで照合済み。"
+    },
+    {
+      "id": "mage-water-elemental",
+      "name": "水のエレメンタル",
+      "alias": "Water Elemental",
+      "className": "メイジ",
+      "category": "武器",
+      "categories": [
+        "武器",
+        "ペット"
+      ],
+      "tags": [
+        "魔法",
+        "氷結",
+        "遠隔",
+        "効果"
+      ],
+      "price": 10,
+      "rarity": "ユニーク",
+      "socketCount": 1,
+      "buffs": [
+        "マナ"
+      ],
+      "debuffs": [
+        "フリーズ"
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 4
+      },
+      "stars": [
+        [
+          -4,
+          0
+        ],
+        [
+          -2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          -5,
+          1
+        ],
+        [
+          -3,
+          1
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          6,
+          1
+        ]
+      ],
+      "hollowDiamonds": [
+        [
+          -4,
+          -1
+        ],
+        [
+          -2,
+          -1
+        ],
+        [
+          3,
+          -1
+        ],
+        [
+          5,
+          -1
+        ],
+        [
+          -5,
+          0
+        ],
+        [
+          -3,
+          0
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          6,
+          0
+        ]
+      ],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "confirmed",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/メイジ」・各アイテムページ（2026-10-22照合）／The Backpack Battles Wiki「Mage」「Subclass」（2026-10-22照合）",
+      "note": "5分プロトコル・メイジ第4回。日英名称・分類・価格・レアリティ・属性と明記された効果を記録。ウォーターベンダーのサブクラスアイテム。武器・ペット複合分類。 本体2×2（占有4マス）・☆10個・◇10個・△⚡なし、ソケット1、バフ（マナ）・デバフ（フリーズ）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "メイジ・武器",
+      "verified": "本体2×2・占有4マス、☆10個・◇10個・△⚡なし、分類・属性・ソケット1・効果を登録JSONで確認済み（2026-10-23）。"
     }
   ]
 }
