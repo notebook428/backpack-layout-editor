@@ -31953,6 +31953,398 @@
       "buffs": [],
       "debuffs": [],
       "chargeMarks": []
+    },
+    {
+      "id": "starter-battery",
+      "name": "バッテリー",
+      "alias": "Battery",
+      "className": "エンジニア",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 2,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "confirmed"
+        },
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        },
+        "tags": "none"
+      },
+      "origin": "Editor built-in preset: Backpack Battles Wiki クラス／Backpack Battles Wiki*「クラス/エンジニア」「アイテム」（2026-10-15更新、2026-10-22照合）／The Backpack Battles Wiki「Engineer」（2026-10-22照合）",
+      "note": "初期装備名確認／（2026-10-22時点で形状暫定）／2026-10-22 エンジニア第1回で基本情報補完。当時の確認状況を記録。 本体1×1（占有1マス）・☆0個・◇0個・△0個・⚡4個、ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・アクセサリー",
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [
+        [
+          0,
+          -4
+        ],
+        [
+          0,
+          -3
+        ],
+        [
+          0,
+          -2
+        ],
+        [
+          0,
+          -1
+        ]
+      ],
+      "verified": "本体1×1（占有1マス）・☆0個・◇0個・△0個・⚡4個、分類・属性・ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "oldName": "パンのスライス",
+      "kind": "food",
+      "id": "base-bread",
+      "name": "食パン",
+      "alias": "Slice of Bread",
+      "className": "エンジニア",
+      "category": "食べ物",
+      "tags": [],
+      "price": 2,
+      "rarity": "レア",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        },
+        "tags": "none"
+      },
+      "origin": "Editor built-in preset: Backpack Battles Database／Backpack Battles Wiki*「クラス/エンジニア」「アイテム」（2026-10-15更新、2026-10-22照合）／The Backpack Battles Wiki「Engineer」（2026-10-22照合）",
+      "note": "本体確認／（2026-10-22時点で☆未確認）／2026-10-22 エンジニア第1回で基本情報補完。当時の確認状況を記録。 本体1×1（占有1マス）・☆0個・◇0個・△0個・⚡0個、ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・食べ物",
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "verified": "本体1×1（占有1マス）・☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "starter-resistor",
+      "name": "抵抗器",
+      "alias": "Resistor",
+      "className": "エンジニア",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 2,
+      "rarity": "レア",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        },
+        "tags": "none"
+      },
+      "origin": "Editor built-in preset: Backpack Battles Wiki クラス／Backpack Battles Wiki*「クラス/エンジニア」「アイテム」（2026-10-15更新、2026-10-22照合）／The Backpack Battles Wiki「Engineer」（2026-10-22照合）",
+      "note": "初期装備名確認／（2026-10-22時点で形状暫定）／2026-10-22 エンジニア第1回で基本情報補完。当時の確認状況を記録。 本体1×1（占有1マス）・☆0個・◇0個・△0個・⚡0個、ソケット0・バフ（ヒート）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・アクセサリー",
+      "buffs": [
+        "ヒート"
+      ],
+      "debuffs": [],
+      "chargeMarks": [],
+      "verified": "本体1×1（占有1マス）・☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（ヒート）・デバフ（なし）を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "starter-cog",
+      "name": "歯車",
+      "alias": "Cog",
+      "className": "エンジニア",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 2,
+      "rarity": "レア",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [
+        [
+          -1,
+          -1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        },
+        "tags": "none"
+      },
+      "origin": "Editor built-in preset: Backpack Battles Wiki / Item Database／Backpack Battles Wiki*「クラス/エンジニア」「アイテム」（2026-10-15更新、2026-10-22照合）／The Backpack Battles Wiki「Engineer」（2026-10-22照合）",
+      "note": "初期装備名と1マス確認／（2026-10-22時点で☆未確認）／2026-10-22 エンジニア第1回で基本情報補完。当時の確認状況を記録。 本体1×1（占有1マス）・☆8個・◇0個・△0個・⚡0個、ソケット0・バフ（シールド）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・アクセサリー",
+      "buffs": [
+        "シールド"
+      ],
+      "debuffs": [],
+      "chargeMarks": [],
+      "verified": "本体1×1（占有1マス）・☆8個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（シールド）・デバフ（なし）を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "engineer-mananana",
+      "name": "マナナ",
+      "alias": "Mananana",
+      "className": "エンジニア",
+      "category": "食べ物",
+      "tags": [
+        "魔法"
+      ],
+      "price": 3,
+      "rarity": "レア",
+      "socketCount": 0,
+      "buffs": [
+        "マナ"
+      ],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 3
+      },
+      "stars": [
+        [
+          0,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「アイテム」「クラス/エンジニア」「合成」（アイテム一覧2026-10-15更新／2026-10-22確認）／The Backpack Battles Wiki「Engineer」「Recipe」「Hypercube」（2026-10-22確認）",
+      "note": "5分プロトコル・エンジニア第2回。バナナ＋マナクリスタル。マナ消費により体力とスタミナを回復。日本語名は「マナナ」。 本体形状・☆◇△⚡座標は2026-10-22時点では未確認。 本体2×2（占有3マス）・☆7個・◇0個・△0個・⚡0個、ソケット0・バフ（マナ）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・食べ物",
+      "verified": "日英Wiki基本項目照合（2026-10-22）。形状・配置記号は2026-10-22時点では未確認。／本体2×2（占有3マス）・☆7個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（マナ）・デバフ（なし）を登録JSONで確認済み（2026-10-23）。"
     }
   ]
 }
