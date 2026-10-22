@@ -30,7 +30,7 @@ main .panel{margin-bottom:12px}
 header{padding:12px}
 }
 </style></head><body>
-<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.14</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
+<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.15</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
 <section class="panel"><h2>① 基本情報</h2>
 <div class="note">既存の登録データから事前入力できます。候補を検索して読み込むだけで、IDや名前、既知の形状を反映するよ。</div><label class="field"><span>登録済みアイテムを検索（名前・英語名・ID）</span><input id="lookup" placeholder="例：フェドーラ帽 / Fedora"></label><label class="field"><span>候補一覧</span><select id="candidate" aria-label="候補のアイテム"><option value="">候補データを読み込み中...</option></select></label><div class="buttons"><button id="applyCandidate" class="main" type="button">既存情報を入力欄に反映</button></div><div id="catalogInfo" class="sub" role="status">データベースを確認中</div>
 
@@ -56,7 +56,7 @@ header{padding:12px}
 <div class="buttons" id="directionButtons" aria-label="☆を編集する向き"></div>
 <div class="sub" id="directionStatus" aria-live="polite"></div>
 </div></div><div class="buttons"><button type="button" id="boardSizeToggle" title="保存する相対座標は変わりません">盤面を拡大（21×17）</button><span class="sub" id="boardViewportInfo">通常9×7表示・相対座標は共通</span></div><div class="boardwrap"><div id="board" class="board"></div></div><div class="sub" id="size">本体未入力</div><div class="buttons"><button id="clear">盤面をクリア</button></div><h3>記号の確認状態</h3><div class="sub">未確認と、存在しないことを確認した状態は区別するよ。</div><div class="status-radio-row"><span class="status-symbol">本体</span><div class="status-radio-group" id="bodyStatus" role="radiogroup" aria-label="本体形状の確認状況"></div></div><div id="statuses"></div><div class="buttons direction-bulk" id="directionBulk" hidden><button type="button" id="confirmAllDirections" class="main">✓ ☆4方向を一括確認</button><span class="sub">配置あり→確認済み／空→確認後「なし」</span></div><h3>配置エディタのJSONを取り込む</h3><div class="sub">元のエディタで「JSON保存」したファイルを選び、形状を表すバッグだけをチェックしてね。説明用マーカーも一緒に読み込めるよ。</div><input id="editorFile" type="file" accept=".json,application/json"><div id="importBox" hidden><div id="bagList" class="baglist"></div><div class="buttons"><button id="importGo">選択バッグ・マーカーを反映</button></div></div>
-</section><section class="panel"><h2>③ リコーに渡すデータ</h2><div class="note" id="check" role="alert" aria-live="polite">入力待ち</div><div class="buttons"><button class="main" id="copyText">リコー送信用にコピー</button></div><h3>ソースコード（登録JSON）</h3><textarea readonly id="out" spellcheck="false"></textarea><div class="buttons"><button id="copyJSON">JSONをコピー</button><button id="download">JSON保存</button></div><h3>保存した登録JSONを編集</h3><input id="entryFile" type="file" accept=".json,application/json"><div class="note">入力途中の下書きはこのブラウザ内に自動保存。別端末には同期されないから、確定後はJSON保存してね。</div><div class="buttons"><button id="new">次のアイテムを入力</button></div><div class="sub" id="message" role="status"></div></section>
+</section><section class="panel"><h2>③ リコーに渡すデータ</h2><div class="note" id="check" role="alert" aria-live="polite">入力待ち</div><div class="buttons"><button class="main" id="copyText">リコー送信用にコピー</button><button type="button" id="copySoundToggle" aria-pressed="true" title="コピー成功時の効果音を切り替える">🔊 通知音 ON</button></div><h3>ソースコード（登録JSON）</h3><textarea readonly id="out" spellcheck="false"></textarea><div class="buttons"><button id="copyJSON">JSONをコピー</button><button id="download">JSON保存</button></div><h3>保存した登録JSONを編集</h3><input id="entryFile" type="file" accept=".json,application/json"><div class="note">入力途中の下書きはこのブラウザ内に自動保存。別端末には同期されないから、確定後はJSON保存してね。</div><div class="buttons"><button id="new">次のアイテムを入力</button></div><div class="sub" id="message" role="status"></div></section>
 </div></main><footer>非公式ファン制作ツール。独自サーバーには入力情報を送信しません。<a href="info.html#privacy">プライバシー</a> · <a href="info.html#terms">利用規約</a></footer><script>
 (()=>{
 'use strict';
@@ -396,7 +396,57 @@ function openEntry(d){
 }
 async function readFile(e,cb){const f=e.target.files?.[0];e.target.value='';if(!f)return;try{if(f.size>3000000)throw Error('JSONが大きすぎる');cb(JSON.parse(await f.text()))}catch(err){alert('読み込み失敗：'+err.message)}}
 function allowExport(){const list=missing(data());return !list.length||confirm('⚠ 未確認・未完了の項目が '+list.length+' 件あります。\n'+list.join('、')+'\n\n未完成のデータとしてこのまま出力しますか？')}
-async function copy(text){try{await navigator.clipboard.writeText(text);$('message').textContent='コピーできたよ。チャットに貼り付けてね'}catch(e){$('out').focus();$('out').select();$('message').textContent='出力欄を選択したよ。Ctrl+Cでコピーしてね'}}
+let copySoundEnabled=true,copyAudioContext=null;
+try{copySoundEnabled=localStorage.getItem('recho-item-copy-sound-v1')!=='off'}catch(_){}
+function refreshCopySoundButton(){
+ $('copySoundToggle').textContent=copySoundEnabled?'🔊 通知音 ON':'🔇 通知音 OFF';
+ $('copySoundToggle').setAttribute('aria-pressed',String(copySoundEnabled));
+}
+$('copySoundToggle').addEventListener('click',()=>{
+ copySoundEnabled=!copySoundEnabled;
+ try{localStorage.setItem('recho-item-copy-sound-v1',copySoundEnabled?'on':'off')}catch(_){}
+ refreshCopySoundButton();
+});
+refreshCopySoundButton();
+// Initialize/resume audio in the original user-click gesture before awaiting clipboard permission.
+function prepareCopySound(){
+ if(!copySoundEnabled)return null;
+ try{
+  const AudioCtor=window.AudioContext||window.webkitAudioContext;
+  if(!AudioCtor)return null;
+  if(!copyAudioContext)copyAudioContext=new AudioCtor();
+  if(copyAudioContext.state==='suspended')copyAudioContext.resume().catch(()=>{});
+  return copyAudioContext;
+ }catch(_){return null}
+}
+function playCopySuccessSound(ctx){
+ if(!ctx||!copySoundEnabled||ctx.state!=='running')return;
+ try{
+  const start=ctx.currentTime+0.008;
+  // A small, soft two-note 'poron' chime. Web Audio needs no extra media files.
+  for(const [pitch,offset,duration] of [[783.99,0,0.13],[1046.50,0.095,0.17]]){
+   const oscillator=ctx.createOscillator(),volume=ctx.createGain();
+   oscillator.type='sine';
+   oscillator.frequency.setValueAtTime(pitch,start+offset);
+   volume.gain.setValueAtTime(0.0001,start+offset);
+   volume.gain.exponentialRampToValueAtTime(0.038,start+offset+0.012);
+   volume.gain.exponentialRampToValueAtTime(0.0001,start+offset+duration);
+   oscillator.connect(volume);volume.connect(ctx.destination);
+   oscillator.start(start+offset);oscillator.stop(start+offset+duration+0.01);
+  }
+ }catch(_){} // Clipboard success must not be affected if audio is unavailable.
+}
+async function copy(text){
+ const audio=prepareCopySound();
+ try{
+  await navigator.clipboard.writeText(text);
+  $('message').textContent='✓ コピー完了♪ チャットに貼り付けてね';
+  playCopySuccessSound(audio);
+ }catch(e){
+  $('out').focus();$('out').select();
+  $('message').textContent='コピーに失敗したので音は鳴らしていないよ。出力欄を選択したから、Ctrl+Cでコピーしてね';
+ }
+}
 function download(){if(!allowExport())return;const u=URL.createObjectURL(new Blob([$('out').value],{type:'application/json'})),a=document.createElement('a');a.href=u;a.download=($('id').value.trim().replace(/[^A-Za-z0-9_-]/g,'_')||'item-draft')+'.registration.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),2000)}
 FIELDS.forEach(f=>$(f).addEventListener('input',paint));
 $('editorFile').addEventListener('change',e=>readFile(e,importEditor));$('entryFile').addEventListener('change',e=>readFile(e,openEntry));$('importGo').addEventListener('click',()=>{try{applyImport()}catch(err){alert('取り込み失敗：'+err.message)}});
