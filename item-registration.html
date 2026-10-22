@@ -749,9 +749,14 @@ async function fetchCatalog(){
     const extra=await u.json();
     if(extra.format!=='recho-item-catalog-updates'||!Array.isArray(extra.records))throw Error('追加カタログ形式が違います');
     const merged=new Map(d.records.map(item=>[item.id,item]));
+    // Some confirmed entries use a new ID after migration from an older catalog.
+    // Keep the confirmed ID and avoid showing its superseded base record twice.
+    const migratedIds={'pyromancer-energy-conversion':'multiclass-energy-conversion'};
     for(const item of extra.records){
-      if(!item||typeof item.id!=='string'||!merged.has(item.id))throw Error('追加カタログのIDが不正です');
-      merged.set(item.id,{...merged.get(item.id),...item});
+      if(!item||typeof item.id!=='string'||!item.id.trim())throw Error('追加カタログのIDが不正です');
+      const oldId=migratedIds[item.id];
+      if(oldId&&merged.has(oldId))merged.delete(oldId);
+      merged.set(item.id,{...(merged.get(item.id)||{}),...item});
     }
     catalog=Array.from(merged.values());candidates();
   }catch(e){catalogInfo.textContent='登録済みデータを読み込めませんでした。通信状態を確認して再読み込みしてね。';candidate.replaceChildren();}
