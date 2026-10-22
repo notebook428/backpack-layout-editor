@@ -30,7 +30,7 @@ main .panel{margin-bottom:12px}
 header{padding:12px}
 }
 </style></head><body>
-<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.5</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
+<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.6</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
 <section class="panel"><h2>① 基本情報</h2>
 <div class="note">既存の登録データから事前入力できます。候補を検索して読み込むだけで、IDや名前、既知の形状を反映するよ。</div><label class="field"><span>登録済みアイテムを検索（名前・英語名・ID）</span><input id="lookup" placeholder="例：フェドーラ帽 / Fedora"></label><label class="field"><span>候補一覧</span><select id="candidate" aria-label="候補のアイテム"><option value="">候補データを読み込み中...</option></select></label><div class="buttons"><button id="applyCandidate" class="main" type="button">既存情報を入力欄に反映</button></div><div id="catalogInfo" class="sub" role="status">データベースを確認中</div>
 
@@ -55,7 +55,7 @@ header{padding:12px}
 <div class="buttons"><button type="button" id="confirmAllDirections" class="main">✓ 4方向の☆を一括確認</button></div>
 <div class="sub">☆のある向きは「確認済み」に、☆のない向きは「☆なし」にします。空欄がある場合は確認するよ。</div>
 <div class="sub" id="directionStatus" aria-live="polite"></div>
-</div></div><div class="boardwrap"><div id="board" class="board"></div></div><div class="sub" id="size">本体未入力</div><div class="buttons"><button id="clear">盤面をクリア</button></div><h3>記号の確認状態</h3><div class="sub">未確認と、存在しないことを確認した状態は区別するよ。</div><label class="status"><span>本体</span><select id="bodyStatus"><option value="unknown">未確認</option><option value="draft">入力済（要確認）</option><option value="confirmed">確認済み</option></select></label><div id="statuses"></div><h3>配置エディタのJSONを取り込む</h3><div class="sub">元のエディタで「JSON保存」したファイルを選び、形状を表すバッグだけをチェックしてね。説明用マーカーも一緒に読み込めるよ。</div><input id="editorFile" type="file" accept=".json,application/json"><div id="importBox" hidden><div id="bagList" class="baglist"></div><div class="buttons"><button id="importGo">選択バッグ・マーカーを反映</button></div></div>
+</div></div><div class="boardwrap"><div id="board" class="board"></div></div><div class="sub" id="size">本体未入力</div><div class="buttons"><button id="clear">盤面をクリア</button></div><h3>記号の確認状態</h3><div class="sub">未確認と、存在しないことを確認した状態は区別するよ。</div><div class="status-radio-row"><span class="status-symbol">本体</span><div class="status-radio-group" id="bodyStatus" role="radiogroup" aria-label="本体形状の確認状況"></div></div><div id="statuses"></div><h3>配置エディタのJSONを取り込む</h3><div class="sub">元のエディタで「JSON保存」したファイルを選び、形状を表すバッグだけをチェックしてね。説明用マーカーも一緒に読み込めるよ。</div><input id="editorFile" type="file" accept=".json,application/json"><div id="importBox" hidden><div id="bagList" class="baglist"></div><div class="buttons"><button id="importGo">選択バッグ・マーカーを反映</button></div></div>
 </section><section class="panel"><h2>③ リコーに渡すデータ</h2><div class="note" id="check" role="alert" aria-live="polite">入力待ち</div><textarea readonly id="out" spellcheck="false"></textarea><div class="buttons"><button class="main" id="copyText">リコー送信用にコピー</button><button id="copyJSON">JSONをコピー</button><button id="download">JSON保存</button></div><h3>保存した登録JSONを編集</h3><input id="entryFile" type="file" accept=".json,application/json"><div class="note">入力途中の下書きはこのブラウザ内に自動保存。別端末には同期されないから、確定後はJSON保存してね。</div><div class="buttons"><button id="new">次のアイテムを入力</button></div><div class="sub" id="message" role="status"></div></section>
 </div></main><footer>非公式ファン制作ツール。独自サーバーには入力情報を送信しません。<a href="info.html#privacy">プライバシー</a> · <a href="info.html#terms">利用規約</a></footer><script>
 (()=>{
@@ -139,7 +139,7 @@ $('directionStars').checked=rotationStarMode;$('directionStarControls').hidden=!
 for(const b of $('directionButtons').children){const selected=Number(b.dataset.rotation)===activeStarRotation;b.classList.toggle('on',selected);b.setAttribute('aria-pressed',String(selected))}
 $('directionStatus').textContent=rotationStarMode?DIRECTIONS.map((sym,i)=>sym+' '+({unknown:'未確認',draft:'要確認',confirmed:'確認済み',none:'☆なし'}[rotationStates[i]])+'('+starsPerRotation[i].size+')').join(' / '):'';
 for(const b of $('tools').children){b.disabled=rotationStarMode&&!['☆','erase'].includes(b.dataset.tool);b.classList.toggle('on',b.dataset.tool===tool)}
-$('bodyStatus').value=bodyState;KEYS.forEach((k,i)=>{
+syncBodyStatus();KEYS.forEach((k,i)=>{
  const current=i===0&&rotationStarMode?rotationStates[activeStarRotation]:states[i];
  $('c'+i).textContent=i===0&&rotationStarMode?starsPerRotation[activeStarRotation].size:marks[i].size;
  for(const radio of document.querySelectorAll('input[name="markerStatus'+i+'"]')){
@@ -164,6 +164,23 @@ for(let y=0;y<H;y++)for(let x=0;x<W;x++){const b=document.createElement('button'
 const MARKER_STATUS_OPTIONS=[
  ['unknown','未確認'],['draft','要確認'],['confirmed','確認済み'],['none','なし']
 ];
+const BODY_STATUS_OPTIONS=[
+ ['unknown','未確認'],['draft','要確認'],['confirmed','確認済み']
+];
+function syncBodyStatus(){
+ for(const radio of $('bodyStatus').querySelectorAll('input[type="radio"]'))radio.checked=radio.value===bodyState;
+}
+function createBodyStatusRadios(){
+ const group=$('bodyStatus');
+ for(const [value,caption] of BODY_STATUS_OPTIONS){
+  const label=document.createElement('label');label.className='status-option';
+  const radio=document.createElement('input');radio.type='radio';radio.name='bodyStatusChoice';radio.value=value;
+  const text=document.createElement('span');text.textContent=caption;
+  label.append(radio,text);group.append(label);
+  radio.addEventListener('change',()=>{if(!radio.checked)return;bodyState=value;paint()});
+ }
+}
+createBodyStatusRadios();
 function selectMarkerStatus(i,next){
  const directional=i===0&&rotationStarMode;
  const m=directional?starsPerRotation[activeStarRotation]:marks[i];
@@ -213,7 +230,7 @@ async function readFile(e,cb){const f=e.target.files?.[0];e.target.value='';if(!
 function allowExport(){const list=missing(data());return !list.length||confirm('⚠ 未確認・未完了の項目が '+list.length+' 件あります。\n'+list.join('、')+'\n\n未完成のデータとしてこのまま出力しますか？')}
 async function copy(text){try{await navigator.clipboard.writeText(text);$('message').textContent='コピーできたよ。チャットに貼り付けてね'}catch(e){$('out').focus();$('out').select();$('message').textContent='出力欄を選択したよ。Ctrl+Cでコピーしてね'}}
 function download(){if(!allowExport())return;const u=URL.createObjectURL(new Blob([$('out').value],{type:'application/json'})),a=document.createElement('a');a.href=u;a.download=($('id').value.trim().replace(/[^A-Za-z0-9_-]/g,'_')||'item-draft')+'.registration.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),2000)}
-FIELDS.forEach(f=>$(f).addEventListener('input',paint));$('bodyStatus').addEventListener('change',()=>{bodyState=$('bodyStatus').value;paint()});
+FIELDS.forEach(f=>$(f).addEventListener('input',paint));
 $('editorFile').addEventListener('change',e=>readFile(e,importEditor));$('entryFile').addEventListener('change',e=>readFile(e,openEntry));$('importGo').addEventListener('click',()=>{try{applyImport()}catch(err){alert('取り込み失敗：'+err.message)}});
 $('clear').addEventListener('click',()=>{if(confirm('盤面の本体と記号を消しますか？')){reset();paint()}});
 $('new').addEventListener('click',()=>{if(confirm('登録内容を消して次へ進む？ 必要なら先にJSON保存してね')){FIELDS.forEach(f=>$(f).value='');reset();resetEffects();tagStatus='unknown';Object.keys(customActive).forEach(k=>customActive[k]=false);paint()}});
