@@ -155,10 +155,13 @@ function confirmAllDirections(){
  $('message').textContent='4方向の☆を一括確認したよ。配置を修正した向きは再確認してね。';
 }
 const str=id=>$(id).value.trim()||null,num=id=>$(id).value.trim()===''?null:Number($(id).value);
-function data(){const g=geometry(),extra={};KEYS.forEach((k,i)=>extra[k]=!g||states[i]==='unknown'?null:states[i]==='none'?[]:g.marks[i]);if(rotationStarMode)extra.stars=directionalData()['0'];
-const dirReview=rotationStarMode?directionalReview():null;
-const starReview=rotationStarMode?(rotationStates.some(s=>s==='unknown')?'unknown':rotationStates.some(s=>s==='draft')?'draft':rotationStates.every(s=>s==='none')?'none':'confirmed'):states[0];
-return {format:'recho-item-registration',version:2,id:str('id'),name:str('ja'),alias:str('en'),className:str('klass'),category:selectedCategories[0]||null,...(selectedCategories.length>1?{categories:[...selectedCategories]}:{}),tags:[...new Set($('tags').value.split(/[,、\n]/).map(s=>s.trim()).filter(Boolean))],price:num('price'),rarity:str('rarity'),socketCount:num('sockets'),buffs:effectStatus.buffs==='unknown'?null:[...effectChoices.buffs],debuffs:effectStatus.debuffs==='unknown'?null:[...effectChoices.debuffs],shape:g?.shape||null,size:g?.size||null,...extra,...(rotationStarMode?{starsByRotation:directionalData()}:{}),review:{shape:bodyState,markers:Object.fromEntries(KEYS.map((k,i)=>[k,i===0?starReview:states[i]])),...(rotationStarMode?{starsByRotation:dirReview}:{}),tags:tagStatus,effects:{...effectStatus}},origin:str('origin'),note:str('note')};}
+function data(){
+ const g=geometry(),extra={};
+ KEYS.forEach((k,i)=>extra[k]=rotationStarMode?directionalData(i)['0']:!g||states[i]==='unknown'?null:states[i]==='none'?[]:g.marks[i]);
+ const directionValues=rotationStarMode?Object.fromEntries(KEYS.map((k,i)=>[directionalKey(k),directionalData(i)])):{};
+ const directionReviews=rotationStarMode?Object.fromEntries(KEYS.map((k,i)=>[directionalKey(k),directionalReview(i)])):{};
+ return {format:'recho-item-registration',version:2,id:str('id'),name:str('ja'),alias:str('en'),className:str('klass'),category:selectedCategories[0]||null,...(selectedCategories.length>1?{categories:[...selectedCategories]}:{}),tags:[...new Set($('tags').value.split(/[,、\n]/).map(s=>s.trim()).filter(Boolean))],price:num('price'),rarity:str('rarity'),socketCount:num('sockets'),buffs:effectStatus.buffs==='unknown'?null:[...effectChoices.buffs],debuffs:effectStatus.debuffs==='unknown'?null:[...effectChoices.debuffs],shape:g?.shape||null,size:g?.size||null,...extra,...directionValues,review:{shape:bodyState,markers:Object.fromEntries(KEYS.map((k,i)=>[k,rotationStarMode?summaryReview(i):states[i]])),...directionReviews,tags:tagStatus,effects:{...effectStatus}},origin:str('origin'),note:str('note')};
+}
 function missing(d){
  const a=[];
  for(const [key,label] of [['name','日本語名'],['alias','英語名'],['id','ID'],['className','クラス'],['category','分類'],['shape','本体形状'],['rarity','レアリティ']]){
@@ -170,11 +173,14 @@ function missing(d){
  if(d.socketCount===null||!Number.isInteger(d.socketCount)||d.socketCount<0)a.push('ソケット数が未確認・不正');
  if(d.shape&&bodyState!=='confirmed')a.push('本体形状の最終確認');
  for(let i=0;i<KEYS.length;i++){
-  if(i===0&&rotationStarMode){for(let r=0;r<4;r++){if(rotationStates[r]==='unknown')a.push(DIRECTIONS[r]+'向きの☆が未確認');else if(rotationStates[r]==='draft')a.push(DIRECTIONS[r]+'向きの☆が要確認')}continue;}
-  if(states[i]==='unknown')a.push(SYMS[i]+'の有無が未確認');
-  else if(states[i]==='draft')a.push(SYMS[i]+'の位置が要確認');
- }
- if(tagStatus==='unknown')a.push('属性・タグが未確認');
+   if(rotationStarMode){
+    for(let r=0;r<4;r++){const status=directionalStates(i)[r];if(status==='unknown')a.push(DIRECTIONS[r]+'向きの'+SYMS[i]+'が未確認');else if(status==='draft')a.push(DIRECTIONS[r]+'向きの'+SYMS[i]+'が要確認');}
+    continue;
+   }
+   if(states[i]==='unknown')a.push(SYMS[i]+'の有無が未確認');
+   else if(states[i]==='draft')a.push(SYMS[i]+'の位置が要確認');
+  }
+  if(tagStatus==='unknown')a.push('属性・タグが未確認');
  if(effectStatus.buffs==='unknown')a.push('バフの該当有無が未確認');
  if(effectStatus.debuffs==='unknown')a.push('デバフの該当有無が未確認');
  return a;
@@ -187,8 +193,7 @@ const preview=rotationStarMode?rotatedPreview():null;
 const previewBody=new Set(preview?.body.map(([x,y])=>key(x+preview.ox,y+preview.oy))||[]);
 const displayMarks=KEYS.map((_,i)=>{
  if(!preview)return marks[i];
- if(i===0)return new Set([...starsPerRotation[activeStarRotation]].map(k=>{const [x,y]=xy(k);return key(x+preview.ox,y+preview.oy)}));
- return new Set([...marks[i]].map(k=>{const [x,y]=xy(k);return key(...baseToPreviewMark(x,y,preview))}));
+ return new Set([...directionalSets(i)[activeStarRotation]].map(k=>{const [x,y]=xy(k);return key(x+preview.ox,y+preview.oy)}));
 });
 for(const b of $('board').children){
  const k=key(+b.dataset.x,+b.dataset.y),visible=SYMS.filter((s,i)=>displayMarks[i].has(k));
