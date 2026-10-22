@@ -205,11 +205,11 @@ for(const b of $('board').children){
 $('applyPotionPreset').disabled=!selectedCategories.includes('ポーション');
 $('directionStars').checked=rotationStarMode;$('directionStarControls').hidden=!rotationStarMode;$('directionBulk').hidden=!rotationStarMode;
 for(const b of $('directionButtons').children){const selected=Number(b.dataset.rotation)===activeStarRotation;b.classList.toggle('on',selected);b.setAttribute('aria-pressed',String(selected))}
-$('directionStatus').textContent=rotationStarMode?DIRECTIONS.map((sym,i)=>sym+' '+({unknown:'未確認',draft:'要確認',confirmed:'確認済み',none:'☆なし'}[rotationStates[i]])+'('+starsPerRotation[i].size+')').join(' / '):'';
+$('directionStatus').textContent=rotationStarMode?DIRECTIONS.map((sym,r)=>sym+' '+KEYS.map((_,i)=>SYMS[i]+':'+({unknown:'未確認',draft:'要確認',confirmed:'確認済み',none:'なし'}[directionalStates(i)[r]])+'('+directionalSets(i)[r].size+')').join(' ')).join(' / '):'';
 for(const b of $('tools').children){b.disabled=rotationStarMode&&b.dataset.tool==='body';b.classList.toggle('on',b.dataset.tool===tool)}
 syncBodyStatus();KEYS.forEach((k,i)=>{
- const current=i===0&&rotationStarMode?rotationStates[activeStarRotation]:states[i];
- $('c'+i).textContent=i===0&&rotationStarMode?starsPerRotation[activeStarRotation].size:marks[i].size;
+ const current=rotationStarMode?directionalStates(i)[activeStarRotation]:states[i];
+  $('c'+i).textContent=rotationStarMode?directionalSets(i)[activeStarRotation].size:marks[i].size;
  for(const radio of document.querySelectorAll('input[name="markerStatus'+i+'"]')){
    radio.checked=radio.value===current;
    radio.disabled=false;
@@ -219,23 +219,24 @@ const d=data();$('out').value=JSON.stringify(d,null,2);$('size').textContent=d.s
 }
 function change(x,y){
  if(rotationStarMode){
-  if(tool==='☆'||tool==='erase'){
-   const g=rotatedPreview();if(!g)return;
-   const x0=x-g.ox,y0=y-g.oy;if(Math.abs(x0)>10||Math.abs(y0)>10)return;
-   const k=key(x0,y0),m=starsPerRotation[activeStarRotation];
-   if(tool==='erase')m.delete(k);else m.has(k)?m.delete(k):m.add(k);
-   rotationStates[activeStarRotation]=m.size?'draft':'unknown';paint();return;
-  }
-  // Editing an oriented non-star marker writes canonical unrotated coordinates.
-  const i=SYMS.indexOf(tool);if(i<=0)return;
   const preview=rotatedPreview();if(!preview)return;
-  const [bx,by]=previewToBaseMark(x,y,preview);
-  if(!valid([bx,by]))return;
-  const k=key(bx,by),m=marks[i];
-  m.has(k)?m.delete(k):m.add(k);
-  states[i]=m.size?'draft':'unknown';paint();return;
+  const x0=x-preview.ox,y0=y-preview.oy;if(Math.abs(x0)>10||Math.abs(y0)>10)return;
+  const k=key(x0,y0);
+  if(tool==='erase'){
+   let changed=false;
+   KEYS.forEach((_,i)=>{const m=directionalSets(i)[activeStarRotation];if(m.delete(k)){directionalStates(i)[activeStarRotation]=m.size?'draft':'unknown';changed=true}});
+   if(changed)paint();return;
+  }
+  const i=SYMS.indexOf(tool);if(i<0)return;
+  const m=directionalSets(i)[activeStarRotation];m.has(k)?m.delete(k):m.add(k);
+  directionalStates(i)[activeStarRotation]=m.size?'draft':'unknown';paint();return;
  }
- const k=key(x,y);if(tool==='body'){body.has(k)?body.delete(k):body.add(k);bodyState=body.size?'draft':'unknown'}else if(tool==='erase'){body.delete(k);marks.forEach(m=>m.delete(k));if(!body.size)bodyState='unknown'}else{const i=SYMS.indexOf(tool),m=marks[i];m.has(k)?m.delete(k):m.add(k);states[i]=m.size?'draft':'unknown'}paint()}
+ const k=key(x,y);
+ if(tool==='body'){body.has(k)?body.delete(k):body.add(k);bodyState=body.size?'draft':'unknown'}
+ else if(tool==='erase'){body.delete(k);marks.forEach(m=>m.delete(k));if(!body.size)bodyState='unknown'}
+ else{const i=SYMS.indexOf(tool),m=marks[i];m.has(k)?m.delete(k):m.add(k);states[i]=m.size?'draft':'unknown'}
+ paint();
+}
 for(let y=0;y<H;y++)for(let x=0;x<W;x++){const b=document.createElement('button');b.className='sq';b.type='button';b.dataset.x=x;b.dataset.y=y;b.title='表示 ('+(x+1)+','+(H-y)+')';b.addEventListener('click',()=>change(x,y));$('board').append(b)}
 ['body',...SYMS,'erase'].forEach(t=>{const b=document.createElement('button');b.type='button';b.textContent=t==='body'?'▣ 本体':t==='erase'?'消す':t;b.className='tool'+(t==='body'?' on':'');b.dataset.tool=t;b.addEventListener('click',()=>{tool=t;paint()});$('tools').append(b)});
 const MARKER_STATUS_OPTIONS=[
@@ -259,15 +260,15 @@ function createBodyStatusRadios(){
 }
 createBodyStatusRadios();
 function selectMarkerStatus(i,next){
- const directional=i===0&&rotationStarMode;
- const m=directional?starsPerRotation[activeStarRotation]:marks[i];
+ const directional=rotationStarMode;
+  const m=directional?directionalSets(i)[activeStarRotation]:marks[i];
  if(next==='none'&&m.size&&!confirm(SYMS[i]+'の配置を消して「なし」にする？')){
    paint();return;
  }
  const chosen=next==='confirmed'&&!m.size?'none':next;
  if(chosen==='none')m.clear();
- if(directional)rotationStates[activeStarRotation]=chosen;
- else states[i]=chosen;
+ if(directional)directionalStates(i)[activeStarRotation]=chosen;
+  else states[i]=chosen;
  paint();
 }
 KEYS.forEach((k,i)=>{
