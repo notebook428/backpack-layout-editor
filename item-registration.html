@@ -30,7 +30,7 @@ main .panel{margin-bottom:12px}
 header{padding:12px}
 }
 </style></head><body>
-<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.16</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
+<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.17</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
 <section class="panel"><h2>① 基本情報</h2>
 <div class="note">既存の登録データから事前入力できます。候補を検索して読み込むだけで、IDや名前、既知の形状を反映するよ。</div><label class="field"><span>登録済みアイテムを検索（名前・英語名・ID）</span><input id="lookup" placeholder="例：フェドーラ帽 / Fedora"></label><label class="field"><span>候補一覧</span><select id="candidate" aria-label="候補のアイテム"><option value="">候補データを読み込み中...</option></select></label><div class="buttons"><button id="applyCandidate" class="main" type="button">既存情報を入力欄に反映</button></div><div id="catalogInfo" class="sub" role="status">データベースを確認中</div>
 
@@ -342,7 +342,7 @@ KEYS.forEach((k,i)=>{
 });
 $('directionStars').addEventListener('change',()=>setDirectionMode($('directionStars').checked));
 $('applyPotionPreset').addEventListener('click',applyPotionStarPreset);
-$('confirmAllDirections').addEventListener('click',confirmAllDirections);
+$('confirmAllDirections').addEventListener('click',()=>confirmAllDirections(0));
 DIRECTIONS.forEach((name,r)=>{const btn=document.createElement('button');btn.type='button';btn.textContent=name+' '+['0°','90°','180°','270°'][r];btn.dataset.rotation=String(r);btn.addEventListener('click',()=>{activeStarRotation=r;focusBoardOnEntry();paint()});$('directionButtons').append(btn)});
 function rotate(x,y,r){return r===0?[x,y]:r===1?[-y,x]:r===2?[-x,-y]:[y,-x]}
 function importEditor(d){if(d.format!=='recho-backpack-editor'||d.grid?.width!==9||d.grid?.height!==7||!Array.isArray(d.bags)||!Array.isArray(d.debugMarks))throw Error('9×7エディタJSONが必要');editor=d;const defs=new Map((d.definitions||[]).map(p=>[p.id,p]));$('bagList').replaceChildren();d.bags.forEach((b,i)=>{const l=document.createElement('label'),c=document.createElement('input');c.type='checkbox';c.checked=true;c.value=i;c.className='bagSelect';l.append(c,document.createTextNode(' '+(defs.get(b.presetId)?.name||b.presetId)+' ('+b.x+','+b.y+')'));$('bagList').append(l)});$('importBox').hidden=false}
