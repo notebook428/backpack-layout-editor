@@ -26702,6 +26702,339 @@
       "type": "item",
       "bagGroup": "メイジ・ペット",
       "verified": "本体2×2・占有4マス、☆4個・◇△⚡なし、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "mage-lantern-berry",
+      "name": "ランタンベリー",
+      "alias": "Lantern Berry",
+      "className": "メイジ",
+      "category": "呪文",
+      "categories": [
+        "呪文",
+        "食べ物"
+      ],
+      "tags": [
+        "神聖",
+        "自然",
+        "魔法"
+      ],
+      "price": 10,
+      "rarity": "レジェンダリー",
+      "socketCount": 0,
+      "buffs": [
+        "幸運",
+        "リジェネ",
+        "マナ"
+      ],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 2,
+        "occupied": 2
+      },
+      "stars": [
+        [
+          0,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "hollowDiamonds": [
+        [
+          -2,
+          -2
+        ],
+        [
+          0,
+          -2
+        ],
+        [
+          2,
+          -2
+        ],
+        [
+          -1,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          -2,
+          0
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "confirmed",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/メイジ」（2026-10-15更新、2026-10-22確認）／The Backpack Battles Wiki「Mage」「Spell」「個別ページ」（2026-10-22確認）",
+      "note": "5分プロトコル・メイジ第6回。呪文の巻物：再生＋呪文の巻物：清らかなる祝福から合成。呪文と食べ物の複合分類。デバフ解除、条件成立時は幸運・リジェネ獲得。 本体1×2（占有2マス）・☆6個・◇7個・△⚡なし、ソケット0、バフ（幸運・リジェネ・マナ）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "メイジ・呪文",
+      "verified": "本体1×2・占有2マス、☆6個・◇7個・△⚡なし、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "mage-scripture-of-light",
+      "name": "神聖なる経典",
+      "alias": "Scripture of Light",
+      "className": "メイジ",
+      "category": "書物",
+      "tags": [
+        "神聖",
+        "魔法"
+      ],
+      "price": 6,
+      "rarity": "ゴッド",
+      "socketCount": 0,
+      "buffs": [
+        "リジェネ",
+        "マナ"
+      ],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 2,
+        "occupied": 2
+      },
+      "stars": [
+        [
+          0,
+          -2
+        ],
+        [
+          -2,
+          -1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          2,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          -2,
+          2
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/メイジ」（2026-10-15更新）・The Backpack Battles Wiki「Mage」「Book」「Spell」（2026-10-22照合）",
+      "note": "5分プロトコル・メイジ第3回。日英名・分類・価格・レアリティ・属性および明記されたバフ/デバフのみ登録。 本体1×2（占有2マス）・☆10個・◇0個・△⚡なし、ソケット0、バフ（リジェネ・マナ）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "メイジ・書物",
+      "verified": "本体1×2・占有2マス、☆10個・◇0個・△⚡なし、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "mage-scroll-dark-frenzy",
+      "name": "呪文の巻物：闇の狂乱",
+      "alias": "Spell Scroll: Dark Frenzy",
+      "className": "メイジ",
+      "category": "呪文",
+      "tags": [
+        "暗黒",
+        "魔法"
+      ],
+      "price": 5,
+      "rarity": "ゴッド",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [
+        "目くらまし"
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 1,
+        "occupied": 2
+      },
+      "stars": [
+        [
+          0,
+          -2
+        ],
+        [
+          2,
+          -1
+        ],
+        [
+          -2,
+          1
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "hollowDiamonds": [
+        [
+          -2,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "confirmed",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/メイジ」（2026-10-15更新）・The Backpack Battles Wiki「Mage」「Book」「Spell」（2026-10-22照合）",
+      "note": "5分プロトコル・メイジ第3回。日英名・分類・価格・レアリティ・属性および明記されたバフ/デバフのみ登録。自分に目くらましを付与する効果。 本体2×1（占有2マス）・☆4個・◇4個・△⚡なし、ソケット0、バフ（なし）・デバフ（目くらまし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "メイジ・呪文",
+      "verified": "本体2×1・占有2マス、☆4個・◇4個・△⚡なし、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
     }
   ]
 }
