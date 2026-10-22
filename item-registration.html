@@ -756,10 +756,17 @@ async function fetchCatalog(){
     catalog=Array.from(merged.values());candidates();
   }catch(e){catalogInfo.textContent='登録済みデータを読み込めませんでした。通信状態を確認して再読み込みしてね。';candidate.replaceChildren();}
 }
+function withMatchingWhiteChessStars(d){
+  // White/black chess pairs share ☆ positions. Never infer the body or other markers.
+  if(!/^mage-chess-black-(knight|bishop|rook|queen|king)$/.test(d.id||'')||d.stars!=null)return d;
+  const white=catalog.find(x=>x.id===d.id.replace('-black-','-white-'));
+  if(!white||!Array.isArray(white.stars)||white.review?.markers?.stars!=='confirmed'||white.starsByRotation!=null)return d;
+  return {...d,stars:white.stars.map(([x,y])=>[x,y]),review:{...d.review,markers:{...d.review?.markers,stars:'confirmed'}}};
+}
 function loadCandidate(){
   const d=catalog.find(v=>v.id===candidate.value);if(!d){$('message').textContent='候補を選んでね';return}
   if((str('ja')||body.size)&&!confirm('現在の入力を選択した既存データで置き換えますか？ 未保存の下書きは先にJSON保存してね。'))return;
-  try{openEntry({...d,format:'recho-item-registration',version:2});$('message').textContent=d.name+'の既知情報を読み込んだよ。未確認欄は実機で確認してね。';}
+  try{const entry=withMatchingWhiteChessStars(d);openEntry({...entry,format:'recho-item-registration',version:2});$('message').textContent=entry===d?d.name+'の既知情報を読み込んだよ。未確認欄は実機で確認してね。':d.name+'を読み込み、対応する白の駒から☆配置だけ引き継いだよ。本体・ほかの記号は引き続き確認してね。';}
   catch(e){$('message').textContent='読み込みできなかったため入力状態は保持しています：'+e.message;}
 }
 const prefixOf=k=>({'共通':'common','レンジャー':'ranger','リーパー':'reaper','バーサーカー':'berserker','パイロマンサー':'pyromancer','メイジ':'mage','アドベンチャラー':'adventurer','エンジニア':'engineer','プリーステス':'priest'})[k]||'custom';
