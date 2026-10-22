@@ -49,6 +49,8 @@ header{padding:12px}
 <section class="panel"><h2>② 本体と記号の配置</h2><div class="sub">本体・☆・◇・△・⚡を選び、マスをクリック。盤面表示は左下 (1,1)、出力は本体左上 (0,0) 基準だよ。</div><div class="buttons" id="tools"></div>
 <div class="direction-panel">
 <label><input type="checkbox" id="directionStars"> 向き別☆配置モード（ポーションなど）</label>
+<div class="buttons"><button type="button" id="applyPotionPreset" class="main" title="ポーション分類の1×2本体に、向き別☆配置を下書きとしてセットします">✦ 定番ポーション型を一括入力</button></div>
+<div class="sub">ポーション専用：本体が空なら縦1×2も作成し、☆1個の4方向パターンを入力します。適用後は「要確認」なので、実物を照合してから一括確認してね。既存の別形状には適用しません。</div>
 <div id="directionStarControls" hidden>
 <div class="sub">先に通常モードで本体を作成してね。向きを選び、表示された本体を基準に☆をクリックして配置。4方向の配置が終わったら、下の「記号の確認状態」の☆欄から一括確認できるよ。◇・△・⚡を選ぶと本体の基準向きに戻り、向き別☆モードを解除せずに配置・確認できるよ。</div>
 <div class="buttons" id="directionButtons" aria-label="☆を編集する向き"></div>
@@ -85,6 +87,40 @@ function setDirectionMode(enabled){
   rotationStates[0]=states[0];rotationStarEdited=true;
  }
  rotationStarMode=enabled;tool=enabled?'☆':'body';paint();
+}
+// Reusable potion template, matching confirmed 1×2 potion examples.
+// Entries are footprint-relative for rotations 0 / 90 / 180 / 270 degrees.
+const POTION_STAR_TEMPLATE_1X2=[
+ [[0,-1]],[[1,-1]],[[0,-1]],[[0,-1]]
+];
+function applyPotionStarPreset(){
+ if($('category').value!=='ポーション'){
+  $('message').textContent='先に分類を「ポーション」にしてね。';
+  return false;
+ }
+ const g=geometry();
+ if(g&&(g.size.width!==1||g.size.height!==2||g.size.occupied!==2)){
+  $('message').textContent='このテンプレートは本体が縦1×2のポーション専用だよ。既存の別形状は変更していないよ。';
+  return false;
+ }
+ const hadStars=marks[0].size>0||starsPerRotation.some(m=>m.size>0)||states[0]==='none'||states[0]==='confirmed'||rotationStates.some(v=>v==='none'||v==='confirmed');
+ if(hadStars&&!confirm('既存の☆配置・確認状態を、定番ポーション型の「要確認」データで置き換えますか？ 他の記号や効果は変更しません。'))return false;
+ if(!g){
+  body=new Set([key(6,6),key(6,7)]);
+  bodyState='draft';
+ }
+ const origin=sort(body)[0];
+ marks[0]=new Set([key(origin[0],origin[1]-1)]);
+ states[0]='draft';
+ starsPerRotation=POTION_STAR_TEMPLATE_1X2.map(coords=>new Set(coords.map(([x,y])=>key(x,y))));
+ rotationStates=Array(4).fill('draft');
+ rotationStarMode=true;
+ rotationStarEdited=true;
+ activeStarRotation=0;
+ tool='☆';
+ paint();
+ $('message').textContent='定番ポーション型を4方向に仮入力したよ。実機の☆位置を確認し、「☆4方向を一括確認」で確定してね。';
+ return true;
 }
 function directionalData(){
  return Object.fromEntries(DIRECTIONS.map((_,i)=>[String(i),rotationStates[i]==='unknown'?null:rotationStates[i]==='none'?[]:sort(starsPerRotation[i])]));
@@ -134,6 +170,7 @@ const preview=editingDirectionalStars?rotatedPreview():null;
 const previewBody=new Set(preview?.body.map(([x,y])=>key(x+preview.ox,y+preview.oy))||[]);
 const previewStars=new Set(editingDirectionalStars&&preview?[...starsPerRotation[activeStarRotation]].map(k=>{const [x,y]=xy(k);return key(x+preview.ox,y+preview.oy)}):[]);
 for(const b of $('board').children){const k=key(+b.dataset.x,+b.dataset.y);b.classList.toggle('body',editingDirectionalStars?previewBody.has(k):body.has(k));b.textContent=editingDirectionalStars?(previewStars.has(k)?'☆':''):SYMS.filter((s,i)=>(!rotationStarMode||i!==0)&&marks[i].has(k)).join('')}
+$('applyPotionPreset').disabled=$('category').value!=='ポーション';
 $('directionStars').checked=rotationStarMode;$('directionStarControls').hidden=!rotationStarMode;$('directionBulk').hidden=!rotationStarMode;
 for(const b of $('directionButtons').children){const selected=Number(b.dataset.rotation)===activeStarRotation;b.classList.toggle('on',selected);b.setAttribute('aria-pressed',String(selected))}
 $('directionStatus').textContent=rotationStarMode?DIRECTIONS.map((sym,i)=>sym+' '+({unknown:'未確認',draft:'要確認',confirmed:'確認済み',none:'☆なし'}[rotationStates[i]])+'('+starsPerRotation[i].size+')').join(' / '):'';
@@ -214,6 +251,7 @@ KEYS.forEach((k,i)=>{
  row.append(heading,group);if(i===0)row.append($('directionBulk'));$('statuses').append(row);
 });
 $('directionStars').addEventListener('change',()=>setDirectionMode($('directionStars').checked));
+$('applyPotionPreset').addEventListener('click',applyPotionStarPreset);
 $('confirmAllDirections').addEventListener('click',confirmAllDirections);
 DIRECTIONS.forEach((name,r)=>{const btn=document.createElement('button');btn.type='button';btn.textContent=name+' '+['0°','90°','180°','270°'][r];btn.dataset.rotation=String(r);btn.addEventListener('click',()=>{activeStarRotation=r;tool='☆';paint()});$('directionButtons').append(btn)});
 function rotate(x,y,r){return r===0?[x,y]:r===1?[-y,x]:r===2?[-x,-y]:[y,-x]}
@@ -432,7 +470,7 @@ try{
  }
 }catch(e){$('message').textContent='保存済み下書きを復元できませんでした。保存JSONから読み込み直してね。'}
 paint();
-window.__itemRegisterTest={data,geometry,missing,change,importEditor,applyImport,openEntry};
+window.__itemRegisterTest={data,geometry,missing,change,importEditor,applyImport,openEntry,applyPotionStarPreset};
 
 const look=$('lookup'),candidate=$('candidate'),catalogInfo=$('catalogInfo');
 let catalog=[];
