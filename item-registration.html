@@ -9,7 +9,15 @@
 .pick-chip:focus-within{outline:2px solid #c6b1ff;outline-offset:2px}
 .pick-panel .field{margin-top:9px;margin-bottom:0}
 #priceExtra,#socketsExtra{margin-top:6px}
-.sub{color:#b5c4d9;font-size:12px}.direction-panel{border:1px solid #665a90;background:#1a2440;border-radius:10px;padding:10px;margin:10px 0}.direction-panel label{display:flex;gap:8px;align-items:center;cursor:pointer}.direction-panel input{accent-color:#bca3fc}.direction-panel .buttons button.on{background:#725c9a;border-color:#ead4ff}.direction-panel [hidden]{display:none!important}.buttons{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0}.buttons button,.tool{background:#34486a;color:var(--text);border:1px solid #7083aa;border-radius:7px;cursor:pointer;padding:7px 9px;font:inherit}.tool.on,.buttons button.main{background:#725c9a;border-color:#cdb7ef}.boardwrap{overflow:auto;border:1px solid var(--border);background:#0e192c;border-radius:9px;padding:8px}.board{display:grid;grid-template-columns:repeat(21,27px);grid-template-rows:repeat(17,27px);width:max-content}.sq{width:27px;height:27px;background:#1b2a43;border:1px solid #3a4c67;color:#ffe7b0;font-size:15px;padding:0;cursor:crosshair}.sq:nth-child(2n){background:#21314b}.sq.body{background:#6c92be;border-color:#a5c7e4}.sq:hover{filter:brightness(1.4)}.status{display:grid;grid-template-columns:55px 1fr;gap:8px;align-items:center;margin:7px 0}.status select{padding:5px}.note{font-size:12px;color:#bfd1e4;background:#102137;border:1px solid var(--border);padding:9px;border-radius:7px;margin:9px 0}.baglist{max-height:150px;overflow:auto}.baglist label{display:block;font-size:12px}#candidate{max-width:100%}#catalogInfo{margin-bottom:12px}.prefilled{color:#d5bbfa}#check.warning{border-color:#dcb06b;background:#3a2819;color:#ffe4b5}#out{width:100%;height:320px;font:12px/1.4 ui-monospace,Consolas,monospace;resize:vertical}footer{font-size:12px;color:#a9bed4}
+.sub{color:#b5c4d9;font-size:12px}.direction-panel{border:1px solid #665a90;background:#1a2440;border-radius:10px;padding:10px;margin:10px 0}.direction-panel label{display:flex;gap:8px;align-items:center;cursor:pointer}.direction-panel input{accent-color:#bca3fc}.direction-panel .buttons button.on{background:#725c9a;border-color:#ead4ff}.direction-panel [hidden]{display:none!important}.buttons{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0}.buttons button,.tool{background:#34486a;color:var(--text);border:1px solid #7083aa;border-radius:7px;cursor:pointer;padding:7px 9px;font:inherit}.tool.on,.buttons button.main{background:#725c9a;border-color:#cdb7ef}.boardwrap{overflow:auto;border:1px solid var(--border);background:#0e192c;border-radius:9px;padding:8px}.board{display:grid;grid-template-columns:repeat(21,27px);grid-template-rows:repeat(17,27px);width:max-content}.sq{width:27px;height:27px;background:#1b2a43;border:1px solid #3a4c67;color:#ffe7b0;font-size:15px;padding:0;cursor:crosshair}.sq:nth-child(2n){background:#21314b}.sq.body{background:#6c92be;border-color:#a5c7e4}.sq:hover{filter:brightness(1.4)}.status{display:grid;grid-template-columns:55px 1fr;gap:8px;align-items:center;margin:7px 0}.status select{padding:5px}
+.status-radio-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:9px 0}
+.status-symbol{min-width:55px;color:#e9efff;font-weight:700}
+.status-radio-group{display:flex;flex-wrap:wrap;gap:5px;min-width:0}
+.status-option{display:inline-flex;align-items:center;gap:4px;border:1px solid #566989;background:#243451;color:#ecf0fa;border-radius:7px;padding:6px 8px;cursor:pointer;font-size:12px;line-height:1.3}
+.status-option input{margin:0;accent-color:#ba9bff}
+.status-option:has(input:checked){background:#67538d;border-color:#cbb5ff;box-shadow:inset 0 0 0 1px #9c80d2}
+.status-option:focus-within{outline:2px solid #c6b1ff;outline-offset:2px}
+.status-option:has(input:disabled){opacity:.45;cursor:not-allowed}.note{font-size:12px;color:#bfd1e4;background:#102137;border:1px solid var(--border);padding:9px;border-radius:7px;margin:9px 0}.baglist{max-height:150px;overflow:auto}.baglist label{display:block;font-size:12px}#candidate{max-width:100%}#catalogInfo{margin-bottom:12px}.prefilled{color:#d5bbfa}#check.warning{border-color:#dcb06b;background:#3a2819;color:#ffe4b5}#out{width:100%;height:320px;font:12px/1.4 ui-monospace,Consolas,monospace;resize:vertical}footer{font-size:12px;color:#a9bed4}
 .right-column{display:contents}
 @media(max-width:1160px){
 main{grid-template-columns:minmax(250px,310px) minmax(0,1fr)}
@@ -22,7 +30,7 @@ main .panel{margin-bottom:12px}
 header{padding:12px}
 }
 </style></head><body>
-<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.3</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
+<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.4</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
 <section class="panel"><h2>① 基本情報</h2>
 <div class="note">既存の登録データから事前入力できます。候補を検索して読み込むだけで、IDや名前、既知の形状を反映するよ。</div><label class="field"><span>登録済みアイテムを検索（名前・英語名・ID）</span><input id="lookup" placeholder="例：フェドーラ帽 / Fedora"></label><label class="field"><span>候補一覧</span><select id="candidate" aria-label="候補のアイテム"><option value="">候補データを読み込み中...</option></select></label><div class="buttons"><button id="applyCandidate" class="main" type="button">既存情報を入力欄に反映</button></div><div id="catalogInfo" class="sub" role="status">データベースを確認中</div>
 
@@ -42,8 +50,10 @@ header{padding:12px}
 <div class="direction-panel">
 <label><input type="checkbox" id="directionStars"> 向き別☆配置モード（ポーションなど）</label>
 <div id="directionStarControls" hidden>
-<div class="sub">先に通常モードで本体を作成してね。向きを選び、表示された本体を基準に☆をクリックして配置。各方向の☆確認状態を設定してね。◇・△・⚡は通常モードで編集できます。</div>
+<div class="sub">先に通常モードで本体を作成してね。向きを選び、表示された本体を基準に☆をクリックして配置。4方向の配置が終わったらまとめて確認できるよ。◇・△・⚡は通常モードで編集できます。</div>
 <div class="buttons" id="directionButtons" aria-label="☆を編集する向き"></div>
+<div class="buttons"><button type="button" id="confirmAllDirections" class="main">✓ 4方向の☆を一括確認</button></div>
+<div class="sub">☆のある向きは「確認済み」に、☆のない向きは「☆なし」にします。空欄がある場合は確認するよ。</div>
 <div class="sub" id="directionStatus" aria-live="polite"></div>
 </div></div><div class="boardwrap"><div id="board" class="board"></div></div><div class="sub" id="size">本体未入力</div><div class="buttons"><button id="clear">盤面をクリア</button></div><h3>記号の確認状態</h3><div class="sub">未確認と、存在しないことを確認した状態は区別するよ。</div><label class="status"><span>本体</span><select id="bodyStatus"><option value="unknown">未確認</option><option value="draft">入力済（要確認）</option><option value="confirmed">確認済み</option></select></label><div id="statuses"></div><h3>配置エディタのJSONを取り込む</h3><div class="sub">元のエディタで「JSON保存」したファイルを選び、形状を表すバッグだけをチェックしてね。説明用マーカーも一緒に読み込めるよ。</div><input id="editorFile" type="file" accept=".json,application/json"><div id="importBox" hidden><div id="bagList" class="baglist"></div><div class="buttons"><button id="importGo">選択バッグ・マーカーを反映</button></div></div>
 </section><section class="panel"><h2>③ リコーに渡すデータ</h2><div class="note" id="check" role="alert" aria-live="polite">入力待ち</div><textarea readonly id="out" spellcheck="false"></textarea><div class="buttons"><button class="main" id="copyText">リコー送信用にコピー</button><button id="copyJSON">JSONをコピー</button><button id="download">JSON保存</button></div><h3>保存した登録JSONを編集</h3><input id="entryFile" type="file" accept=".json,application/json"><div class="note">入力途中の下書きはこのブラウザ内に自動保存。別端末には同期されないから、確定後はJSON保存してね。</div><div class="buttons"><button id="new">次のアイテムを入力</button></div><div class="sub" id="message" role="status"></div></section>
@@ -84,6 +94,14 @@ function directionalData(){
 function directionalReview(){
  return Object.fromEntries(DIRECTIONS.map((_,i)=>[String(i),rotationStates[i]]));
 }
+function confirmAllDirections(){
+ if(!rotationStarMode||!body.size)return;
+ const empty=DIRECTIONS.filter((_,i)=>!starsPerRotation[i].size);
+ if(empty.length&&!confirm('☆を置いていない向き（'+empty.join('・')+'）は「☆なし」として確定します。よろしいですか？'))return;
+ rotationStates=starsPerRotation.map(m=>m.size?'confirmed':'none');
+ paint();
+ $('message').textContent='4方向の☆を一括確認したよ。配置を修正した向きは再確認してね。';
+}
 const str=id=>$(id).value.trim()||null,num=id=>$(id).value.trim()===''?null:Number($(id).value);
 function data(){const g=geometry(),extra={};KEYS.forEach((k,i)=>extra[k]=!g||states[i]==='unknown'?null:states[i]==='none'?[]:g.marks[i]);if(rotationStarMode)extra.stars=directionalData()['0'];
 const dirReview=rotationStarMode?directionalReview():null;
@@ -121,7 +139,14 @@ $('directionStars').checked=rotationStarMode;$('directionStarControls').hidden=!
 for(const b of $('directionButtons').children){const selected=Number(b.dataset.rotation)===activeStarRotation;b.classList.toggle('on',selected);b.setAttribute('aria-pressed',String(selected))}
 $('directionStatus').textContent=rotationStarMode?DIRECTIONS.map((sym,i)=>sym+' '+({unknown:'未確認',draft:'要確認',confirmed:'確認済み',none:'☆なし'}[rotationStates[i]])+'('+starsPerRotation[i].size+')').join(' / '):'';
 for(const b of $('tools').children){b.disabled=rotationStarMode&&!['☆','erase'].includes(b.dataset.tool);b.classList.toggle('on',b.dataset.tool===tool)}
-$('bodyStatus').value=bodyState;KEYS.forEach((k,i)=>{$('s'+i).value=i===0&&rotationStarMode?rotationStates[activeStarRotation]:states[i];$('c'+i).textContent=i===0&&rotationStarMode?starsPerRotation[activeStarRotation].size:marks[i].size;$('s'+i).disabled=rotationStarMode&&i>0});
+$('bodyStatus').value=bodyState;KEYS.forEach((k,i)=>{
+ const current=i===0&&rotationStarMode?rotationStates[activeStarRotation]:states[i];
+ $('c'+i).textContent=i===0&&rotationStarMode?starsPerRotation[activeStarRotation].size:marks[i].size;
+ for(const radio of document.querySelectorAll('input[name="markerStatus'+i+'"]')){
+   radio.checked=radio.value===current;
+   radio.disabled=rotationStarMode&&i>0;
+ }
+});
 const d=data();$('out').value=JSON.stringify(d,null,2);$('size').textContent=d.size?d.size.width+'×'+d.size.height+' / '+d.size.occupied+'マス':'本体未入力';const m=missing(d);$('check').classList.toggle('warning',m.length>0);$('check').textContent=m.length?'⚠ 未確認・未完了 '+m.length+' 件：'+m.join('、'):'✓ すべての登録項目を確認済み';$('tagStatus').value=tagStatus;save();
 }
 function change(x,y){
@@ -136,12 +161,38 @@ function change(x,y){
  const k=key(x,y);if(tool==='body'){body.has(k)?body.delete(k):body.add(k);bodyState=body.size?'draft':'unknown'}else if(tool==='erase'){body.delete(k);marks.forEach(m=>m.delete(k));if(!body.size)bodyState='unknown'}else{const i=SYMS.indexOf(tool),m=marks[i];m.has(k)?m.delete(k):m.add(k);states[i]=m.size?'draft':'unknown'}paint()}
 for(let y=0;y<H;y++)for(let x=0;x<W;x++){const b=document.createElement('button');b.className='sq';b.type='button';b.dataset.x=x;b.dataset.y=y;b.title='表示 ('+(x+1)+','+(H-y)+')';b.addEventListener('click',()=>change(x,y));$('board').append(b)}
 ['body',...SYMS,'erase'].forEach(t=>{const b=document.createElement('button');b.type='button';b.textContent=t==='body'?'▣ 本体':t==='erase'?'消す':t;b.className='tool'+(t==='body'?' on':'');b.dataset.tool=t;b.addEventListener('click',()=>{tool=t;document.querySelectorAll('.tool').forEach(v=>v.classList.toggle('on',v===b))});$('tools').append(b)});
-KEYS.forEach((k,i)=>{const div=document.createElement('label');div.className='status';const span=document.createElement('span');span.textContent=SYMS[i]+' ';const cnt=document.createElement('small');cnt.id='c'+i;span.append(cnt);const sel=document.createElement('select');sel.id='s'+i;[['unknown','未確認'],['draft','入力済（要確認）'],['confirmed','確認済み'],['none','該当なし（確認済み）']].forEach(([val,text])=>{const o=document.createElement('option');o.value=val;o.textContent=text;sel.append(o)});sel.addEventListener('change',()=>{if(i===0&&rotationStarMode){
-const m=starsPerRotation[activeStarRotation];if(sel.value==='none'&&m.size&&!confirm('この向きの☆を消して「なし」にする？')){sel.value=rotationStates[activeStarRotation];return}
-rotationStates[activeStarRotation]=sel.value==='confirmed'&&!m.size?'none':sel.value;
-if(rotationStates[activeStarRotation]==='none')m.clear();paint();return}
-if(sel.value==='none'&&marks[i].size&&!confirm(SYMS[i]+'の配置を消して「なし」にする？')){sel.value=states[i];return}states[i]=sel.value==='confirmed'&&!marks[i].size?'none':sel.value;if(states[i]==='none')marks[i].clear();paint()});div.append(span,sel);$('statuses').append(div)});
+const MARKER_STATUS_OPTIONS=[
+ ['unknown','未確認'],['draft','要確認'],['confirmed','確認済み'],['none','なし']
+];
+function selectMarkerStatus(i,next){
+ const directional=i===0&&rotationStarMode;
+ const m=directional?starsPerRotation[activeStarRotation]:marks[i];
+ if(next==='none'&&m.size&&!confirm(SYMS[i]+'の配置を消して「なし」にする？')){
+   paint();return;
+ }
+ const chosen=next==='confirmed'&&!m.size?'none':next;
+ if(chosen==='none')m.clear();
+ if(directional)rotationStates[activeStarRotation]=chosen;
+ else states[i]=chosen;
+ paint();
+}
+KEYS.forEach((k,i)=>{
+ const row=document.createElement('div');row.className='status-radio-row';
+ const heading=document.createElement('span');heading.className='status-symbol';heading.textContent=SYMS[i]+' ';
+ const count=document.createElement('small');count.id='c'+i;heading.append(count);
+ const group=document.createElement('div');group.className='status-radio-group';
+ group.setAttribute('role','radiogroup');group.setAttribute('aria-label',SYMS[i]+'の確認状態');
+ for(const [value,labelText] of MARKER_STATUS_OPTIONS){
+  const label=document.createElement('label');label.className='status-option';
+  const radio=document.createElement('input');radio.type='radio';radio.name='markerStatus'+i;radio.value=value;
+  const caption=document.createElement('span');caption.textContent=labelText;
+  label.append(radio,caption);group.append(label);
+  radio.addEventListener('change',()=>{if(radio.checked)selectMarkerStatus(i,value)});
+ }
+ row.append(heading,group);$('statuses').append(row);
+});
 $('directionStars').addEventListener('change',()=>setDirectionMode($('directionStars').checked));
+$('confirmAllDirections').addEventListener('click',confirmAllDirections);
 DIRECTIONS.forEach((name,r)=>{const btn=document.createElement('button');btn.type='button';btn.textContent=name+' '+['0°','90°','180°','270°'][r];btn.dataset.rotation=String(r);btn.addEventListener('click',()=>{activeStarRotation=r;tool='☆';paint()});$('directionButtons').append(btn)});
 function rotate(x,y,r){return r===0?[x,y]:r===1?[-y,x]:r===2?[-x,-y]:[y,-x]}
 function importEditor(d){if(d.format!=='recho-backpack-editor'||d.grid?.width!==9||d.grid?.height!==7||!Array.isArray(d.bags)||!Array.isArray(d.debugMarks))throw Error('9×7エディタJSONが必要');editor=d;const defs=new Map((d.definitions||[]).map(p=>[p.id,p]));$('bagList').replaceChildren();d.bags.forEach((b,i)=>{const l=document.createElement('label'),c=document.createElement('input');c.type='checkbox';c.checked=true;c.value=i;c.className='bagSelect';l.append(c,document.createTextNode(' '+(defs.get(b.presetId)?.name||b.presetId)+' ('+b.x+','+b.y+')'));$('bagList').append(l)});$('importBox').hidden=false}
