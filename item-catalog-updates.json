@@ -35030,6 +35030,143 @@
       "type": "item",
       "bagGroup": "エンジニア・アクセサリー",
       "verified": "2026-10-22 日英Wiki基本情報照合。本体形状・配置記号未確認。／本体2×2（占有3マス）・☆7個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（ヒート・トゲ・リジェネ・幸運・吸血・強化）・デバフ（なし）を登録JSONで確定（2026-10-23）。"
+    },
+    {
+      "id": "engineer-hypercube",
+      "name": "ハイパーキューブ",
+      "alias": "Hypercube",
+      "className": "エンジニア",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 10,
+      "rarity": "ユニーク",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 4
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「アイテム」「クラス/エンジニア」「合成」（アイテム一覧2026-10-15更新／2026-10-22確認）／The Backpack Battles Wiki「Engineer」「Recipe」「Hypercube」（2026-10-22確認）",
+      "note": "5分プロトコル・エンジニア第2回。購入時に4個のキューブに分かれる。分割後キューブはそれぞれ独立アイテム。 本体形状・☆◇△⚡座標は2026-10-22時点では未確認。 【タグ履歴】2026-10-22時点のプリセットタグ：掘り出し物（旧review: confirmed）。2026-10-23の確定JSONでは：なし。 本体2×2（占有4マス）・☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・アクセサリー",
+      "verified": "日英Wiki基本項目照合（2026-10-22）。形状・配置記号未確認。／本体2×2（占有4マス）・☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。"
+    },
+    {
+      "id": "engineer-gold-cube",
+      "name": "ゴールドキューブ",
+      "alias": "Gold Cube",
+      "className": "エンジニア",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 2,
+      "rarity": "ユニーク",
+      "socketCount": 0,
+      "buffs": [
+        "リジェネ"
+      ],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [
+        [
+          0,
+          -1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「アイテム」「クラス/エンジニア」「合成」（アイテム一覧2026-10-15更新／2026-10-22確認）／The Backpack Battles Wiki「Engineer」「Recipe」「Hypercube」（2026-10-22確認）",
+      "note": "5分プロトコル・エンジニア第2回。自分の体力50%未満でクールダウンを進め、リジェネ量に応じて体力回復。 本体形状・☆◇△⚡座標は2026-10-22時点では未確認。 【バフ履歴】2026-10-22時点のプリセット：なし。2026-10-23確定：リジェネ。 本体1×1（占有1マス）・☆1個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（リジェネ）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・アクセサリー",
+      "verified": "日英Wiki基本項目照合（2026-10-22）。形状・配置記号未確認。／本体1×1（占有1マス）・☆1個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（リジェネ）・デバフ（なし）を登録JSONで確定（2026-10-23）。"
     }
   ]
 }
