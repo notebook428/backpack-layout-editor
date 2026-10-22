@@ -35167,6 +35167,200 @@
       "type": "item",
       "bagGroup": "エンジニア・アクセサリー",
       "verified": "日英Wiki基本項目照合（2026-10-22）。形状・配置記号未確認。／本体1×1（占有1マス）・☆1個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（リジェネ）・デバフ（なし）を登録JSONで確定（2026-10-23）。"
+    },
+    {
+      "id": "engineer-bismuth-cube",
+      "name": "ビスマスキューブ",
+      "alias": "Bismuth Cube",
+      "className": "エンジニア",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 2,
+      "rarity": "ユニーク",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [
+        [
+          0,
+          -1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「アイテム」「クラス/エンジニア」「合成」（アイテム一覧2026-10-15更新／2026-10-22確認）／The Backpack Battles Wiki「Engineer」「Recipe」「Hypercube」（2026-10-22確認）",
+      "note": "【2026-10-22調査履歴】5分プロトコル・エンジニア第2回。7バフ獲得毎にクールダウンを進めてランダムバフ獲得。種類を特定しないのでbuffsはnull。 本体形状・☆◇△⚡座標は未確認。 【表記差異 2026-10-23】過去の備考は「ランダムバフの種類を特定しないのでbuffsはnull」と記録しているが、今回受領の確定登録JSON本体ではbuffs: []、review.effects.buffs: noneと明示されたため、登録データは空配列として保存。備考中のnullは過去の判断として残す。 【buffs変更履歴】2026-10-22時点の値：null。2026-10-23確定：[]。 本体1×1（占有1マス）・☆1個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・アクセサリー",
+      "verified": "日英Wiki基本項目照合（2026-10-22）。形状・配置記号未確認。／本体1×1（占有1マス）・☆1個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。"
+    },
+    {
+      "id": "engineer-chromium-cube",
+      "name": "クロムキューブ",
+      "alias": "Chromium Cube",
+      "className": "エンジニア",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 2,
+      "rarity": "ユニーク",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [
+        [
+          0,
+          -1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「アイテム」「クラス/エンジニア」「合成」（アイテム一覧2026-10-15更新／2026-10-22確認）／The Backpack Battles Wiki「Engineer」「Recipe」「Hypercube」（2026-10-22確認）",
+      "note": "【2026-10-22調査履歴】5分プロトコル・エンジニア第2回。相手の体力50%未満時にクールダウンを進め、相手の回復量を低下。ハイパーキューブ分割品。 本体形状・☆◇△⚡座標は未確認。 本体1×1（占有1マス）・☆1個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・アクセサリー",
+      "verified": "日英Wiki基本項目照合（2026-10-22）。形状・配置記号未確認。／本体1×1（占有1マス）・☆1個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。"
+    },
+    {
+      "id": "engineer-plastic-cube",
+      "name": "プラスチックキューブ",
+      "alias": "Plastic Cube",
+      "className": "エンジニア",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 2,
+      "rarity": "ユニーク",
+      "socketCount": 0,
+      "buffs": [
+        "トゲ"
+      ],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [
+        [
+          0,
+          -1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「アイテム」「クラス/エンジニア」「合成」（アイテム一覧2026-10-15更新／2026-10-22確認）／The Backpack Battles Wiki「Engineer」「Recipe」「Hypercube」（2026-10-22確認）",
+      "note": "【2026-10-22調査履歴】5分プロトコル・エンジニア第2回。8秒後にクールダウンを75%進めて10トゲ獲得。 本体形状・☆◇△⚡座標は未確認。 本体1×1（占有1マス）・☆1個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（トゲ）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・アクセサリー",
+      "verified": "日英Wiki基本項目照合（2026-10-22）。形状・配置記号未確認。／本体1×1（占有1マス）・☆1個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（トゲ）・デバフ（なし）を登録JSONで確定（2026-10-23）。"
     }
   ]
 }
