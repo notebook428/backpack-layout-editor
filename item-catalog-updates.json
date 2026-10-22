@@ -34198,6 +34198,312 @@
       "type": "item",
       "bagGroup": "エンジニア・鎧",
       "verified": "日英Wikiで基本データ照合（2026-10-22）。形状・配置記号は2026-10-22時点で未確認。ソケット数は2026-10-22の総点検で3と確認。 【総点検 2026-10-22】ソケット数：3、属性：魔法・神聖、基本項目再照合済み。／本体2×3（占有6マス）・☆10個・◇0個・△0個・⚡0個、分類・属性・ソケット3・バフ（シールド、マナ）・デバフ（なし）を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "engineer-rainbow-goobert-fluffyloaf-prismacrust",
+      "name": "レインボー・スラバート・フラッフィー・プリズム",
+      "alias": "Rainbow Goobert Fluffyloaf Prismacrust",
+      "className": "エンジニア",
+      "category": "ペット",
+      "tags": [
+        "神聖",
+        "吸血"
+      ],
+      "price": 50,
+      "rarity": "ゴッド",
+      "socketCount": 0,
+      "buffs": [
+        "シールド",
+        "リジェネ",
+        "吸血"
+      ],
+      "debuffs": [
+        "目くらまし"
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 4
+      },
+      "stars": [
+        [
+          -1,
+          -1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          2,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          -1,
+          2
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「アイテム」「クラス/エンジニア」「合成」（アイテム一覧2026-10-15更新／2026-10-22確認）／The Backpack Battles Wiki「Engineer」「Recipe」「Hypercube」（2026-10-22確認）",
+      "note": "5分プロトコル・エンジニア第2回。トースト・ライト・スチール・ブラッディ各スラバートの合成品。 本体形状・☆◇△⚡座標は2026-10-22時点で未確認。 本体2×2（占有4マス）・☆12個・◇0個・△0個・⚡0個、ソケット0・バフ（シールド、リジェネ、吸血）・デバフ（目くらまし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・ペット",
+      "verified": "日英Wiki基本項目照合（2026-10-22）。形状・配置記号は2026-10-22時点で未確認。／本体2×2（占有4マス）・☆12個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（シールド、リジェネ、吸血）・デバフ（目くらまし）を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "engineer-con-trap-tron",
+      "name": "コン・トラップ・トロン",
+      "alias": "Con-Trap-Tron",
+      "className": "エンジニア",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 8,
+      "rarity": "ゴッド",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 3
+      },
+      "stars": [
+        [
+          2,
+          0
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [
+        [
+          2,
+          -2
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          3,
+          -1
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          3
+        ]
+      ],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "confirmed"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/エンジニア」「アイテム」（2026-10-15更新、2026-10-22照合）／The Backpack Battles Wiki「Engineer」（2026-10-22照合）",
+      "note": "5分プロトコル・エンジニア第1回。体力が70%未満になった際にアイテムのクールダウンを進め、電荷を放出。 本体形状・☆◇△⚡の配置は2026-10-22時点で未確認。 本体2×2（占有3マス）・☆1個・◇0個・△0個・⚡8個、ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・アクセサリー",
+      "verified": "2026-10-22 日英Wiki基本情報照合。本体形状・配置記号は2026-10-22時点で未確認。／本体2×2（占有3マス）・☆1個・◇0個・△0個・⚡8個、分類・属性・ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "engineer-eat-o-matic",
+      "name": "イート・オ・マティック",
+      "alias": "Eat-o-matic",
+      "className": "エンジニア",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 6,
+      "rarity": "ゴッド",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 3
+      },
+      "stars": [
+        [
+          1,
+          1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/エンジニア」「アイテム」（2026-10-15更新、2026-10-22照合）／The Backpack Battles Wiki「Engineer」（2026-10-22照合）",
+      "note": "5分プロトコル・エンジニア第1回。星にある食べ物を加速。通電中はより強く食べ物を加速。 本体形状・☆◇△⚡の配置は2026-10-22時点で未確認。 本体2×2（占有3マス）・☆1個・◇0個・△0個・⚡0個、ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・アクセサリー",
+      "verified": "2026-10-22 日英Wiki基本情報照合。本体形状・配置記号は2026-10-22時点で未確認。／本体2×2（占有3マス）・☆1個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確認済み（2026-10-23）。"
     }
   ]
 }
