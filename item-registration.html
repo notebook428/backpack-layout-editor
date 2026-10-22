@@ -17,7 +17,7 @@
 .status-option input{margin:0;accent-color:#ba9bff}
 .status-option:has(input:checked){background:#67538d;border-color:#cbb5ff;box-shadow:inset 0 0 0 1px #9c80d2}
 .status-option:focus-within{outline:2px solid #c6b1ff;outline-offset:2px}
-.status-option:has(input:disabled){opacity:.45;cursor:not-allowed}.note{font-size:12px;color:#bfd1e4;background:#102137;border:1px solid var(--border);padding:9px;border-radius:7px;margin:9px 0}.baglist{max-height:150px;overflow:auto}.baglist label{display:block;font-size:12px}#candidate{max-width:100%}#catalogInfo{margin-bottom:12px}.prefilled{color:#d5bbfa}#check.warning{border-color:#dcb06b;background:#3a2819;color:#ffe4b5}#out{width:100%;height:320px;font:12px/1.4 ui-monospace,Consolas,monospace;resize:vertical}footer{font-size:12px;color:#a9bed4}
+.status-option:has(input:disabled){opacity:.45;cursor:not-allowed}.direction-bulk{margin:0;align-items:center}.direction-bulk button:focus-visible{outline:2px solid #c6b1ff;outline-offset:2px}.note{font-size:12px;color:#bfd1e4;background:#102137;border:1px solid var(--border);padding:9px;border-radius:7px;margin:9px 0}.baglist{max-height:150px;overflow:auto}.baglist label{display:block;font-size:12px}#candidate{max-width:100%}#catalogInfo{margin-bottom:12px}.prefilled{color:#d5bbfa}#check.warning{border-color:#dcb06b;background:#3a2819;color:#ffe4b5}#out{width:100%;height:320px;font:12px/1.4 ui-monospace,Consolas,monospace;resize:vertical}footer{font-size:12px;color:#a9bed4}
 .right-column{display:contents}
 @media(max-width:1160px){
 main{grid-template-columns:minmax(250px,310px) minmax(0,1fr)}
@@ -30,7 +30,7 @@ main .panel{margin-bottom:12px}
 header{padding:12px}
 }
 </style></head><body>
-<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.7</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
+<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.8</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
 <section class="panel"><h2>① 基本情報</h2>
 <div class="note">既存の登録データから事前入力できます。候補を検索して読み込むだけで、IDや名前、既知の形状を反映するよ。</div><label class="field"><span>登録済みアイテムを検索（名前・英語名・ID）</span><input id="lookup" placeholder="例：フェドーラ帽 / Fedora"></label><label class="field"><span>候補一覧</span><select id="candidate" aria-label="候補のアイテム"><option value="">候補データを読み込み中...</option></select></label><div class="buttons"><button id="applyCandidate" class="main" type="button">既存情報を入力欄に反映</button></div><div id="catalogInfo" class="sub" role="status">データベースを確認中</div>
 
@@ -50,12 +50,10 @@ header{padding:12px}
 <div class="direction-panel">
 <label><input type="checkbox" id="directionStars"> 向き別☆配置モード（ポーションなど）</label>
 <div id="directionStarControls" hidden>
-<div class="sub">先に通常モードで本体を作成してね。向きを選び、表示された本体を基準に☆をクリックして配置。4方向の配置が終わったらまとめて確認できるよ。◇・△・⚡を選ぶと本体の基準向きに戻り、向き別☆モードを解除せずに配置・確認できるよ。</div>
+<div class="sub">先に通常モードで本体を作成してね。向きを選び、表示された本体を基準に☆をクリックして配置。4方向の配置が終わったら、下の「記号の確認状態」の☆欄から一括確認できるよ。◇・△・⚡を選ぶと本体の基準向きに戻り、向き別☆モードを解除せずに配置・確認できるよ。</div>
 <div class="buttons" id="directionButtons" aria-label="☆を編集する向き"></div>
-<div class="buttons"><button type="button" id="confirmAllDirections" class="main">✓ 4方向の☆を一括確認</button></div>
-<div class="sub">☆のある向きは「確認済み」に、☆のない向きは「☆なし」にします。空欄がある場合は確認するよ。</div>
 <div class="sub" id="directionStatus" aria-live="polite"></div>
-</div></div><div class="boardwrap"><div id="board" class="board"></div></div><div class="sub" id="size">本体未入力</div><div class="buttons"><button id="clear">盤面をクリア</button></div><h3>記号の確認状態</h3><div class="sub">未確認と、存在しないことを確認した状態は区別するよ。</div><div class="status-radio-row"><span class="status-symbol">本体</span><div class="status-radio-group" id="bodyStatus" role="radiogroup" aria-label="本体形状の確認状況"></div></div><div id="statuses"></div><h3>配置エディタのJSONを取り込む</h3><div class="sub">元のエディタで「JSON保存」したファイルを選び、形状を表すバッグだけをチェックしてね。説明用マーカーも一緒に読み込めるよ。</div><input id="editorFile" type="file" accept=".json,application/json"><div id="importBox" hidden><div id="bagList" class="baglist"></div><div class="buttons"><button id="importGo">選択バッグ・マーカーを反映</button></div></div>
+</div></div><div class="boardwrap"><div id="board" class="board"></div></div><div class="sub" id="size">本体未入力</div><div class="buttons"><button id="clear">盤面をクリア</button></div><h3>記号の確認状態</h3><div class="sub">未確認と、存在しないことを確認した状態は区別するよ。</div><div class="status-radio-row"><span class="status-symbol">本体</span><div class="status-radio-group" id="bodyStatus" role="radiogroup" aria-label="本体形状の確認状況"></div></div><div id="statuses"></div><div class="buttons direction-bulk" id="directionBulk" hidden><button type="button" id="confirmAllDirections" class="main">✓ ☆4方向を一括確認</button><span class="sub">☆あり→確認済み／☆なし→確認後「なし」</span></div><h3>配置エディタのJSONを取り込む</h3><div class="sub">元のエディタで「JSON保存」したファイルを選び、形状を表すバッグだけをチェックしてね。説明用マーカーも一緒に読み込めるよ。</div><input id="editorFile" type="file" accept=".json,application/json"><div id="importBox" hidden><div id="bagList" class="baglist"></div><div class="buttons"><button id="importGo">選択バッグ・マーカーを反映</button></div></div>
 </section><section class="panel"><h2>③ リコーに渡すデータ</h2><div class="note" id="check" role="alert" aria-live="polite">入力待ち</div><textarea readonly id="out" spellcheck="false"></textarea><div class="buttons"><button class="main" id="copyText">リコー送信用にコピー</button><button id="copyJSON">JSONをコピー</button><button id="download">JSON保存</button></div><h3>保存した登録JSONを編集</h3><input id="entryFile" type="file" accept=".json,application/json"><div class="note">入力途中の下書きはこのブラウザ内に自動保存。別端末には同期されないから、確定後はJSON保存してね。</div><div class="buttons"><button id="new">次のアイテムを入力</button></div><div class="sub" id="message" role="status"></div></section>
 </div></main><footer>非公式ファン制作ツール。独自サーバーには入力情報を送信しません。<a href="info.html#privacy">プライバシー</a> · <a href="info.html#terms">利用規約</a></footer><script>
 (()=>{
@@ -136,7 +134,7 @@ const preview=editingDirectionalStars?rotatedPreview():null;
 const previewBody=new Set(preview?.body.map(([x,y])=>key(x+preview.ox,y+preview.oy))||[]);
 const previewStars=new Set(editingDirectionalStars&&preview?[...starsPerRotation[activeStarRotation]].map(k=>{const [x,y]=xy(k);return key(x+preview.ox,y+preview.oy)}):[]);
 for(const b of $('board').children){const k=key(+b.dataset.x,+b.dataset.y);b.classList.toggle('body',editingDirectionalStars?previewBody.has(k):body.has(k));b.textContent=editingDirectionalStars?(previewStars.has(k)?'☆':''):SYMS.filter((s,i)=>(!rotationStarMode||i!==0)&&marks[i].has(k)).join('')}
-$('directionStars').checked=rotationStarMode;$('directionStarControls').hidden=!rotationStarMode;
+$('directionStars').checked=rotationStarMode;$('directionStarControls').hidden=!rotationStarMode;$('directionBulk').hidden=!rotationStarMode;
 for(const b of $('directionButtons').children){const selected=Number(b.dataset.rotation)===activeStarRotation;b.classList.toggle('on',selected);b.setAttribute('aria-pressed',String(selected))}
 $('directionStatus').textContent=rotationStarMode?DIRECTIONS.map((sym,i)=>sym+' '+({unknown:'未確認',draft:'要確認',confirmed:'確認済み',none:'☆なし'}[rotationStates[i]])+'('+starsPerRotation[i].size+')').join(' / '):'';
 for(const b of $('tools').children){b.disabled=rotationStarMode&&b.dataset.tool==='body';b.classList.toggle('on',b.dataset.tool===tool)}
@@ -213,7 +211,7 @@ KEYS.forEach((k,i)=>{
   label.append(radio,caption);group.append(label);
   radio.addEventListener('change',()=>{if(radio.checked)selectMarkerStatus(i,value)});
  }
- row.append(heading,group);$('statuses').append(row);
+ row.append(heading,group);if(i===0)row.append($('directionBulk'));$('statuses').append(row);
 });
 $('directionStars').addEventListener('change',()=>setDirectionMode($('directionStars').checked));
 $('confirmAllDirections').addEventListener('click',confirmAllDirections);
