@@ -25033,6 +25033,451 @@
       "type": "item",
       "bagGroup": "メイジ・チェスの駒",
       "verified": "本体1×1・占有1マス、☆20個・◇△⚡なし、分類・属性・効果・ソケット0を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "mage-chess-black-rook",
+      "name": "黒のルーク",
+      "alias": "Black Rook",
+      "className": "メイジ",
+      "category": "チェスの駒",
+      "tags": [],
+      "price": 5,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "buffs": [
+        "トゲ"
+      ],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [
+        [
+          0,
+          -5
+        ],
+        [
+          0,
+          -4
+        ],
+        [
+          0,
+          -3
+        ],
+        [
+          0,
+          -2
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          -5,
+          0
+        ],
+        [
+          -4,
+          0
+        ],
+        [
+          -3,
+          0
+        ],
+        [
+          -2,
+          0
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「チェスボード」「アイテム」（2026-10-15更新）・The Backpack Battles Wiki「Mage」「Chess Board」（2026-10-22参照）",
+      "note": "5分プロトコル・メイジ第2回。チェスボードから入手する駒。取る時にトゲ3獲得、取られる時に3秒間クリティカル率+35%。本体1×1（占有1マス）・☆20個・◇△⚡なし、属性なし・ソケット0・バフ（トゲ）・デバフなしを登録JSONで確定（2026-10-23）。☆配置は白の対応駒と一致。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "メイジ・チェスの駒",
+      "verified": "本体1×1・占有1マス、☆20個・◇△⚡なし、分類・属性・効果・ソケット0を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "mage-chess-black-queen",
+      "name": "黒のクイーン",
+      "alias": "Black Queen",
+      "className": "メイジ",
+      "category": "チェスの駒",
+      "tags": [],
+      "price": 9,
+      "rarity": "レジェンダリー",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [
+        [
+          -5,
+          -5
+        ],
+        [
+          0,
+          -5
+        ],
+        [
+          5,
+          -5
+        ],
+        [
+          -4,
+          -4
+        ],
+        [
+          0,
+          -4
+        ],
+        [
+          4,
+          -4
+        ],
+        [
+          -3,
+          -3
+        ],
+        [
+          0,
+          -3
+        ],
+        [
+          3,
+          -3
+        ],
+        [
+          -2,
+          -2
+        ],
+        [
+          0,
+          -2
+        ],
+        [
+          2,
+          -2
+        ],
+        [
+          -1,
+          -1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          -5,
+          0
+        ],
+        [
+          -4,
+          0
+        ],
+        [
+          -3,
+          0
+        ],
+        [
+          -2,
+          0
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          -2,
+          2
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          -3,
+          3
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          -4,
+          4
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          -5,
+          5
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「チェスボード」「アイテム」（2026-10-15更新）・The Backpack Battles Wiki「Mage」「Chess Board」（2026-10-22参照）",
+      "note": "5分プロトコル・メイジ第2回。チェスボードから入手する駒。取る時にバフ1奪取（初回4）、取られる時に相手を1.3秒スタン。本体1×1（占有1マス）・☆40個・◇△⚡なし、属性なし・ソケット0・バフ（なし）・デバフなしを登録JSONで確定（2026-10-23）。☆配置は白の対応駒と一致。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "メイジ・チェスの駒",
+      "verified": "本体1×1・占有1マス、☆40個・◇△⚡なし、分類・属性・効果・ソケット0を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "mage-chess-black-king",
+      "name": "黒のキング",
+      "alias": "Black King",
+      "className": "メイジ",
+      "category": "チェスの駒",
+      "tags": [],
+      "price": 5,
+      "rarity": "ゴッド",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [
+        [
+          -1,
+          -1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「チェスボード」「アイテム」（2026-10-15更新）・The Backpack Battles Wiki「Mage」「Chess Board」（2026-10-22参照）",
+      "note": "5分プロトコル・メイジ第2回。チェスボードから入手する駒。取る時に武器攻撃速度+5%、黒の駒が取る時に相手からバフ1除去（初回2）。本体1×1（占有1マス）・☆8個・◇△⚡なし、属性なし・ソケット0・バフ（なし）・デバフなしを登録JSONで確定（2026-10-23）。☆配置は白の対応駒と一致。価格は2026-10-15日本語Wikiの5Gを採用。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "メイジ・チェスの駒",
+      "verified": "本体1×1・占有1マス、☆8個・◇△⚡なし、分類・属性・効果・ソケット0を登録JSONで確認済み（2026-10-23）。"
     }
   ]
 }
