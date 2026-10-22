@@ -30,12 +30,12 @@ main .panel{margin-bottom:12px}
 header{padding:12px}
 }
 </style></head><body>
-<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.15</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
+<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.16</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
 <section class="panel"><h2>① 基本情報</h2>
 <div class="note">既存の登録データから事前入力できます。候補を検索して読み込むだけで、IDや名前、既知の形状を反映するよ。</div><label class="field"><span>登録済みアイテムを検索（名前・英語名・ID）</span><input id="lookup" placeholder="例：フェドーラ帽 / Fedora"></label><label class="field"><span>候補一覧</span><select id="candidate" aria-label="候補のアイテム"><option value="">候補データを読み込み中...</option></select></label><div class="buttons"><button id="applyCandidate" class="main" type="button">既存情報を入力欄に反映</button></div><div id="catalogInfo" class="sub" role="status">データベースを確認中</div>
 
 <label class="field"><span>日本語名（必須）</span><input id="ja" placeholder="フェドーラ帽"></label><label class="field"><span>英語名（必須）</span><input id="en" placeholder="Fedora"></label><label class="field"><span>ID（既存データを優先。新規のみ自動発行）</span><input id="id" placeholder="自動で取得・発行できます"></label><div class="buttons"><button type="button" id="makeId">IDを自動で決める</button></div>
-<fieldset class="pick-panel"><legend>クラス</legend><input type="hidden" id="klass"><div class="choices" id="klassChoices"></div><label class="field more-field" id="klassMore" hidden><span>その他のクラス</span><input id="klassExtra" placeholder="クラス名を入力"></label></fieldset>
+<fieldset class="pick-panel"><legend>クラス</legend><input type="hidden" id="klass"><div class="choices" id="klassChoices"></div><div class="sub">複数クラス共通のスキルは「その他」でクラス名をカンマ区切りにして入力してね。先頭が主クラスになるよ。</div><label class="field more-field" id="klassMore" hidden><span>その他のクラス（複数はカンマ区切り）</span><input id="klassExtra" placeholder="例：バーサーカー, パイロマンサー"></label></fieldset>
 <fieldset class="pick-panel"><legend>レアリティ</legend><input type="hidden" id="rarity"><div class="choices" id="rarityChoices"></div><label class="field more-field" id="rarityMore" hidden><span>その他のレアリティ</span><input id="rarityExtra" placeholder="レアリティ名を入力"></label></fieldset>
 <fieldset class="pick-panel"><legend>属性・タグ（複数選択可）</legend><input type="hidden" id="tags"><div class="choices" id="tagChoices"></div><label class="field"><span>その他のタグ（カンマ区切り）</span><input id="tagsExtra" placeholder="一覧にない属性があれば入力"></label><div class="status-choice-field"><div class="sub">確認状況</div><div class="status-radio-group" id="tagStatus" role="radiogroup" aria-label="属性・タグの確認状況"></div></div></fieldset>
 <fieldset class="pick-panel"><legend>アイテム分類（複数選択可）</legend><input type="hidden" id="category"><div class="choices" id="categoryChoices"></div><div class="sub">未選択＝未確認。最初に選んだ分類を category に保存し、複数選択時は全分類を categories にも記録します。</div><div class="sub">旧データの「防具」は原作の独立分類ではないため、盾・鎧・兜・靴・手袋から選び直してね。</div><label class="field more-field" id="categoryMore" hidden><span>その他の分類（カンマ区切り可）</span><input id="categoryExtra" placeholder="分類を入力"></label></fieldset>
@@ -158,12 +158,13 @@ function confirmAllDirections(i=0){
  $('message').textContent=sym+'4方向を一括確認したよ。配置を修正した向きは再確認してね。';
 }
 const str=id=>$(id).value.trim()||null,num=id=>$(id).value.trim()===''?null:Number($(id).value);
+function parseClassNames(v){return [...new Set(String(v||'').split(/[,、\n]/).map(s=>s.trim()).filter(Boolean))]}
 function data(){
- const g=geometry(),extra={};
+ const g=geometry(),extra={};const classes=parseClassNames(str('klass'));
  KEYS.forEach((k,i)=>extra[k]=rotationStarMode?directionalData(i)['0']:!g||states[i]==='unknown'?null:states[i]==='none'?[]:g.marks[i]);
  const directionValues=rotationStarMode?Object.fromEntries(KEYS.map((k,i)=>[directionalKey(k),directionalData(i)])):{};
  const directionReviews=rotationStarMode?Object.fromEntries(KEYS.map((k,i)=>[directionalKey(k),directionalReview(i)])):{};
- return {format:'recho-item-registration',version:2,id:str('id'),name:str('ja'),alias:str('en'),className:str('klass'),category:selectedCategories[0]||null,...(selectedCategories.length>1?{categories:[...selectedCategories]}:{}),tags:[...new Set($('tags').value.split(/[,、\n]/).map(s=>s.trim()).filter(Boolean))],price:num('price'),rarity:str('rarity'),socketCount:num('sockets'),buffs:effectStatus.buffs==='unknown'?null:[...effectChoices.buffs],debuffs:effectStatus.debuffs==='unknown'?null:[...effectChoices.debuffs],shape:g?.shape||null,size:g?.size||null,...extra,...directionValues,review:{shape:bodyState,markers:Object.fromEntries(KEYS.map((k,i)=>[k,rotationStarMode?summaryReview(i):states[i]])),...directionReviews,tags:tagStatus,effects:{...effectStatus}},origin:str('origin'),note:str('note')};
+ return {format:'recho-item-registration',version:2,id:str('id'),name:str('ja'),alias:str('en'),className:classes[0]||null,...(classes.length>1?{classNames:classes}:{}),category:selectedCategories[0]||null,...(selectedCategories.length>1?{categories:[...selectedCategories]}:{}),tags:[...new Set($('tags').value.split(/[,、\n]/).map(s=>s.trim()).filter(Boolean))],price:num('price'),rarity:str('rarity'),socketCount:num('sockets'),buffs:effectStatus.buffs==='unknown'?null:[...effectChoices.buffs],debuffs:effectStatus.debuffs==='unknown'?null:[...effectChoices.debuffs],shape:g?.shape||null,size:g?.size||null,...extra,...directionValues,review:{shape:bodyState,markers:Object.fromEntries(KEYS.map((k,i)=>[k,rotationStarMode?summaryReview(i):states[i]])),...directionReviews,tags:tagStatus,effects:{...effectStatus}},origin:str('origin'),note:str('note')};
 }
 function missing(d){
  const a=[];
@@ -386,7 +387,7 @@ function openEntry(d){
  tool=hasDirections?'☆':'body';
  states=KEYS.map((k,i)=>d.review?.markers?.[k]||(d[k]==null?'unknown':m[i].size?'draft':'none'));
  tagStatus=['unknown','confirmed','none'].includes(d.review?.tags)?d.review.tags:(d.tags?.length?'confirmed':'unknown');
- const v={ja:d.name,en:d.alias,id:d.id,klass:d.className,category:d.category,tags:(d.tags||[]).join(', '),price:d.price,rarity:d.rarity,sockets:d.socketCount,origin:d.origin,note:d.note};
+ const v={ja:d.name,en:d.alias,id:d.id,klass:Array.isArray(d.classNames)&&d.classNames.length?parseClassNames(d.classNames.join(', ')).join(', '):d.className,category:d.category,tags:(d.tags||[]).join(', '),price:d.price,rarity:d.rarity,sockets:d.socketCount,origin:d.origin,note:d.note};
  FIELDS.forEach(f=>$(f).value=v[f]??'');
  socketAutoZero=false; // Reading a known item must never overwrite its socket number.
  setCategorySelection(Array.isArray(d.categories)&&d.categories.length?d.categories:[d.category]);
@@ -724,7 +725,7 @@ try{
  }
 }catch(e){$('message').textContent='保存済み下書きを復元できませんでした。保存JSONから読み込み直してね。'}
 focusBoardOnEntry(true);paint();
-window.__itemRegisterTest={data,geometry,missing,change,importEditor,applyImport,openEntry,applyPotionStarPreset,setDirectionMode,selectMarkerStatus,directionalData,directionalReview,paint,focusBoardOnEntry,setCategorySelection,socketCategoryRule,applySocketCategoryRule,socketAutoZero:()=>socketAutoZero,boardView:()=>({expanded:expandedBoard,x:viewportX,y:viewportY,...viewportDimensions()}),rotationState:()=>({mode:rotationStarMode,active:activeStarRotation,marks:KEYS.map((_,i)=>directionalSets(i).map(m=>sort(m))),states:KEYS.map((_,i)=>[...directionalStates(i)])})};
+window.__itemRegisterTest={data,parseClassNames,geometry,missing,change,importEditor,applyImport,openEntry,applyPotionStarPreset,setDirectionMode,selectMarkerStatus,directionalData,directionalReview,paint,focusBoardOnEntry,setCategorySelection,socketCategoryRule,applySocketCategoryRule,socketAutoZero:()=>socketAutoZero,boardView:()=>({expanded:expandedBoard,x:viewportX,y:viewportY,...viewportDimensions()}),rotationState:()=>({mode:rotationStarMode,active:activeStarRotation,marks:KEYS.map((_,i)=>directionalSets(i).map(m=>sort(m))),states:KEYS.map((_,i)=>[...directionalStates(i)])})};
 
 const look=$('lookup'),candidate=$('candidate'),catalogInfo=$('catalogInfo');
 let catalog=[];
