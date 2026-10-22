@@ -293,18 +293,51 @@ DIRECTIONS.forEach((name,r)=>{const btn=document.createElement('button');btn.typ
 function rotate(x,y,r){return r===0?[x,y]:r===1?[-y,x]:r===2?[-x,-y]:[y,-x]}
 function importEditor(d){if(d.format!=='recho-backpack-editor'||d.grid?.width!==9||d.grid?.height!==7||!Array.isArray(d.bags)||!Array.isArray(d.debugMarks))throw Error('9×7エディタJSONが必要');editor=d;const defs=new Map((d.definitions||[]).map(p=>[p.id,p]));$('bagList').replaceChildren();d.bags.forEach((b,i)=>{const l=document.createElement('label'),c=document.createElement('input');c.type='checkbox';c.checked=true;c.value=i;c.className='bagSelect';l.append(c,document.createTextNode(' '+(defs.get(b.presetId)?.name||b.presetId)+' ('+b.x+','+b.y+')'));$('bagList').append(l)});$('importBox').hidden=false}
 function applyImport(){if(!editor)return;const defs=new Map((editor.definitions||[]).map(p=>[p.id,p])),a=[];document.querySelectorAll('.bagSelect:checked').forEach(c=>{const b=editor.bags[+c.value],p=defs.get(b.presetId);if(!p?.shape)throw Error('バッグ定義がない');const raw=p.shape.map(q=>rotate(q[0],q[1],b.rot)),mx=Math.min(...raw.map(v=>v[0])),my=Math.min(...raw.map(v=>v[1]));raw.forEach(([x,y])=>a.push([b.x+x-mx,b.y+y-my]))});if(!a.length)throw Error('バッグを選んでね');const dx=6-Math.min(...a.map(v=>v[0])),dy=6-Math.min(...a.map(v=>v[1]));const b=new Set(a.map(([x,y])=>key(x+dx,y+dy))),m=KEYS.map(()=>new Set());editor.debugMarks.forEach(v=>{const i=SYMS.indexOf(v.symbol);if(i>=0)m[i].add(key(v.x+dx,v.y+dy))});if(![...b,...m.flatMap(v=>[...v])].map(xy).every(valid))throw Error('盤面内に収まらない');body=b;marks=m;bodyState='draft';states=m.map(v=>v.size?'draft':'unknown');rotationStarMode=false;activeStarRotation=0;rotationStarEdited=false;starsPerRotation=Array.from({length:4},()=>new Set());rotationStates=Array(4).fill('unknown');paint();const skipped=[...new Set(editor.debugMarks.filter(v=>!SYMS.includes(v.symbol)).map(v=>v.symbol))];if(skipped.length)$('message').textContent='⚠ 未対応の説明マーカー '+skipped.join('・')+' は取り込んでいないよ。元の配置JSONを確認してね。';}
-function openEntry(d){if(d.format!=='recho-item-registration'||!d.shape?.length)throw Error('本体形状入りの登録JSONが必要');if(['diamonds','squares','filledTriangles'].some(k=>Array.isArray(d[k])&&d[k].length))throw Error('旧版の◆・□・▲に配置があります。この4記号版では取り込めないため、元JSONを保管し、座標を確認して移行してください');const x0=Math.min(...d.shape.map(v=>v[0])),y0=Math.min(...d.shape.map(v=>v[1])),dx=6-x0,dy=6-y0,b=new Set(d.shape.map(v=>key(v[0]+dx,v[1]+dy))),m=KEYS.map(k=>new Set((d[k]||[]).map(v=>key(v[0]+dx,v[1]+dy))));if(![...b,...m.flatMap(v=>[...v])].map(xy).every(valid))throw Error('盤面からはみ出す');const hasDirections=d.starsByRotation!=null;
-let importedDirections=Array.from({length:4},()=>new Set()),importedStates=Array(4).fill('unknown');
-if(hasDirections){if(typeof d.starsByRotation!=='object'||Array.isArray(d.starsByRotation))throw Error('向き別☆データの形式が不正です');
-for(const k of Object.keys(d.starsByRotation))if(!['0','1','2','3'].includes(k))throw Error('向き別☆の向きが不正です');
-for(let r=0;r<4;r++){const cells=d.starsByRotation[String(r)];if(cells!=null){
- if(!Array.isArray(cells)||cells.some(p=>!Array.isArray(p)||p.length!==2||!p.every(n=>Number.isInteger(n)&&n>=-10&&n<=10)))throw Error('向き別☆の座標が不正です');
- importedDirections[r]=new Set(cells.map(([x,y])=>key(x,y)));
+function openEntry(d){
+ if(d.format!=='recho-item-registration'||!d.shape?.length)throw Error('本体形状入りの登録JSONが必要');
+ if(['diamonds','squares','filledTriangles'].some(k=>Array.isArray(d[k])&&d[k].length))throw Error('旧版の◆・□・▲に配置があります。この4記号版では取り込めないため、元JSONを保管し、座標を確認して移行してください');
+ const x0=Math.min(...d.shape.map(v=>v[0])),y0=Math.min(...d.shape.map(v=>v[1])),dx=6-x0,dy=6-y0;
+ const b=new Set(d.shape.map(v=>key(v[0]+dx,v[1]+dy)));
+ const m=KEYS.map(k=>new Set((d[k]||[]).map(v=>key(v[0]+dx,v[1]+dy))));
+ if(![...b,...m.flatMap(v=>[...v])].map(xy).every(valid))throw Error('盤面からはみ出す');
+ const hasDirections=KEYS.some(k=>d[directionalKey(k)]!=null);
+ const imported=KEYS.map(()=>Array.from({length:4},()=>new Set()));
+ const importedStates=KEYS.map(()=>Array(4).fill('unknown'));
+ if(hasDirections){
+  KEYS.forEach((k,i)=>{
+   const source=d[directionalKey(k)],review=d.review?.[directionalKey(k)];
+   if(source==null){
+    // Older directional JSON only contains starsByRotation. Keep rotation 0,
+    // but never invent directional positions for the other marker types.
+    imported[i][0]=new Set((d[k]||[]).map(([x,y])=>key(x,y)));
+    importedStates[i][0]=d.review?.markers?.[k]||(d[k]==null?'unknown':d[k].length?'draft':'none');
+    return;
+   }
+   if(typeof source!=='object'||Array.isArray(source))throw Error('向き別'+SYMS[i]+'データの形式が不正です');
+   if(Object.keys(source).some(r=>!['0','1','2','3'].includes(r)))throw Error('向き別'+SYMS[i]+'の向きが不正です');
+   for(let r=0;r<4;r++){
+    const cells=source[String(r)];
+    if(cells!=null){
+     if(!Array.isArray(cells)||cells.length>80||cells.some(p=>!Array.isArray(p)||p.length!==2||!p.every(n=>Number.isInteger(n)&&n>=-10&&n<=10)))throw Error('向き別'+SYMS[i]+'の座標が不正です');
+     imported[i][r]=new Set(cells.map(([x,y])=>key(x,y)));
+    }
+    const status=review?.[String(r)];
+    importedStates[i][r]=['unknown','draft','confirmed','none'].includes(status)?status:cells==null?'unknown':cells.length?'draft':'none';
+   }
+  });
+ }
+ body=b;marks=m;bodyState=d.review?.shape||'draft';rotationStarMode=hasDirections;rotationStarEdited=hasDirections;activeStarRotation=0;
+ starsPerRotation=imported[0];rotationStates=importedStates[0];otherMarksPerRotation=imported.slice(1);otherRotationStates=importedStates.slice(1);
+ tool=hasDirections?'☆':'body';
+ states=KEYS.map((k,i)=>d.review?.markers?.[k]||(d[k]==null?'unknown':m[i].size?'draft':'none'));
+ tagStatus=['unknown','confirmed','none'].includes(d.review?.tags)?d.review.tags:(d.tags?.length?'confirmed':'unknown');
+ const v={ja:d.name,en:d.alias,id:d.id,klass:d.className,category:d.category,tags:(d.tags||[]).join(', '),price:d.price,rarity:d.rarity,sockets:d.socketCount,origin:d.origin,note:d.note};
+ FIELDS.forEach(f=>$(f).value=v[f]??'');
+ setCategorySelection(Array.isArray(d.categories)&&d.categories.length?d.categories:[d.category]);
+ Object.keys(customActive).forEach(k=>customActive[k]=false);
+ customActive.category=selectedCategories.some(v=>!RADIO_OPTIONS.category.includes(v));
+ loadEffects(d);paint();
 }
-const state=d.review?.starsByRotation?.[String(r)];
-importedStates[r]=['unknown','draft','confirmed','none'].includes(state)?state:cells==null?'unknown':cells.length?'draft':'none';
-}}
-body=b;marks=m;bodyState=d.review?.shape||'draft';rotationStarMode=hasDirections;rotationStarEdited=hasDirections;activeStarRotation=0;starsPerRotation=importedDirections;rotationStates=importedStates;tool=hasDirections?'☆':'body';states=KEYS.map((k,i)=>d.review?.markers?.[k]||(d[k]==null?'unknown':m[i].size?'draft':'none'));tagStatus=['unknown','confirmed','none'].includes(d.review?.tags)?d.review.tags:(d.tags?.length?'confirmed':'unknown');const v={ja:d.name,en:d.alias,id:d.id,klass:d.className,category:d.category,tags:(d.tags||[]).join(', '),price:d.price,rarity:d.rarity,sockets:d.socketCount,origin:d.origin,note:d.note};FIELDS.forEach(f=>$(f).value=v[f]??'');setCategorySelection(Array.isArray(d.categories)&&d.categories.length?d.categories:[d.category]);Object.keys(customActive).forEach(k=>customActive[k]=false);customActive.category=selectedCategories.some(v=>!RADIO_OPTIONS.category.includes(v));loadEffects(d);paint()}
 async function readFile(e,cb){const f=e.target.files?.[0];e.target.value='';if(!f)return;try{if(f.size>3000000)throw Error('JSONが大きすぎる');cb(JSON.parse(await f.text()))}catch(err){alert('読み込み失敗：'+err.message)}}
 function allowExport(){const list=missing(data());return !list.length||confirm('⚠ 未確認・未完了の項目が '+list.length+' 件あります。\n'+list.join('、')+'\n\n未完成のデータとしてこのまま出力しますか？')}
 async function copy(text){try{await navigator.clipboard.writeText(text);$('message').textContent='コピーできたよ。チャットに貼り付けてね'}catch(e){$('out').focus();$('out').select();$('message').textContent='出力欄を選択したよ。Ctrl+Cでコピーしてね'}}
