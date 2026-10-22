@@ -10,7 +10,7 @@
 .pick-panel .field{margin-top:9px;margin-bottom:0}
 #priceExtra,#socketsExtra{margin-top:6px}
 .sub{color:#b5c4d9;font-size:12px}.direction-panel{border:1px solid #665a90;background:#1a2440;border-radius:10px;padding:10px;margin:10px 0}.direction-panel label{display:flex;gap:8px;align-items:center;cursor:pointer}.direction-panel input{accent-color:#bca3fc}.direction-panel .buttons button.on{background:#725c9a;border-color:#ead4ff}.direction-panel [hidden]{display:none!important}.buttons{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0}.buttons button,.tool{background:#34486a;color:var(--text);border:1px solid #7083aa;border-radius:7px;cursor:pointer;padding:7px 9px;font:inherit}.tool.on,.buttons button.main{background:#725c9a;border-color:#cdb7ef}.boardwrap{overflow:auto;border:1px solid var(--border);background:#0e192c;border-radius:9px;padding:8px}.board{display:grid;grid-template-columns:repeat(21,27px);grid-template-rows:repeat(17,27px);width:max-content}.sq{width:27px;height:27px;background:#1b2a43;border:1px solid #3a4c67;color:#ffe7b0;font-size:15px;padding:0;cursor:crosshair}.sq:nth-child(2n){background:#21314b}.sq.body{background:#6c92be;border-color:#a5c7e4}.sq:hover{filter:brightness(1.4)}.status{display:grid;grid-template-columns:55px 1fr;gap:8px;align-items:center;margin:7px 0}.status select{padding:5px}
-.status-radio-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:9px 0}
+.status-choice-field{margin-top:9px}.status-choice-field .status-radio-group{margin-top:5px}.status-radio-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:9px 0}
 .status-symbol{min-width:55px;color:#e9efff;font-weight:700}
 .status-radio-group{display:flex;flex-wrap:wrap;gap:5px;min-width:0}
 .status-option{display:inline-flex;align-items:center;gap:4px;border:1px solid #566989;background:#243451;color:#ecf0fa;border-radius:7px;padding:6px 8px;cursor:pointer;font-size:12px;line-height:1.3}
@@ -30,16 +30,16 @@ main .panel{margin-bottom:12px}
 header{padding:12px}
 }
 </style></head><body>
-<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.4</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
+<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.5</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
 <section class="panel"><h2>① 基本情報</h2>
 <div class="note">既存の登録データから事前入力できます。候補を検索して読み込むだけで、IDや名前、既知の形状を反映するよ。</div><label class="field"><span>登録済みアイテムを検索（名前・英語名・ID）</span><input id="lookup" placeholder="例：フェドーラ帽 / Fedora"></label><label class="field"><span>候補一覧</span><select id="candidate" aria-label="候補のアイテム"><option value="">候補データを読み込み中...</option></select></label><div class="buttons"><button id="applyCandidate" class="main" type="button">既存情報を入力欄に反映</button></div><div id="catalogInfo" class="sub" role="status">データベースを確認中</div>
 
 <label class="field"><span>日本語名（必須）</span><input id="ja" placeholder="フェドーラ帽"></label><label class="field"><span>英語名（必須）</span><input id="en" placeholder="Fedora"></label><label class="field"><span>ID（既存データを優先。新規のみ自動発行）</span><input id="id" placeholder="自動で取得・発行できます"></label><div class="buttons"><button type="button" id="makeId">IDを自動で決める</button></div>
 <fieldset class="pick-panel"><legend>クラス</legend><input type="hidden" id="klass"><div class="choices" id="klassChoices"></div><label class="field more-field" id="klassMore" hidden><span>その他のクラス</span><input id="klassExtra" placeholder="クラス名を入力"></label></fieldset>
 <fieldset class="pick-panel"><legend>アイテム分類</legend><input type="hidden" id="category"><div class="choices" id="categoryChoices"></div><div class="sub">旧データの「防具」は原作の独立分類ではないため、盾・鎧・兜・靴・手袋から選び直してね。</div><label class="field more-field" id="categoryMore" hidden><span>その他の分類</span><input id="categoryExtra" placeholder="分類を入力"></label></fieldset>
-<fieldset class="pick-panel"><legend>属性・タグ（複数選択可）</legend><input type="hidden" id="tags"><div class="choices" id="tagChoices"></div><label class="field"><span>その他のタグ（カンマ区切り）</span><input id="tagsExtra" placeholder="一覧にない属性があれば入力"></label><label class="field"><span>確認状況</span><select id="tagStatus"><option value="unknown">未確認</option><option value="confirmed">確認済み（選択したタグ）</option><option value="none">該当なし（確認済み）</option></select></label></fieldset>
-<fieldset class="pick-panel"><legend>関連するバフ（8種類・複数選択可）</legend><div class="choices" id="buffChoices"></div><label class="field"><span>確認状況</span><select id="buffStatus"><option value="unknown">未確認</option><option value="confirmed">確認済み（チェックした項目）</option><option value="none">該当なし（確認済み）</option></select></label></fieldset>
-<fieldset class="pick-panel"><legend>関連するデバフ（3種類・複数選択可）</legend><div class="choices" id="debuffChoices"></div><label class="field"><span>確認状況</span><select id="debuffStatus"><option value="unknown">未確認</option><option value="confirmed">確認済み（チェックした項目）</option><option value="none">該当なし（確認済み）</option></select></label></fieldset>
+<fieldset class="pick-panel"><legend>属性・タグ（複数選択可）</legend><input type="hidden" id="tags"><div class="choices" id="tagChoices"></div><label class="field"><span>その他のタグ（カンマ区切り）</span><input id="tagsExtra" placeholder="一覧にない属性があれば入力"></label><div class="status-choice-field"><div class="sub">確認状況</div><div class="status-radio-group" id="tagStatus" role="radiogroup" aria-label="属性・タグの確認状況"></div></div></fieldset>
+<fieldset class="pick-panel"><legend>関連するバフ（8種類・複数選択可）</legend><div class="choices" id="buffChoices"></div><div class="status-choice-field"><div class="sub">確認状況</div><div class="status-radio-group" id="buffStatus" role="radiogroup" aria-label="バフの確認状況"></div></div></fieldset>
+<fieldset class="pick-panel"><legend>関連するデバフ（3種類・複数選択可）</legend><div class="choices" id="debuffChoices"></div><div class="status-choice-field"><div class="sub">確認状況</div><div class="status-radio-group" id="debuffStatus" role="radiogroup" aria-label="デバフの確認状況"></div></div></fieldset>
 <div class="two">
 <label class="field"><span>値段（G）</span><input type="hidden" id="price"><select id="priceChoice" aria-label="価格を選択"></select><input id="priceExtra" type="number" min="0" step="1" placeholder="金額を入力" hidden></label>
 <label class="field"><span>ソケット数</span><input type="hidden" id="sockets"><select id="socketsChoice" aria-label="ソケット数を選択"></select><input id="socketsExtra" type="number" min="0" step="1" placeholder="個数を入力" hidden></label>
@@ -147,7 +147,7 @@ $('bodyStatus').value=bodyState;KEYS.forEach((k,i)=>{
    radio.disabled=rotationStarMode&&i>0;
  }
 });
-const d=data();$('out').value=JSON.stringify(d,null,2);$('size').textContent=d.size?d.size.width+'×'+d.size.height+' / '+d.size.occupied+'マス':'本体未入力';const m=missing(d);$('check').classList.toggle('warning',m.length>0);$('check').textContent=m.length?'⚠ 未確認・未完了 '+m.length+' 件：'+m.join('、'):'✓ すべての登録項目を確認済み';$('tagStatus').value=tagStatus;save();
+const d=data();$('out').value=JSON.stringify(d,null,2);$('size').textContent=d.size?d.size.width+'×'+d.size.height+' / '+d.size.occupied+'マス':'本体未入力';const m=missing(d);$('check').classList.toggle('warning',m.length>0);$('check').textContent=m.length?'⚠ 未確認・未完了 '+m.length+' 件：'+m.join('、'):'✓ すべての登録項目を確認済み';syncConfirmationRadios('tagStatus',tagStatus);save();
 }
 function change(x,y){
  if(rotationStarMode){
@@ -246,9 +246,23 @@ function makeRadioField(id){
  }
  $(id+'Extra').addEventListener('input',()=>{$(id).value=$(id+'Extra').value.trim();customActive[id]=true;paint();});
 }
+const CONFIRM_STATUS_CHOICES=[['unknown','未確認'],['confirmed','確認済み'],['none','なし']];
+function makeConfirmationRadios(id,handler){
+ const group=$(id);
+ for(const [value,caption] of CONFIRM_STATUS_CHOICES){
+  const label=document.createElement('label');label.className='status-option';
+  const radio=document.createElement('input');radio.type='radio';radio.name=id+'Choice';radio.value=value;
+  const text=document.createElement('span');text.textContent=caption;
+  label.append(radio,text);group.append(label);
+  radio.addEventListener('change',()=>{if(radio.checked)handler(value)});
+ }
+}
+function syncConfirmationRadios(id,status){
+ for(const radio of $(id).querySelectorAll('input[type="radio"]'))radio.checked=radio.value===status;
+}
 function makeTagField(){
- $('tagStatus').addEventListener('change',()=>{
-  tagStatus=$('tagStatus').value;
+ makeConfirmationRadios('tagStatus',value=>{
+  tagStatus=value;
   if(tagStatus==='none'||tagStatus==='unknown')$('tags').value='';
   if(tagStatus==='confirmed'&&!$('tags').value.trim())tagStatus='none';
   paint();
@@ -322,7 +336,7 @@ function syncEffectControls(){
  for(const [type,options] of Object.entries(EFFECT_TYPES)){
   const chosen=effectChoices[type];
   for(const cb of document.querySelectorAll('input[data-effect="'+type+'"]'))cb.checked=chosen.has(cb.value);
-  $(type==='buffs'?'buffStatus':'debuffStatus').value=effectStatus[type];
+  syncConfirmationRadios(type==='buffs'?'buffStatus':'debuffStatus',effectStatus[type]);
  }
 }
 function makeEffectControls(){
@@ -340,10 +354,10 @@ function makeEffectControls(){
     paint();
    });
   }
-  const select=$(type==='buffs'?'buffStatus':'debuffStatus');
-  select.addEventListener('change',()=>{
-   if(select.value==='none'||select.value==='unknown')effectChoices[type].clear();
-   effectStatus[type]=select.value==='confirmed'&&!effectChoices[type].size?'none':select.value;
+  const statusId=type==='buffs'?'buffStatus':'debuffStatus';
+  makeConfirmationRadios(statusId,value=>{
+   if(value==='none'||value==='unknown')effectChoices[type].clear();
+   effectStatus[type]=value==='confirmed'&&!effectChoices[type].size?'none':value;
    paint();
   });
  }
