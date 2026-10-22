@@ -35361,6 +35361,172 @@
       "type": "item",
       "bagGroup": "エンジニア・アクセサリー",
       "verified": "日英Wiki基本項目照合（2026-10-22）。形状・配置記号未確認。／本体1×1（占有1マス）・☆1個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（トゲ）・デバフ（なし）を登録JSONで確定（2026-10-23）。"
+    },
+    {
+      "id": "start-engineer-cogs",
+      "name": "歯車仕掛けの箱",
+      "alias": "Box of Cogs",
+      "category": "バッグ",
+      "type": "bag",
+      "shape": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "stars": [],
+      "bagGroup": "エンジニア",
+      "note": "ゲーム内画像＋ホタテくんの配置図で確認（2026-10-18）／2026-10-22 エンジニア第1回で基本情報補完。確定・仮形状は維持。 【分類変更履歴】既存プリセットでは「初期バッグ」、2026-10-23の登録JSONで「バッグ」へ更新。type:\"bag\"は維持。 【確定登録 2026-10-23】本体4×3・占有8マス、☆◇△⚡はいずれもなし。区分「バッグ」、価格18G、ソケット0、タグ・バフ・デバフはなし。2026-10-18のゲーム内画像・配置図の確認履歴を継承。",
+      "verified": "ゲーム内画像＋ホタテくんの配置図で確認（2026-10-18）／【確定登録 2026-10-23】本体4×3・占有8マス、☆◇△⚡はいずれもなし。区分「バッグ」、価格18G、ソケット0、タグ・バフ・デバフはなし。2026-10-18のゲーム内画像・配置図の確認履歴を継承。",
+      "origin": "Editor built-in preset: ゲーム内スクリーンショット（2026-10-18）／Backpack Battles Wiki*「クラス/エンジニア」「アイテム」（2026-10-15更新、2026-10-22照合）／The Backpack Battles Wiki「Engineer」（2026-10-22照合）",
+      "rarity": "ユニーク",
+      "className": "エンジニア",
+      "tags": [],
+      "price": 18,
+      "socketCount": 0,
+      "size": {
+        "width": 4,
+        "height": 3,
+        "occupied": 8
+      },
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        },
+        "tags": "none"
+      },
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": []
+    },
+    {
+      "id": "start-engineer-port",
+      "name": "ポート・オ・チャージャー",
+      "alias": "Port-O-Charger",
+      "category": "バッグ",
+      "type": "bag",
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "stars": [],
+      "bagGroup": "エンジニア",
+      "note": "ゲーム内画像＋ホタテくんの配置図で確認（2026-10-18）／2026-10-22 エンジニア第1回で基本情報補完。確定・仮形状は維持。 【分類変更履歴】既存プリセットでは「初期バッグ」、2026-10-23の登録JSONで「バッグ」へ更新。type:\"bag\"は維持。 【確定登録 2026-10-23】本体2×3・占有6マス、☆◇△⚡はいずれもなし。区分「バッグ」、価格16G、ソケット0、タグ・バフ・デバフはなし。2026-10-18のゲーム内画像・配置図の確認履歴を継承。",
+      "verified": "ゲーム内画像＋ホタテくんの配置図で確認（2026-10-18）／【確定登録 2026-10-23】本体2×3・占有6マス、☆◇△⚡はいずれもなし。区分「バッグ」、価格16G、ソケット0、タグ・バフ・デバフはなし。2026-10-18のゲーム内画像・配置図の確認履歴を継承。",
+      "origin": "Editor built-in preset: ゲーム内スクリーンショット（2026-10-18）／Backpack Battles Wiki*「クラス/エンジニア」「アイテム」（2026-10-15更新、2026-10-22照合）／The Backpack Battles Wiki「Engineer」（2026-10-22照合）",
+      "rarity": "ユニーク",
+      "className": "エンジニア",
+      "tags": [],
+      "price": 16,
+      "socketCount": 0,
+      "size": {
+        "width": 2,
+        "height": 3,
+        "occupied": 6
+      },
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        },
+        "tags": "none"
+      },
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": []
     }
   ]
 }
