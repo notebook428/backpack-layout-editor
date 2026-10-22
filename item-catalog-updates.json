@@ -32345,6 +32345,261 @@
       "type": "item",
       "bagGroup": "エンジニア・食べ物",
       "verified": "日英Wiki基本項目照合（2026-10-22）。形状・配置記号は2026-10-22時点では未確認。／本体2×2（占有3マス）・☆7個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（マナ）・デバフ（なし）を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "engineer-generator",
+      "name": "発電機",
+      "alias": "Generator",
+      "className": "エンジニア",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 6,
+      "rarity": "レア",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 2,
+        "occupied": 2
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [
+        [
+          0,
+          -4
+        ],
+        [
+          1,
+          -4
+        ],
+        [
+          -1,
+          -3
+        ],
+        [
+          -1,
+          -2
+        ],
+        [
+          0,
+          -1
+        ]
+      ],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "confirmed"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/エンジニア」「アイテム」（2026-10-15更新、2026-10-22照合）／The Backpack Battles Wiki「Engineer」（2026-10-22照合）",
+      "note": "5分プロトコル・エンジニア第1回。バトル開始時と4.5秒毎に電荷を放出。 本体形状・☆◇△⚡の配置は2026-10-22時点で未確認。 本体1×2（占有2マス）・☆0個・◇0個・△0個・⚡5個、ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・アクセサリー",
+      "verified": "2026-10-22 日英Wiki基本情報照合。本体形状・配置記号は2026-10-22時点で未確認。／本体1×2（占有2マス）・☆0個・◇0個・△0個・⚡5個、分類・属性・ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "engineer-coil",
+      "name": "コイル",
+      "alias": "Coil",
+      "className": "エンジニア",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 3,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「アイテム」「クラス/エンジニア」「合成」（アイテム一覧2026-10-15更新／2026-10-22確認）／The Backpack Battles Wiki「Engineer」「Recipe」「Hypercube」（2026-10-22確認）",
+      "note": "5分プロトコル・エンジニア第2回。日英両Wikiで3G・エピック。電荷を受けて相手からランダムなバフを奪う。 本体形状・☆◇△⚡座標は2026-10-22時点で未確認。 本体1×1（占有1マス）・☆0個・◇0個・△0個・⚡0個、ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・アクセサリー",
+      "verified": "日英Wiki基本項目照合（2026-10-22）。形状・配置記号は2026-10-22時点で未確認。／本体1×1（占有1マス）・☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット0・バフ（なし）・デバフ（なし）を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "engineer-charge-splitter",
+      "name": "分電器",
+      "alias": "Charge Splitter",
+      "className": "エンジニア",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 4,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "buffs": [
+        "幸運",
+        "シールド",
+        "ヒート"
+      ],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [
+        [
+          1,
+          -2
+        ],
+        [
+          2,
+          -2
+        ],
+        [
+          3,
+          -2
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          3,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          -3,
+          1
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          -3,
+          2
+        ],
+        [
+          -2,
+          2
+        ],
+        [
+          -1,
+          2
+        ]
+      ],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "confirmed"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/エンジニア」「アイテム」（2026-10-15更新、2026-10-22照合）／The Backpack Battles Wiki「Engineer」（2026-10-22照合）",
+      "note": "5分プロトコル・エンジニア第1回。通電中に電荷2つを放出し、5秒後にヒートを消費して幸運とシールドを獲得。 本体形状・☆◇△⚡の配置は2026-10-22時点で未確認。 本体1×1（占有1マス）・☆0個・◇0個・△0個・⚡12個、ソケット0・バフ（幸運、シールド、ヒート）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "エンジニア・アクセサリー",
+      "verified": "2026-10-22 日英Wiki基本情報照合。本体形状・配置記号は2026-10-22時点で未確認。／本体1×1（占有1マス）・☆0個・◇0個・△0個・⚡12個、分類・属性・ソケット0・バフ（幸運、シールド、ヒート）・デバフ（なし）を登録JSONで確認済み（2026-10-23）。"
     }
   ]
 }
