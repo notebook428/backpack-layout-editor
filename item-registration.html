@@ -36,7 +36,7 @@ header{padding:12px}
 
 <label class="field"><span>日本語名（必須）</span><input id="ja" placeholder="フェドーラ帽"></label><label class="field"><span>英語名（必須）</span><input id="en" placeholder="Fedora"></label><label class="field"><span>ID（既存データを優先。新規のみ自動発行）</span><input id="id" placeholder="自動で取得・発行できます"></label><div class="buttons"><button type="button" id="makeId">IDを自動で決める</button></div>
 <fieldset class="pick-panel"><legend>クラス</legend><input type="hidden" id="klass"><div class="choices" id="klassChoices"></div><label class="field more-field" id="klassMore" hidden><span>その他のクラス</span><input id="klassExtra" placeholder="クラス名を入力"></label></fieldset>
-<fieldset class="pick-panel"><legend>アイテム分類</legend><input type="hidden" id="category"><div class="choices" id="categoryChoices"></div><div class="sub">旧データの「防具」は原作の独立分類ではないため、盾・鎧・兜・靴・手袋から選び直してね。</div><label class="field more-field" id="categoryMore" hidden><span>その他の分類</span><input id="categoryExtra" placeholder="分類を入力"></label></fieldset>
+<fieldset class="pick-panel"><legend>アイテム分類（複数選択可）</legend><input type="hidden" id="category"><div class="choices" id="categoryChoices"></div><div class="sub">未選択＝未確認。最初に選んだ分類を category に保存し、複数選択時は全分類を categories にも記録します。</div><div class="sub">旧データの「防具」は原作の独立分類ではないため、盾・鎧・兜・靴・手袋から選び直してね。</div><label class="field more-field" id="categoryMore" hidden><span>その他の分類（カンマ区切り可）</span><input id="categoryExtra" placeholder="分類を入力"></label></fieldset>
 <fieldset class="pick-panel"><legend>属性・タグ（複数選択可）</legend><input type="hidden" id="tags"><div class="choices" id="tagChoices"></div><label class="field"><span>その他のタグ（カンマ区切り）</span><input id="tagsExtra" placeholder="一覧にない属性があれば入力"></label><div class="status-choice-field"><div class="sub">確認状況</div><div class="status-radio-group" id="tagStatus" role="radiogroup" aria-label="属性・タグの確認状況"></div></div></fieldset>
 <fieldset class="pick-panel"><legend>関連するバフ（8種類・複数選択可）</legend><div class="choices" id="buffChoices"></div><div class="status-choice-field"><div class="sub">確認状況</div><div class="status-radio-group" id="buffStatus" role="radiogroup" aria-label="バフの確認状況"></div></div></fieldset>
 <fieldset class="pick-panel"><legend>関連するデバフ（3種類・複数選択可）</legend><div class="choices" id="debuffChoices"></div><div class="status-choice-field"><div class="sub">確認状況</div><div class="status-radio-group" id="debuffStatus" role="radiogroup" aria-label="デバフの確認状況"></div></div></fieldset>
@@ -66,10 +66,11 @@ let rotationStarMode=false,activeStarRotation=0,rotationStarEdited=false;
 let starsPerRotation=Array.from({length:4},()=>new Set()),rotationStates=Array(4).fill('unknown');
 const DIRECTIONS=['↑','→','↓','←'];
 let effectChoices={buffs:new Set(),debuffs:new Set()},effectStatus={buffs:'unknown',debuffs:'unknown'},tagStatus='unknown';
+let selectedCategories=[]; // The first category is the legacy primary category.
 const sort=s=>[...s].map(xy).sort((a,b)=>a[1]-b[1]||a[0]-b[0]);
 const values=()=>Object.fromEntries(FIELDS.map(k=>[k,$(k).value]));
 const valid=([x,y])=>Number.isInteger(x)&&Number.isInteger(y)&&x>=0&&x<W&&y>=0&&y<H;
-function save(){try{localStorage.setItem('recho-item-entry-v1',JSON.stringify({values:values(),body:[...body],markerKeys:KEYS,marks:marks.map(m=>[...m]),states,bodyState,tagStatus,effectChoices:{buffs:[...effectChoices.buffs],debuffs:[...effectChoices.debuffs]},effectStatus,rotationStarMode,activeStarRotation,rotationStarEdited,starsPerRotation:starsPerRotation.map(m=>[...m]),rotationStates}))}catch(e){}}
+function save(){try{localStorage.setItem('recho-item-entry-v1',JSON.stringify({values:values(),categories:[...selectedCategories],body:[...body],markerKeys:KEYS,marks:marks.map(m=>[...m]),states,bodyState,tagStatus,effectChoices:{buffs:[...effectChoices.buffs],debuffs:[...effectChoices.debuffs]},effectStatus,rotationStarMode,activeStarRotation,rotationStarEdited,starsPerRotation:starsPerRotation.map(m=>[...m]),rotationStates}))}catch(e){}}
 function reset(){body=new Set();marks=KEYS.map(()=>new Set());states=KEYS.map(()=>'unknown');bodyState='unknown';rotationStarMode=false;activeStarRotation=0;rotationStarEdited=false;starsPerRotation=Array.from({length:4},()=>new Set());rotationStates=Array(4).fill('unknown')}
 function resetEffects(){effectChoices={buffs:new Set(),debuffs:new Set()};effectStatus={buffs:'unknown',debuffs:'unknown'}}
 function geometry(){const a=sort(body);if(!a.length)return null;const x=Math.min(...a.map(v=>v[0])),y=Math.min(...a.map(v=>v[1]));return {shape:a.map(v=>[v[0]-x,v[1]-y]),size:{width:Math.max(...a.map(v=>v[0]))-x+1,height:Math.max(...a.map(v=>v[1]))-y+1,occupied:a.length},marks:marks.map(m=>sort(m).map(v=>[v[0]-x,v[1]-y]))};}
@@ -94,7 +95,7 @@ const POTION_STAR_TEMPLATE_1X2=[
  [[0,-1]],[[1,-1]],[[0,-1]],[[0,-1]]
 ];
 function applyPotionStarPreset(){
- if($('category').value!=='ポーション'){
+ if(!selectedCategories.includes('ポーション')){
   $('message').textContent='先に分類を「ポーション」にしてね。';
   return false;
  }
@@ -140,14 +141,14 @@ const str=id=>$(id).value.trim()||null,num=id=>$(id).value.trim()===''?null:Numb
 function data(){const g=geometry(),extra={};KEYS.forEach((k,i)=>extra[k]=!g||states[i]==='unknown'?null:states[i]==='none'?[]:g.marks[i]);if(rotationStarMode)extra.stars=directionalData()['0'];
 const dirReview=rotationStarMode?directionalReview():null;
 const starReview=rotationStarMode?(rotationStates.some(s=>s==='unknown')?'unknown':rotationStates.some(s=>s==='draft')?'draft':rotationStates.every(s=>s==='none')?'none':'confirmed'):states[0];
-return {format:'recho-item-registration',version:2,id:str('id'),name:str('ja'),alias:str('en'),className:str('klass'),category:str('category'),tags:[...new Set($('tags').value.split(/[,、\n]/).map(s=>s.trim()).filter(Boolean))],price:num('price'),rarity:str('rarity'),socketCount:num('sockets'),buffs:effectStatus.buffs==='unknown'?null:[...effectChoices.buffs],debuffs:effectStatus.debuffs==='unknown'?null:[...effectChoices.debuffs],shape:g?.shape||null,size:g?.size||null,...extra,...(rotationStarMode?{starsByRotation:directionalData()}:{}),review:{shape:bodyState,markers:Object.fromEntries(KEYS.map((k,i)=>[k,i===0?starReview:states[i]])),...(rotationStarMode?{starsByRotation:dirReview}:{}),tags:tagStatus,effects:{...effectStatus}},origin:str('origin'),note:str('note')};}
+return {format:'recho-item-registration',version:2,id:str('id'),name:str('ja'),alias:str('en'),className:str('klass'),category:selectedCategories[0]||null,...(selectedCategories.length>1?{categories:[...selectedCategories]}:{}),tags:[...new Set($('tags').value.split(/[,、\n]/).map(s=>s.trim()).filter(Boolean))],price:num('price'),rarity:str('rarity'),socketCount:num('sockets'),buffs:effectStatus.buffs==='unknown'?null:[...effectChoices.buffs],debuffs:effectStatus.debuffs==='unknown'?null:[...effectChoices.debuffs],shape:g?.shape||null,size:g?.size||null,...extra,...(rotationStarMode?{starsByRotation:directionalData()}:{}),review:{shape:bodyState,markers:Object.fromEntries(KEYS.map((k,i)=>[k,i===0?starReview:states[i]])),...(rotationStarMode?{starsByRotation:dirReview}:{}),tags:tagStatus,effects:{...effectStatus}},origin:str('origin'),note:str('note')};}
 function missing(d){
  const a=[];
  for(const [key,label] of [['name','日本語名'],['alias','英語名'],['id','ID'],['className','クラス'],['category','分類'],['shape','本体形状'],['rarity','レアリティ']]){
   if(!d[key])a.push(label+'が未確認');
  }
  if(d.id&&!/^[A-Za-z0-9_-]{1,90}$/.test(d.id))a.push('IDの形式が不正');
- if(d.category==='防具')a.push('旧分類「防具」は使用できません。盾・鎧・兜・靴・手袋から選び直してね');
+ if(d.category==='防具'||d.categories?.includes('防具'))a.push('旧分類「防具」は使用できません。盾・鎧・兜・靴・手袋から選び直してね');
  if(d.price===null||!Number.isInteger(d.price)||d.price<0)a.push('値段が未確認・不正');
  if(d.socketCount===null||!Number.isInteger(d.socketCount)||d.socketCount<0)a.push('ソケット数が未確認・不正');
  if(d.shape&&bodyState!=='confirmed')a.push('本体形状の最終確認');
@@ -170,7 +171,7 @@ const preview=editingDirectionalStars?rotatedPreview():null;
 const previewBody=new Set(preview?.body.map(([x,y])=>key(x+preview.ox,y+preview.oy))||[]);
 const previewStars=new Set(editingDirectionalStars&&preview?[...starsPerRotation[activeStarRotation]].map(k=>{const [x,y]=xy(k);return key(x+preview.ox,y+preview.oy)}):[]);
 for(const b of $('board').children){const k=key(+b.dataset.x,+b.dataset.y);b.classList.toggle('body',editingDirectionalStars?previewBody.has(k):body.has(k));b.textContent=editingDirectionalStars?(previewStars.has(k)?'☆':''):SYMS.filter((s,i)=>(!rotationStarMode||i!==0)&&marks[i].has(k)).join('')}
-$('applyPotionPreset').disabled=$('category').value!=='ポーション';
+$('applyPotionPreset').disabled=!selectedCategories.includes('ポーション');
 $('directionStars').checked=rotationStarMode;$('directionStarControls').hidden=!rotationStarMode;$('directionBulk').hidden=!rotationStarMode;
 for(const b of $('directionButtons').children){const selected=Number(b.dataset.rotation)===activeStarRotation;b.classList.toggle('on',selected);b.setAttribute('aria-pressed',String(selected))}
 $('directionStatus').textContent=rotationStarMode?DIRECTIONS.map((sym,i)=>sym+' '+({unknown:'未確認',draft:'要確認',confirmed:'確認済み',none:'☆なし'}[rotationStates[i]])+'('+starsPerRotation[i].size+')').join(' / '):'';
@@ -268,7 +269,7 @@ for(let r=0;r<4;r++){const cells=d.starsByRotation[String(r)];if(cells!=null){
 const state=d.review?.starsByRotation?.[String(r)];
 importedStates[r]=['unknown','draft','confirmed','none'].includes(state)?state:cells==null?'unknown':cells.length?'draft':'none';
 }}
-body=b;marks=m;bodyState=d.review?.shape||'draft';rotationStarMode=hasDirections;rotationStarEdited=hasDirections;activeStarRotation=0;starsPerRotation=importedDirections;rotationStates=importedStates;tool=hasDirections?'☆':'body';states=KEYS.map((k,i)=>d.review?.markers?.[k]||(d[k]==null?'unknown':m[i].size?'draft':'none'));tagStatus=['unknown','confirmed','none'].includes(d.review?.tags)?d.review.tags:(d.tags?.length?'confirmed':'unknown');const v={ja:d.name,en:d.alias,id:d.id,klass:d.className,category:d.category,tags:(d.tags||[]).join(', '),price:d.price,rarity:d.rarity,sockets:d.socketCount,origin:d.origin,note:d.note};FIELDS.forEach(f=>$(f).value=v[f]??'');Object.keys(customActive).forEach(k=>customActive[k]=false);loadEffects(d);paint()}
+body=b;marks=m;bodyState=d.review?.shape||'draft';rotationStarMode=hasDirections;rotationStarEdited=hasDirections;activeStarRotation=0;starsPerRotation=importedDirections;rotationStates=importedStates;tool=hasDirections?'☆':'body';states=KEYS.map((k,i)=>d.review?.markers?.[k]||(d[k]==null?'unknown':m[i].size?'draft':'none'));tagStatus=['unknown','confirmed','none'].includes(d.review?.tags)?d.review.tags:(d.tags?.length?'confirmed':'unknown');const v={ja:d.name,en:d.alias,id:d.id,klass:d.className,category:d.category,tags:(d.tags||[]).join(', '),price:d.price,rarity:d.rarity,sockets:d.socketCount,origin:d.origin,note:d.note};FIELDS.forEach(f=>$(f).value=v[f]??'');setCategorySelection(Array.isArray(d.categories)&&d.categories.length?d.categories:[d.category]);Object.keys(customActive).forEach(k=>customActive[k]=false);customActive.category=selectedCategories.some(v=>!RADIO_OPTIONS.category.includes(v));loadEffects(d);paint()}
 async function readFile(e,cb){const f=e.target.files?.[0];e.target.value='';if(!f)return;try{if(f.size>3000000)throw Error('JSONが大きすぎる');cb(JSON.parse(await f.text()))}catch(err){alert('読み込み失敗：'+err.message)}}
 function allowExport(){const list=missing(data());return !list.length||confirm('⚠ 未確認・未完了の項目が '+list.length+' 件あります。\n'+list.join('、')+'\n\n未完成のデータとしてこのまま出力しますか？')}
 async function copy(text){try{await navigator.clipboard.writeText(text);$('message').textContent='コピーできたよ。チャットに貼り付けてね'}catch(e){$('out').focus();$('out').select();$('message').textContent='出力欄を選択したよ。Ctrl+Cでコピーしてね'}}
@@ -276,7 +277,7 @@ function download(){if(!allowExport())return;const u=URL.createObjectURL(new Blo
 FIELDS.forEach(f=>$(f).addEventListener('input',paint));
 $('editorFile').addEventListener('change',e=>readFile(e,importEditor));$('entryFile').addEventListener('change',e=>readFile(e,openEntry));$('importGo').addEventListener('click',()=>{try{applyImport()}catch(err){alert('取り込み失敗：'+err.message)}});
 $('clear').addEventListener('click',()=>{if(confirm('盤面の本体と記号を消しますか？')){reset();paint()}});
-$('new').addEventListener('click',()=>{if(confirm('登録内容を消して次へ進む？ 必要なら先にJSON保存してね')){FIELDS.forEach(f=>$(f).value='');reset();resetEffects();tagStatus='unknown';Object.keys(customActive).forEach(k=>customActive[k]=false);paint()}});
+$('new').addEventListener('click',()=>{if(confirm('登録内容を消して次へ進む？ 必要なら先にJSON保存してね')){FIELDS.forEach(f=>$(f).value='');setCategorySelection([]);$('categoryExtra').value='';reset();resetEffects();tagStatus='unknown';Object.keys(customActive).forEach(k=>customActive[k]=false);paint()}});
 $('copyJSON').addEventListener('click',()=>{if(allowExport())copy($('out').value)});$('copyText').addEventListener('click',()=>{if(!allowExport())return;const d=data();copy('【アイテム登録】'+(d.name||'名称未入力')+'\n確認待ち：'+(missing(d).join('、')||'なし')+'\n'+JSON.stringify(d,null,2))});$('download').addEventListener('click',download);
 
 const RADIO_OPTIONS={
@@ -289,6 +290,40 @@ const numericOptions={price:[...Array.from({length:41},(_,i)=>String(i)),'50','6
 const customActive={klass:false,category:false,rarity:false,price:false,sockets:false};
 function addOption(parent,value,label){
  const option=document.createElement('option');option.value=value;option.textContent=label;parent.append(option);return option;
+}
+function setCategorySelection(values){
+ selectedCategories=[...new Set((Array.isArray(values)?values:[]).filter(v=>typeof v==='string').map(v=>v.trim()).filter(Boolean))];
+ $('category').value=selectedCategories[0]||'';
+}
+function makeCategoryField(){
+ const wrap=$('categoryChoices');
+ for(const value of RADIO_OPTIONS.category){
+  const label=document.createElement('label');label.className='pick-chip';
+  const cb=document.createElement('input');cb.type='checkbox';cb.className='category-picker';cb.value=value;
+  const caption=document.createElement('span');caption.textContent=value;
+  label.append(cb,caption);wrap.append(label);
+  cb.addEventListener('change',()=>{
+   setCategorySelection(cb.checked?[...selectedCategories,value]:selectedCategories.filter(v=>v!==value));
+   paint();
+  });
+ }
+ const otherLabel=document.createElement('label');otherLabel.className='pick-chip';
+ const other=document.createElement('input');other.type='checkbox';other.id='categoryOther';
+ const caption=document.createElement('span');caption.textContent='その他';
+ otherLabel.append(other,caption);wrap.append(otherLabel);
+ other.addEventListener('change',()=>{
+  customActive.category=other.checked;
+  if(!other.checked)setCategorySelection(selectedCategories.filter(v=>RADIO_OPTIONS.category.includes(v)));
+  else setCategorySelection([...selectedCategories,...$('categoryExtra').value.split(/[,、\n]/).map(v=>v.trim()).filter(Boolean)]);
+  paint();if(other.checked)$('categoryExtra').focus();
+ });
+ $('categoryExtra').addEventListener('input',()=>{
+  const pos=selectedCategories.findIndex(v=>!RADIO_OPTIONS.category.includes(v));
+  const known=selectedCategories.filter(v=>RADIO_OPTIONS.category.includes(v));
+  const extra=$('categoryExtra').value.split(/[,、\n]/).map(v=>v.trim()).filter(Boolean);
+  known.splice(pos<0?known.length:Math.min(pos,known.length),0,...extra);
+  setCategorySelection(known);customActive.category=true;paint();
+ });
 }
 function makeRadioField(id){
  const wrap=$(id+'Choices'),values=RADIO_OPTIONS[id];
@@ -359,7 +394,7 @@ function makeNumericField(id){
  });
 }
 function syncControls(){
- for(const id of ['klass','category','rarity']){
+ for(const id of ['klass','rarity']){
   const val=$(id).value,known=RADIO_OPTIONS[id].includes(val);
   const other=customActive[id]||(!known&&!!val);
   const choice=other?'__other__':known?val:'__unknown__';
@@ -368,6 +403,13 @@ function syncControls(){
   if(other&&$(id+'Extra').value!==val)$(id+'Extra').value=val;
   if(!val&&!other)customActive[id]=false;
  }
+ for(const cb of document.querySelectorAll('.category-picker'))cb.checked=selectedCategories.includes(cb.value);
+ const extraCategories=selectedCategories.filter(v=>!RADIO_OPTIONS.category.includes(v));
+ const showOther=customActive.category||extraCategories.length>0;
+ $('categoryOther').checked=showOther;
+ $('categoryMore').hidden=!showOther;
+ const othersText=extraCategories.join(', ');
+ if(document.activeElement!==$('categoryExtra')&&$('categoryExtra').value!==othersText)$('categoryExtra').value=othersText;
  const tags=$('tags').value.split(/[,、\n]/).map(v=>v.trim()).filter(Boolean);
  for(const cb of document.querySelectorAll('.tag-picker'))cb.checked=tags.includes(cb.value);
  const extra=tags.filter(v=>!TAG_OPTIONS.includes(v)).join(', ');
@@ -383,7 +425,8 @@ function syncControls(){
  }
 }
 function buildPickerControls(){
- for(const id of ['klass','category','rarity'])makeRadioField(id);
+ for(const id of ['klass','rarity'])makeRadioField(id);
+  makeCategoryField();
  makeTagField();makeEffectControls();
  for(const id of ['price','sockets'])makeNumericField(id);
 }
@@ -456,6 +499,8 @@ try{
    $('message').textContent='⚠ 古い下書きに◆・□・▲の配置があります。復元対象外の旧記号を含む元データをバックアップしました。新しい4記号で確認してね。';
   }
   FIELDS.forEach(f=>$(f).value=o.values?.[f]??'');
+  setCategorySelection(Array.isArray(o.categories)?o.categories:[o.values?.category]);
+  customActive.category=selectedCategories.some(v=>!RADIO_OPTIONS.category.includes(v));
   body=new Set(o.body||[]);
   bodyState=o.bodyState||bodyState;
   tagStatus=['unknown','confirmed','none'].includes(o.tagStatus)?o.tagStatus:(o.values?.tags?'confirmed':'unknown');
