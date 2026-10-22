@@ -35527,6 +35527,136 @@
       "buffs": [],
       "debuffs": [],
       "chargeMarks": []
+    },
+    {
+      "id": "common-skill-bag-surprise",
+      "name": "バッグり仰天",
+      "alias": "Bag Surprise",
+      "category": "スキル",
+      "bagGroup": "共通・スキル",
+      "type": "item",
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "stars": [],
+      "verified": "共通スキル本体1マス仮登録／実機照合待ち・☆◇位置未確認／【2026-10-23確定】本体1×1・占有1、☆0・◇0・△0・⚡0、タグ（なし）、バフ（シールド）、デバフ（なし）、ソケット0。",
+      "origin": "Editor built-in preset: Backpack Battles Wiki*「クラス/共通」スキル一覧（2026-10-19確認）",
+      "note": "【従前の備考】ウエストポーチ・スタミナバッグ・ポーションベルト・守護のハンドバッグに関わる共通スキル。 原作の戦闘・ショップ効果はシミュレーションしません。 【2026-10-22時点の未確認注記】共通スキル本体1マス仮登録／実機照合待ち・☆◇位置未確認 【2026-10-23確定】本体1×1・占有1、☆0・◇0・△0・⚡0、タグ（なし）、バフ（シールド）、デバフ（なし）、ソケット0。",
+      "className": "共通",
+      "tags": [],
+      "price": 5,
+      "rarity": "ユニーク",
+      "socketCount": 0,
+      "buffs": [
+        "シールド"
+      ],
+      "debuffs": [],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "hollowDiamonds": [],
+      "triangles": [],
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      }
+    },
+    {
+      "id": "base-rat",
+      "className": "レンジャー",
+      "price": 4,
+      "rarity": "コモン",
+      "name": "ネズミ",
+      "alias": "Rat",
+      "category": "ペット",
+      "type": "item",
+      "kind": "animal",
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "stars": [
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "origin": "Editor built-in preset: Backpack Battles Database",
+      "verified": "本体確認／☆未確認／【2026-10-23確定】本体2×1・占有2、☆6・◇0・△0・⚡0、タグ（自然）、バフ（なし）、デバフ（毒・目くらまし）、ソケット0。",
+      "tags": [
+        "自然"
+      ],
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [
+        "毒",
+        "目くらまし"
+      ],
+      "size": {
+        "width": 2,
+        "height": 1,
+        "occupied": 2
+      },
+      "hollowDiamonds": [],
+      "triangles": [],
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "confirmed"
+        }
+      },
+      "note": "【2026-10-22時点の未確認注記】本体確認／☆未確認 【2026-10-23確定】本体2×1・占有2、☆6・◇0・△0・⚡0、タグ（自然）、バフ（なし）、デバフ（毒・目くらまし）、ソケット0。"
     }
   ]
 }
