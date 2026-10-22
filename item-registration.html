@@ -30,7 +30,7 @@ main .panel{margin-bottom:12px}
 header{padding:12px}
 }
 </style></head><body>
-<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.6</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
+<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.7</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
 <section class="panel"><h2>① 基本情報</h2>
 <div class="note">既存の登録データから事前入力できます。候補を検索して読み込むだけで、IDや名前、既知の形状を反映するよ。</div><label class="field"><span>登録済みアイテムを検索（名前・英語名・ID）</span><input id="lookup" placeholder="例：フェドーラ帽 / Fedora"></label><label class="field"><span>候補一覧</span><select id="candidate" aria-label="候補のアイテム"><option value="">候補データを読み込み中...</option></select></label><div class="buttons"><button id="applyCandidate" class="main" type="button">既存情報を入力欄に反映</button></div><div id="catalogInfo" class="sub" role="status">データベースを確認中</div>
 
@@ -50,7 +50,7 @@ header{padding:12px}
 <div class="direction-panel">
 <label><input type="checkbox" id="directionStars"> 向き別☆配置モード（ポーションなど）</label>
 <div id="directionStarControls" hidden>
-<div class="sub">先に通常モードで本体を作成してね。向きを選び、表示された本体を基準に☆をクリックして配置。4方向の配置が終わったらまとめて確認できるよ。◇・△・⚡は通常モードで編集できます。</div>
+<div class="sub">先に通常モードで本体を作成してね。向きを選び、表示された本体を基準に☆をクリックして配置。4方向の配置が終わったらまとめて確認できるよ。◇・△・⚡を選ぶと本体の基準向きに戻り、向き別☆モードを解除せずに配置・確認できるよ。</div>
 <div class="buttons" id="directionButtons" aria-label="☆を編集する向き"></div>
 <div class="buttons"><button type="button" id="confirmAllDirections" class="main">✓ 4方向の☆を一括確認</button></div>
 <div class="sub">☆のある向きは「確認済み」に、☆のない向きは「☆なし」にします。空欄がある場合は確認するよ。</div>
@@ -131,36 +131,43 @@ function missing(d){
 function paint(){
 syncControls();
 syncEffectControls();
-const preview=rotationStarMode?rotatedPreview():null;
+const editingDirectionalStars=rotationStarMode&&(tool==='☆'||tool==='erase');
+const preview=editingDirectionalStars?rotatedPreview():null;
 const previewBody=new Set(preview?.body.map(([x,y])=>key(x+preview.ox,y+preview.oy))||[]);
-const previewStars=new Set(rotationStarMode&&preview?[...starsPerRotation[activeStarRotation]].map(k=>{const [x,y]=xy(k);return key(x+preview.ox,y+preview.oy)}):[]);
-for(const b of $('board').children){const k=key(+b.dataset.x,+b.dataset.y);b.classList.toggle('body',rotationStarMode?previewBody.has(k):body.has(k));b.textContent=rotationStarMode?(previewStars.has(k)?'☆':''):SYMS.filter((s,i)=>marks[i].has(k)).join('')}
+const previewStars=new Set(editingDirectionalStars&&preview?[...starsPerRotation[activeStarRotation]].map(k=>{const [x,y]=xy(k);return key(x+preview.ox,y+preview.oy)}):[]);
+for(const b of $('board').children){const k=key(+b.dataset.x,+b.dataset.y);b.classList.toggle('body',editingDirectionalStars?previewBody.has(k):body.has(k));b.textContent=editingDirectionalStars?(previewStars.has(k)?'☆':''):SYMS.filter((s,i)=>(!rotationStarMode||i!==0)&&marks[i].has(k)).join('')}
 $('directionStars').checked=rotationStarMode;$('directionStarControls').hidden=!rotationStarMode;
 for(const b of $('directionButtons').children){const selected=Number(b.dataset.rotation)===activeStarRotation;b.classList.toggle('on',selected);b.setAttribute('aria-pressed',String(selected))}
 $('directionStatus').textContent=rotationStarMode?DIRECTIONS.map((sym,i)=>sym+' '+({unknown:'未確認',draft:'要確認',confirmed:'確認済み',none:'☆なし'}[rotationStates[i]])+'('+starsPerRotation[i].size+')').join(' / '):'';
-for(const b of $('tools').children){b.disabled=rotationStarMode&&!['☆','erase'].includes(b.dataset.tool);b.classList.toggle('on',b.dataset.tool===tool)}
+for(const b of $('tools').children){b.disabled=rotationStarMode&&b.dataset.tool==='body';b.classList.toggle('on',b.dataset.tool===tool)}
 syncBodyStatus();KEYS.forEach((k,i)=>{
  const current=i===0&&rotationStarMode?rotationStates[activeStarRotation]:states[i];
  $('c'+i).textContent=i===0&&rotationStarMode?starsPerRotation[activeStarRotation].size:marks[i].size;
  for(const radio of document.querySelectorAll('input[name="markerStatus'+i+'"]')){
    radio.checked=radio.value===current;
-   radio.disabled=rotationStarMode&&i>0;
+   radio.disabled=false;
  }
 });
 const d=data();$('out').value=JSON.stringify(d,null,2);$('size').textContent=d.size?d.size.width+'×'+d.size.height+' / '+d.size.occupied+'マス':'本体未入力';const m=missing(d);$('check').classList.toggle('warning',m.length>0);$('check').textContent=m.length?'⚠ 未確認・未完了 '+m.length+' 件：'+m.join('、'):'✓ すべての登録項目を確認済み';syncConfirmationRadios('tagStatus',tagStatus);save();
 }
 function change(x,y){
  if(rotationStarMode){
-  const g=rotatedPreview();if(!g)return;
-  if(!['☆','erase'].includes(tool))return;
-  const x0=x-g.ox,y0=y-g.oy;if(Math.abs(x0)>10||Math.abs(y0)>10)return;
-  const k=key(x0,y0),m=starsPerRotation[activeStarRotation];
-  if(tool==='erase')m.delete(k);else m.has(k)?m.delete(k):m.add(k);
-  rotationStates[activeStarRotation]=m.size?'draft':'unknown';paint();return;
+  if(tool==='☆'||tool==='erase'){
+   const g=rotatedPreview();if(!g)return;
+   const x0=x-g.ox,y0=y-g.oy;if(Math.abs(x0)>10||Math.abs(y0)>10)return;
+   const k=key(x0,y0),m=starsPerRotation[activeStarRotation];
+   if(tool==='erase')m.delete(k);else m.has(k)?m.delete(k):m.add(k);
+   rotationStates[activeStarRotation]=m.size?'draft':'unknown';paint();return;
+  }
+  // Non-star marks retain their normal coordinates even in orientation-specific star mode.
+  const i=SYMS.indexOf(tool);if(i<=0)return;
+  const k=key(x,y),m=marks[i];
+  m.has(k)?m.delete(k):m.add(k);
+  states[i]=m.size?'draft':'unknown';paint();return;
  }
  const k=key(x,y);if(tool==='body'){body.has(k)?body.delete(k):body.add(k);bodyState=body.size?'draft':'unknown'}else if(tool==='erase'){body.delete(k);marks.forEach(m=>m.delete(k));if(!body.size)bodyState='unknown'}else{const i=SYMS.indexOf(tool),m=marks[i];m.has(k)?m.delete(k):m.add(k);states[i]=m.size?'draft':'unknown'}paint()}
 for(let y=0;y<H;y++)for(let x=0;x<W;x++){const b=document.createElement('button');b.className='sq';b.type='button';b.dataset.x=x;b.dataset.y=y;b.title='表示 ('+(x+1)+','+(H-y)+')';b.addEventListener('click',()=>change(x,y));$('board').append(b)}
-['body',...SYMS,'erase'].forEach(t=>{const b=document.createElement('button');b.type='button';b.textContent=t==='body'?'▣ 本体':t==='erase'?'消す':t;b.className='tool'+(t==='body'?' on':'');b.dataset.tool=t;b.addEventListener('click',()=>{tool=t;document.querySelectorAll('.tool').forEach(v=>v.classList.toggle('on',v===b))});$('tools').append(b)});
+['body',...SYMS,'erase'].forEach(t=>{const b=document.createElement('button');b.type='button';b.textContent=t==='body'?'▣ 本体':t==='erase'?'消す':t;b.className='tool'+(t==='body'?' on':'');b.dataset.tool=t;b.addEventListener('click',()=>{tool=t;paint()});$('tools').append(b)});
 const MARKER_STATUS_OPTIONS=[
  ['unknown','未確認'],['draft','要確認'],['confirmed','確認済み'],['none','なし']
 ];
