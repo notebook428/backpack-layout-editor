@@ -9,7 +9,7 @@
 .pick-chip:focus-within{outline:2px solid #c6b1ff;outline-offset:2px}
 .pick-panel .field{margin-top:9px;margin-bottom:0}
 #priceExtra,#socketsExtra{margin-top:6px}
-.sub{color:#b5c4d9;font-size:12px}.direction-panel{border:1px solid #665a90;background:#1a2440;border-radius:10px;padding:10px;margin:10px 0}.direction-panel label{display:flex;gap:8px;align-items:center;cursor:pointer}.direction-panel input{accent-color:#bca3fc}.direction-panel .buttons button.on{background:#725c9a;border-color:#ead4ff}.direction-panel [hidden]{display:none!important}.buttons{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0}.buttons button,.tool{background:#34486a;color:var(--text);border:1px solid #7083aa;border-radius:7px;cursor:pointer;padding:7px 9px;font:inherit}.tool.on,.buttons button.main{background:#725c9a;border-color:#cdb7ef}.boardwrap{overflow:auto;border:1px solid var(--border);background:#0e192c;border-radius:9px;padding:8px}.board{display:grid;grid-template-columns:repeat(21,27px);grid-template-rows:repeat(17,27px);width:max-content}.sq{width:27px;height:27px;background:#1b2a43;border:1px solid #3a4c67;color:#ffe7b0;font-size:15px;padding:0;cursor:crosshair}.sq:nth-child(2n){background:#21314b}.sq.body{background:#6c92be;border-color:#a5c7e4}.sq:hover{filter:brightness(1.4)}.status{display:grid;grid-template-columns:55px 1fr;gap:8px;align-items:center;margin:7px 0}.status select{padding:5px}
+.sub{color:#b5c4d9;font-size:12px}.direction-panel{border:1px solid #665a90;background:#1a2440;border-radius:10px;padding:10px;margin:10px 0}.direction-panel label{display:flex;gap:8px;align-items:center;cursor:pointer}.direction-panel input{accent-color:#bca3fc}.direction-panel .buttons button.on{background:#725c9a;border-color:#ead4ff}.direction-panel [hidden]{display:none!important}.buttons{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0}.buttons button,.tool{background:#34486a;color:var(--text);border:1px solid #7083aa;border-radius:7px;cursor:pointer;padding:7px 9px;font:inherit}.tool.on,.buttons button.main{background:#725c9a;border-color:#cdb7ef}.boardwrap{overflow:auto;border:1px solid var(--border);background:#0e192c;border-radius:9px;padding:8px}.board{display:grid;grid-template-columns:repeat(21,27px);grid-template-rows:repeat(17,27px);width:max-content}.sq{width:27px;height:27px;background:#1b2a43;border:1px solid #3a4c67;color:#ffe7b0;font-size:15px;padding:0;cursor:crosshair}.sq:nth-child(2n){background:#21314b}.sq.body{background:#6c92be;border-color:#a5c7e4}.sq.multi-2{font-size:11px;letter-spacing:-1px}.sq.multi-3{font-size:9px;letter-spacing:-1px}.sq.multi-4{font-size:7px;letter-spacing:-1px}.sq:hover{filter:brightness(1.4)}.status{display:grid;grid-template-columns:55px 1fr;gap:8px;align-items:center;margin:7px 0}.status select{padding:5px}
 .status-choice-field{margin-top:9px}.status-choice-field .status-radio-group{margin-top:5px}.status-radio-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:9px 0}
 .status-symbol{min-width:55px;color:#e9efff;font-weight:700}
 .status-radio-group{display:flex;flex-wrap:wrap;gap:5px;min-width:0}
@@ -30,7 +30,7 @@ main .panel{margin-bottom:12px}
 header{padding:12px}
 }
 </style></head><body>
-<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.8</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
+<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.9</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
 <section class="panel"><h2>① 基本情報</h2>
 <div class="note">既存の登録データから事前入力できます。候補を検索して読み込むだけで、IDや名前、既知の形状を反映するよ。</div><label class="field"><span>登録済みアイテムを検索（名前・英語名・ID）</span><input id="lookup" placeholder="例：フェドーラ帽 / Fedora"></label><label class="field"><span>候補一覧</span><select id="candidate" aria-label="候補のアイテム"><option value="">候補データを読み込み中...</option></select></label><div class="buttons"><button id="applyCandidate" class="main" type="button">既存情報を入力欄に反映</button></div><div id="catalogInfo" class="sub" role="status">データベースを確認中</div>
 
@@ -52,7 +52,7 @@ header{padding:12px}
 <div class="buttons"><button type="button" id="applyPotionPreset" class="main" title="ポーション分類の1×2本体に、向き別☆配置を下書きとしてセットします">✦ 定番ポーション型を一括入力</button></div>
 <div class="sub">ポーション専用：本体が空なら縦1×2も作成し、☆1個の4方向パターンを入力します。適用後は「要確認」なので、実物を照合してから一括確認してね。既存の別形状には適用しません。</div>
 <div id="directionStarControls" hidden>
-<div class="sub">先に通常モードで本体を作成してね。向きを選び、表示された本体を基準に☆をクリックして配置。4方向の配置が終わったら、下の「記号の確認状態」の☆欄から一括確認できるよ。◇・△・⚡を選ぶと本体の基準向きに戻り、向き別☆モードを解除せずに配置・確認できるよ。</div>
+<div class="sub">先に通常モードで本体を作成してね。向きを選び、表示された本体を基準に☆をクリックして配置。4方向の配置が終わったら、下の「記号の確認状態」の☆欄から一括確認できるよ。☆・◇・△・⚡は常に一緒に表示するよ。◇・△・⚡も選択中の向きで置けるけれど、保存時は本体の基準向きの座標に自動変換するよ。</div>
 <div class="buttons" id="directionButtons" aria-label="☆を編集する向き"></div>
 <div class="sub" id="directionStatus" aria-live="polite"></div>
 </div></div><div class="boardwrap"><div id="board" class="board"></div></div><div class="sub" id="size">本体未入力</div><div class="buttons"><button id="clear">盤面をクリア</button></div><h3>記号の確認状態</h3><div class="sub">未確認と、存在しないことを確認した状態は区別するよ。</div><div class="status-radio-row"><span class="status-symbol">本体</span><div class="status-radio-group" id="bodyStatus" role="radiogroup" aria-label="本体形状の確認状況"></div></div><div id="statuses"></div><div class="buttons direction-bulk" id="directionBulk" hidden><button type="button" id="confirmAllDirections" class="main">✓ ☆4方向を一括確認</button><span class="sub">☆あり→確認済み／☆なし→確認後「なし」</span></div><h3>配置エディタのJSONを取り込む</h3><div class="sub">元のエディタで「JSON保存」したファイルを選び、形状を表すバッグだけをチェックしてね。説明用マーカーも一緒に読み込めるよ。</div><input id="editorFile" type="file" accept=".json,application/json"><div id="importBox" hidden><div id="bagList" class="baglist"></div><div class="buttons"><button id="importGo">選択バッグ・マーカーを反映</button></div></div>
@@ -79,7 +79,16 @@ function rotatedPreview(){
  const cells=sort(body),ox=Math.min(...cells.map(a=>a[0])),oy=Math.min(...cells.map(a=>a[1]));
  const raw=cells.map(([x,y])=>rotate(x-ox,y-oy,activeStarRotation));
  const mx=Math.min(...raw.map(a=>a[0])),my=Math.min(...raw.map(a=>a[1]));
- return {ox,oy,body:raw.map(([x,y])=>[x-mx,y-my])};
+ return {ox,oy,minX:mx,minY:my,body:raw.map(([x,y])=>[x-mx,y-my])};
+}
+// Non-star marks retain canonical body coordinates; only their preview rotates.
+function baseToPreviewMark(x,y,preview){
+ const [rx,ry]=rotate(x-preview.ox,y-preview.oy,activeStarRotation);
+ return [preview.ox+rx-preview.minX,preview.oy+ry-preview.minY];
+}
+function previewToBaseMark(x,y,preview){
+ const [bx,by]=rotate(x-preview.ox+preview.minX,y-preview.oy+preview.minY,(4-activeStarRotation)%4);
+ return [preview.ox+bx,preview.oy+by];
 }
 function setDirectionMode(enabled){
  if(enabled&&!body.size){alert('先に本体を配置してください');$('directionStars').checked=false;return;}
@@ -166,11 +175,20 @@ function missing(d){
 function paint(){
 syncControls();
 syncEffectControls();
-const editingDirectionalStars=rotationStarMode&&(tool==='☆'||tool==='erase');
-const preview=editingDirectionalStars?rotatedPreview():null;
+const preview=rotationStarMode?rotatedPreview():null;
 const previewBody=new Set(preview?.body.map(([x,y])=>key(x+preview.ox,y+preview.oy))||[]);
-const previewStars=new Set(editingDirectionalStars&&preview?[...starsPerRotation[activeStarRotation]].map(k=>{const [x,y]=xy(k);return key(x+preview.ox,y+preview.oy)}):[]);
-for(const b of $('board').children){const k=key(+b.dataset.x,+b.dataset.y);b.classList.toggle('body',editingDirectionalStars?previewBody.has(k):body.has(k));b.textContent=editingDirectionalStars?(previewStars.has(k)?'☆':''):SYMS.filter((s,i)=>(!rotationStarMode||i!==0)&&marks[i].has(k)).join('')}
+const displayMarks=KEYS.map((_,i)=>{
+ if(!preview)return marks[i];
+ if(i===0)return new Set([...starsPerRotation[activeStarRotation]].map(k=>{const [x,y]=xy(k);return key(x+preview.ox,y+preview.oy)}));
+ return new Set([...marks[i]].map(k=>{const [x,y]=xy(k);return key(...baseToPreviewMark(x,y,preview))}));
+});
+for(const b of $('board').children){
+ const k=key(+b.dataset.x,+b.dataset.y),visible=SYMS.filter((s,i)=>displayMarks[i].has(k));
+ b.classList.toggle('body',preview?previewBody.has(k):body.has(k));
+ for(let n=2;n<=4;n++)b.classList.toggle('multi-'+n,visible.length===n);
+ b.textContent=visible.join('');
+ b.title='表示 ('+(+b.dataset.x+1)+','+(H-(+b.dataset.y))+')'+(visible.length?'：'+visible.join(''):'');
+}
 $('applyPotionPreset').disabled=!selectedCategories.includes('ポーション');
 $('directionStars').checked=rotationStarMode;$('directionStarControls').hidden=!rotationStarMode;$('directionBulk').hidden=!rotationStarMode;
 for(const b of $('directionButtons').children){const selected=Number(b.dataset.rotation)===activeStarRotation;b.classList.toggle('on',selected);b.setAttribute('aria-pressed',String(selected))}
@@ -195,9 +213,12 @@ function change(x,y){
    if(tool==='erase')m.delete(k);else m.has(k)?m.delete(k):m.add(k);
    rotationStates[activeStarRotation]=m.size?'draft':'unknown';paint();return;
   }
-  // Non-star marks retain their normal coordinates even in orientation-specific star mode.
+  // Editing an oriented non-star marker writes canonical unrotated coordinates.
   const i=SYMS.indexOf(tool);if(i<=0)return;
-  const k=key(x,y),m=marks[i];
+  const preview=rotatedPreview();if(!preview)return;
+  const [bx,by]=previewToBaseMark(x,y,preview);
+  if(!valid([bx,by]))return;
+  const k=key(bx,by),m=marks[i];
   m.has(k)?m.delete(k):m.add(k);
   states[i]=m.size?'draft':'unknown';paint();return;
  }
