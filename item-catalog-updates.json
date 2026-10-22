@@ -27794,6 +27794,221 @@
       "type": "item",
       "bagGroup": "メイジ・呪文",
       "verified": "本体1×2・占有2マス、☆4個・◇4個・△⚡なし、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "mage-skill-magic-eye",
+      "name": "魔眼",
+      "alias": "Arcane Vision",
+      "className": "メイジ",
+      "category": "スキル",
+      "tags": [
+        "魔法"
+      ],
+      "price": 5,
+      "rarity": "ユニーク",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [
+        [
+          -1,
+          -1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          -2,
+          0
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/メイジ」・各アイテムページ（2026-10-22照合）／The Backpack Battles Wiki「Mage」「Subclass」（2026-10-22照合）",
+      "note": "5分プロトコル・メイジ第4回。日英名称・分類・価格・レアリティ・属性と明記された効果を記録。書物と呪文の補充を促し、星にある魔法アイテムの使用速度を上げる。 英語名「Arcane Vision」をThe Backpack Battles Wikiの効果記述と照合（2026-10-23）。 本体1×1（占有1マス）・☆10個・◇△⚡なし、ソケット0、バフ・デバフなしを登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "メイジ・スキル",
+      "verified": "英語名「Arcane Vision」を英語Wikiで追加照合。本体1×1・占有1、☆10個・◇△⚡なし、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "mage-skill-chess-master",
+      "name": "チェスマスター",
+      "alias": "Chess Master",
+      "className": "メイジ",
+      "category": "スキル",
+      "tags": [],
+      "price": 5,
+      "rarity": "ユニーク",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「チェスボード」「アイテム」（2026-10-15更新）・The Backpack Battles Wiki「Mage」「Chess Board」（2026-10-22参照）",
+      "note": "5分プロトコル・メイジ第2回。チェスボードが必要。チェスの駒の優先行動にルールを追加、チェスボード使用速度+40%、ショップ入店時に駒1個生成。 本体1×1（占有1マス）・☆0個・◇△⚡なし、ソケット0、バフ・デバフなしを登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "メイジ・スキル",
+      "verified": "英語名「Chess Master」を確認済み。本体1×1・占有1、☆0個・◇△⚡なし、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "mage-skill-abragadabra",
+      "name": "アブラガダブラ",
+      "alias": "Hogus Bogus",
+      "className": "メイジ",
+      "category": "スキル",
+      "tags": [],
+      "price": 5,
+      "rarity": "ユニーク",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/メイジ」「アイテム」各アイテム個別ページ（2026-09-17更新、2026-10-22確認）／The Backpack Battles Wiki「Mage」「Recipe」（2026-10-22確認）",
+      "note": "5分プロトコル・メイジ第5回。日英名・分類・価格・レアリティ・属性・明示的ソケット数を登録。メイジ・アドベンチャラー共用のスキル。効果：3秒後最大6スタミナ消費で消費分×3のランダムバフ、6秒後相手と自身をスタン、9秒後相手の現HPの40%回復。 英語名「Hogus Bogus」をThe Backpack Battles Wikiの効果記述と照合（2026-10-23）。 本体1×1（占有1マス）・☆0個・◇△⚡なし、ソケット0、バフ・デバフなしを登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "メイジ・スキル",
+      "verified": "英語名「Hogus Bogus」を英語Wikiで追加照合。本体1×1・占有1、☆0個・◇△⚡なし、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。",
+      "classNames": [
+        "メイジ",
+        "アドベンチャラー"
+      ]
     }
   ]
 }
