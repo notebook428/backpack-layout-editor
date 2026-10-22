@@ -31655,6 +31655,304 @@
       "type": "item",
       "bagGroup": "アドベンチャラー・アクセサリー",
       "verified": "本体2×2（占有4マス）・☆4個・◇4個・△0個・⚡0個、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "adventurer-ukulele",
+      "name": "ウクレレ",
+      "alias": "Ukulele",
+      "className": "アドベンチャラー",
+      "category": "アクセサリー",
+      "tags": [
+        "音楽"
+      ],
+      "price": 10,
+      "rarity": "ユニーク",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [
+        "フリーズ"
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 3,
+        "occupied": 3
+      },
+      "stars": [
+        [
+          -2,
+          2
+        ],
+        [
+          -1,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          -2,
+          3
+        ],
+        [
+          -1,
+          3
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          -1,
+          4
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "hollowDiamonds": [
+        [
+          -1,
+          -1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "confirmed",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」（2026-10-15更新・2026-10-22照合）／The Backpack Battles Wiki「Adventurer」「Items」「Subclass」（2026-10-22照合）",
+      "note": "5分プロトコル・アドベンチャラー第1回。確認済み基本データのみ登録。 本体1×3（占有3マス）・☆12個・◇7個・△0個・⚡0個、ソケット0、バフ（なし）・デバフ（フリーズ）を登録JSONで確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "アドベンチャラー・アクセサリー",
+      "verified": "本体1×3（占有3マス）・☆12個・◇7個・△0個・⚡0個、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "start-adventurer-giving",
+      "name": "施し袋",
+      "alias": "Bag of Giving",
+      "category": "バッグ",
+      "type": "bag",
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "stars": [],
+      "bagGroup": "アドベンチャラー",
+      "note": "ゲーム内画像＋ホタテくんの配置図で確認（2026-10-18）／2026-10-22 アドベンチャラー第1回で基本データ補完。確定形状・記号を維持。 本体3×2（占有6マス）・☆0個・◇0個・△0個・⚡0個、ソケット0、バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "verified": "本体3×2（占有6マス）・☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。",
+      "origin": "Editor built-in preset: ゲーム内スクリーンショット（2026-10-18）／Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」（2026-10-15更新・2026-10-22照合）／The Backpack Battles Wiki「Adventurer」「Items」「Subclass」（2026-10-22照合）",
+      "rarity": "ユニーク",
+      "className": "アドベンチャラー",
+      "tags": [],
+      "price": 16,
+      "socketCount": 0,
+      "size": {
+        "width": 3,
+        "height": 2,
+        "occupied": 6
+      },
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        },
+        "tags": "none"
+      },
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": []
+    },
+    {
+      "id": "start-reaper-sewing",
+      "name": "裁縫セット",
+      "alias": "Sewing Case",
+      "category": "バッグ",
+      "type": "bag",
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "stars": [],
+      "bagGroup": "アドベンチャラー",
+      "note": "ゲーム内画像＋ホタテくんの配置図で確認（2026-10-18）／2026-10-22 アドベンチャラー第1回で基本データ補完。確定形状・記号を維持。 本体4×2（占有6マス）・☆0個・◇0個・△0個・⚡0個、ソケット0、バフ（なし）・デバフ（なし）を登録JSONで確定（2026-10-23）。",
+      "verified": "本体4×2（占有6マス）・☆0個・◇0個・△0個・⚡0個、分類・属性・ソケット0・効果を登録JSONで確認済み（2026-10-23）。",
+      "origin": "Editor built-in preset: ゲーム内スクリーンショット（2026-10-18）／Backpack Battles Wiki*「クラス/アドベンチャラー」「アイテム」（2026-10-15更新・2026-10-22照合）／The Backpack Battles Wiki「Adventurer」「Items」「Subclass」（2026-10-22照合）",
+      "rarity": "ユニーク",
+      "className": "アドベンチャラー",
+      "tags": [],
+      "price": 16,
+      "socketCount": 0,
+      "size": {
+        "width": 4,
+        "height": 2,
+        "occupied": 6
+      },
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        },
+        "tags": "none"
+      },
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": []
     }
   ]
 }
