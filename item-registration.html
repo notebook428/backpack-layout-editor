@@ -451,7 +451,16 @@ async function fetchCatalog(){
     if(!r.ok)throw Error('HTTP '+r.status);
     const d=await r.json();
     if(d.format!=='recho-item-catalog'||!Array.isArray(d.records))throw Error('カタログ形式が違います');
-    catalog=d.records;candidates();
+    const u=await fetch('item-catalog-updates.json',{cache:'no-store'});
+    if(!u.ok)throw Error('追加カタログ HTTP '+u.status);
+    const extra=await u.json();
+    if(extra.format!=='recho-item-catalog-updates'||!Array.isArray(extra.records))throw Error('追加カタログ形式が違います');
+    const merged=new Map(d.records.map(item=>[item.id,item]));
+    for(const item of extra.records){
+      if(!item||typeof item.id!=='string'||!merged.has(item.id))throw Error('追加カタログのIDが不正です');
+      merged.set(item.id,{...merged.get(item.id),...item});
+    }
+    catalog=Array.from(merged.values());candidates();
   }catch(e){catalogInfo.textContent='登録済みデータを読み込めませんでした。通信状態を確認して再読み込みしてね。';candidate.replaceChildren();}
 }
 function loadCandidate(){
