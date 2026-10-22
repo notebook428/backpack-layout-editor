@@ -292,7 +292,7 @@ $('confirmAllDirections').addEventListener('click',confirmAllDirections);
 DIRECTIONS.forEach((name,r)=>{const btn=document.createElement('button');btn.type='button';btn.textContent=name+' '+['0°','90°','180°','270°'][r];btn.dataset.rotation=String(r);btn.addEventListener('click',()=>{activeStarRotation=r;tool='☆';paint()});$('directionButtons').append(btn)});
 function rotate(x,y,r){return r===0?[x,y]:r===1?[-y,x]:r===2?[-x,-y]:[y,-x]}
 function importEditor(d){if(d.format!=='recho-backpack-editor'||d.grid?.width!==9||d.grid?.height!==7||!Array.isArray(d.bags)||!Array.isArray(d.debugMarks))throw Error('9×7エディタJSONが必要');editor=d;const defs=new Map((d.definitions||[]).map(p=>[p.id,p]));$('bagList').replaceChildren();d.bags.forEach((b,i)=>{const l=document.createElement('label'),c=document.createElement('input');c.type='checkbox';c.checked=true;c.value=i;c.className='bagSelect';l.append(c,document.createTextNode(' '+(defs.get(b.presetId)?.name||b.presetId)+' ('+b.x+','+b.y+')'));$('bagList').append(l)});$('importBox').hidden=false}
-function applyImport(){if(!editor)return;const defs=new Map((editor.definitions||[]).map(p=>[p.id,p])),a=[];document.querySelectorAll('.bagSelect:checked').forEach(c=>{const b=editor.bags[+c.value],p=defs.get(b.presetId);if(!p?.shape)throw Error('バッグ定義がない');const raw=p.shape.map(q=>rotate(q[0],q[1],b.rot)),mx=Math.min(...raw.map(v=>v[0])),my=Math.min(...raw.map(v=>v[1]));raw.forEach(([x,y])=>a.push([b.x+x-mx,b.y+y-my]))});if(!a.length)throw Error('バッグを選んでね');const dx=6-Math.min(...a.map(v=>v[0])),dy=6-Math.min(...a.map(v=>v[1]));const b=new Set(a.map(([x,y])=>key(x+dx,y+dy))),m=KEYS.map(()=>new Set());editor.debugMarks.forEach(v=>{const i=SYMS.indexOf(v.symbol);if(i>=0)m[i].add(key(v.x+dx,v.y+dy))});if(![...b,...m.flatMap(v=>[...v])].map(xy).every(valid))throw Error('盤面内に収まらない');body=b;marks=m;bodyState='draft';states=m.map(v=>v.size?'draft':'unknown');rotationStarMode=false;activeStarRotation=0;rotationStarEdited=false;starsPerRotation=Array.from({length:4},()=>new Set());rotationStates=Array(4).fill('unknown');paint();const skipped=[...new Set(editor.debugMarks.filter(v=>!SYMS.includes(v.symbol)).map(v=>v.symbol))];if(skipped.length)$('message').textContent='⚠ 未対応の説明マーカー '+skipped.join('・')+' は取り込んでいないよ。元の配置JSONを確認してね。';}
+function applyImport(){if(!editor)return;const defs=new Map((editor.definitions||[]).map(p=>[p.id,p])),a=[];document.querySelectorAll('.bagSelect:checked').forEach(c=>{const b=editor.bags[+c.value],p=defs.get(b.presetId);if(!p?.shape)throw Error('バッグ定義がない');const raw=p.shape.map(q=>rotate(q[0],q[1],b.rot)),mx=Math.min(...raw.map(v=>v[0])),my=Math.min(...raw.map(v=>v[1]));raw.forEach(([x,y])=>a.push([b.x+x-mx,b.y+y-my]))});if(!a.length)throw Error('バッグを選んでね');const dx=6-Math.min(...a.map(v=>v[0])),dy=6-Math.min(...a.map(v=>v[1]));const b=new Set(a.map(([x,y])=>key(x+dx,y+dy))),m=KEYS.map(()=>new Set());editor.debugMarks.forEach(v=>{const i=SYMS.indexOf(v.symbol);if(i>=0)m[i].add(key(v.x+dx,v.y+dy))});if(![...b,...m.flatMap(v=>[...v])].map(xy).every(valid))throw Error('盤面内に収まらない');body=b;marks=m;bodyState='draft';states=m.map(v=>v.size?'draft':'unknown');rotationStarMode=false;activeStarRotation=0;rotationStarEdited=false;starsPerRotation=Array.from({length:4},()=>new Set());rotationStates=Array(4).fill('unknown');otherMarksPerRotation=KEYS.slice(1).map(()=>Array.from({length:4},()=>new Set()));otherRotationStates=KEYS.slice(1).map(()=>Array(4).fill('unknown'));paint();const skipped=[...new Set(editor.debugMarks.filter(v=>!SYMS.includes(v.symbol)).map(v=>v.symbol))];if(skipped.length)$('message').textContent='⚠ 未対応の説明マーカー '+skipped.join('・')+' は取り込んでいないよ。元の配置JSONを確認してね。';}
 function openEntry(d){
  if(d.format!=='recho-item-registration'||!d.shape?.length)throw Error('本体形状入りの登録JSONが必要');
  if(['diamonds','squares','filledTriangles'].some(k=>Array.isArray(d[k])&&d[k].length))throw Error('旧版の◆・□・▲に配置があります。この4記号版では取り込めないため、元JSONを保管し、座標を確認して移行してください');
@@ -577,13 +577,19 @@ try{
   loadEffectsDraft(o);
   if(Array.isArray(o.starsPerRotation)&&o.starsPerRotation.length===4){starsPerRotation=o.starsPerRotation.map(a=>new Set((Array.isArray(a)?a:[]).filter(v=>typeof v==='string'&&/^-?\d+,-?\d+$/.test(v))))}
   if(Array.isArray(o.rotationStates)&&o.rotationStates.length===4)rotationStates=o.rotationStates.map(v=>['unknown','draft','confirmed','none'].includes(v)?v:'unknown');
-  rotationStarEdited=!!o.rotationStarEdited;rotationStarMode=!!o.rotationStarMode&&body.size>0;
+   if(Array.isArray(o.otherMarksPerRotation)&&o.otherMarksPerRotation.length===3){
+    otherMarksPerRotation=o.otherMarksPerRotation.map(dirs=>Array.from({length:4},(_,r)=>new Set((Array.isArray(dirs?.[r])?dirs[r]:[]).filter(v=>typeof v==='string'&&/^-?\d+,-?\d+$/.test(v)))));
+    otherRotationStates=KEYS.slice(1).map((_,i)=>Array.from({length:4},(_,r)=>['unknown','draft','confirmed','none'].includes(o.otherRotationStates?.[i]?.[r])?o.otherRotationStates[i][r]:'unknown'));
+   }else if(o.rotationStarEdited){
+    const base=geometry();KEYS.slice(1).forEach((_,j)=>{otherMarksPerRotation[j][0]=new Set((base?.marks[j+1]||[]).map(([x,y])=>key(x,y)));otherRotationStates[j][0]=states[j+1]});
+   }
+   rotationStarEdited=!!o.rotationStarEdited;rotationStarMode=!!o.rotationStarMode&&body.size>0;
   activeStarRotation=Number.isInteger(o.activeStarRotation)&&o.activeStarRotation>=0&&o.activeStarRotation<4?o.activeStarRotation:0;
   if(rotationStarMode)tool='☆';
  }
 }catch(e){$('message').textContent='保存済み下書きを復元できませんでした。保存JSONから読み込み直してね。'}
 paint();
-window.__itemRegisterTest={data,geometry,missing,change,importEditor,applyImport,openEntry,applyPotionStarPreset};
+window.__itemRegisterTest={data,geometry,missing,change,importEditor,applyImport,openEntry,applyPotionStarPreset,setDirectionMode,selectMarkerStatus,directionalData,directionalReview,paint,rotationState:()=>({mode:rotationStarMode,active:activeStarRotation,marks:KEYS.map((_,i)=>directionalSets(i).map(m=>sort(m))),states:KEYS.map((_,i)=>[...directionalStates(i)])})};
 
 const look=$('lookup'),candidate=$('candidate'),catalogInfo=$('catalogInfo');
 let catalog=[];
