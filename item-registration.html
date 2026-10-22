@@ -30,7 +30,7 @@ main .panel{margin-bottom:12px}
 header{padding:12px}
 }
 </style></head><body>
-<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.13</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
+<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.14</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
 <section class="panel"><h2>① 基本情報</h2>
 <div class="note">既存の登録データから事前入力できます。候補を検索して読み込むだけで、IDや名前、既知の形状を反映するよ。</div><label class="field"><span>登録済みアイテムを検索（名前・英語名・ID）</span><input id="lookup" placeholder="例：フェドーラ帽 / Fedora"></label><label class="field"><span>候補一覧</span><select id="candidate" aria-label="候補のアイテム"><option value="">候補データを読み込み中...</option></select></label><div class="buttons"><button id="applyCandidate" class="main" type="button">既存情報を入力欄に反映</button></div><div id="catalogInfo" class="sub" role="status">データベースを確認中</div>
 
@@ -43,7 +43,7 @@ header{padding:12px}
 <fieldset class="pick-panel"><legend>関連するデバフ（3種類・複数選択可）</legend><div class="choices" id="debuffChoices"></div><div class="status-choice-field"><div class="sub">確認状況</div><div class="status-radio-group" id="debuffStatus" role="radiogroup" aria-label="デバフの確認状況"></div></div></fieldset>
 <div class="two">
 <label class="field"><span>値段（G）</span><input type="hidden" id="price"><select id="priceChoice" aria-label="価格を選択"></select><input id="priceExtra" type="number" min="0" step="1" placeholder="金額を入力" hidden></label>
-<label class="field"><span>ソケット数</span><input type="hidden" id="sockets"><select id="socketsChoice" aria-label="ソケット数を選択"></select><input id="socketsExtra" type="number" min="0" step="1" placeholder="個数を入力" hidden></label>
+<label class="field"><span>ソケット数</span><input type="hidden" id="sockets"><select id="socketsChoice" aria-label="ソケット数を選択"></select><input id="socketsExtra" type="number" min="0" step="1" placeholder="個数を入力" hidden><span class="sub" id="socketRuleInfo" aria-live="polite">分類に応じてソケット数を自動設定するよ。</span></label>
 </div><label class="field"><span>出典・確認日（任意）</span><textarea id="origin"></textarea></label><label class="field"><span>調査メモ（任意）</span><textarea id="note"></textarea></label><div class="note">説明文・ダメージ値・合成元・合成先は登録対象外。空欄は未確認として残し、0とは区別するよ。</div>
 </section><div class="right-column">
 <section class="panel"><h2>② 本体と記号の配置</h2><div class="sub">本体・☆・◇・△・⚡を選び、マスをクリック。通常9×7で表示し、必要なら21×17へ拡大できるよ。表示座標は左下 (1,1)、出力は本体左上 (0,0) 基準のまま。</div><div class="buttons" id="tools"></div>
@@ -73,10 +73,11 @@ const directionalKey=k=>k+'ByRotation';
 const DIRECTIONS=['↑','→','↓','←'];
 let effectChoices={buffs:new Set(),debuffs:new Set()},effectStatus={buffs:'unknown',debuffs:'unknown'},tagStatus='unknown';
 let selectedCategories=[]; // The first category is the legacy primary category.
+let socketAutoZero=false; // Set only for category-derived zeros; manual zeros and imported values are preserved.
 const sort=s=>[...s].map(xy).sort((a,b)=>a[1]-b[1]||a[0]-b[0]);
 const values=()=>Object.fromEntries(FIELDS.map(k=>[k,$(k).value]));
 const valid=([x,y])=>Number.isInteger(x)&&Number.isInteger(y)&&x>=0&&x<W&&y>=0&&y<H;
-function save(){try{localStorage.setItem('recho-item-entry-v1',JSON.stringify({values:values(),categories:[...selectedCategories],body:[...body],markerKeys:KEYS,marks:marks.map(m=>[...m]),states,bodyState,tagStatus,effectChoices:{buffs:[...effectChoices.buffs],debuffs:[...effectChoices.debuffs]},effectStatus,rotationStarMode,activeStarRotation,rotationStarEdited,starsPerRotation:starsPerRotation.map(m=>[...m]),rotationStates,otherMarksPerRotation:otherMarksPerRotation.map(dirs=>dirs.map(m=>[...m])),otherRotationStates}))}catch(e){}}
+function save(){try{localStorage.setItem('recho-item-entry-v1',JSON.stringify({values:values(),categories:[...selectedCategories],body:[...body],markerKeys:KEYS,marks:marks.map(m=>[...m]),states,bodyState,tagStatus,effectChoices:{buffs:[...effectChoices.buffs],debuffs:[...effectChoices.debuffs]},effectStatus,socketAutoZero,rotationStarMode,activeStarRotation,rotationStarEdited,starsPerRotation:starsPerRotation.map(m=>[...m]),rotationStates,otherMarksPerRotation:otherMarksPerRotation.map(dirs=>dirs.map(m=>[...m])),otherRotationStates}))}catch(e){}}
 function reset(){body=new Set();marks=KEYS.map(()=>new Set());states=KEYS.map(()=>'unknown');bodyState='unknown';rotationStarMode=false;activeStarRotation=0;rotationStarEdited=false;starsPerRotation=Array.from({length:4},()=>new Set());rotationStates=Array(4).fill('unknown');otherMarksPerRotation=KEYS.slice(1).map(()=>Array.from({length:4},()=>new Set()));otherRotationStates=KEYS.slice(1).map(()=>Array(4).fill('unknown'));expandedBoard=false;focusBoardOnEntry()}
 function resetEffects(){effectChoices={buffs:new Set(),debuffs:new Set()};effectStatus={buffs:'unknown',debuffs:'unknown'}}
 function geometry(){const a=sort(body);if(!a.length)return null;const x=Math.min(...a.map(v=>v[0])),y=Math.min(...a.map(v=>v[1]));return {shape:a.map(v=>[v[0]-x,v[1]-y]),size:{width:Math.max(...a.map(v=>v[0]))-x+1,height:Math.max(...a.map(v=>v[1]))-y+1,occupied:a.length},marks:marks.map(m=>sort(m).map(v=>[v[0]-x,v[1]-y]))};}
@@ -387,6 +388,7 @@ function openEntry(d){
  tagStatus=['unknown','confirmed','none'].includes(d.review?.tags)?d.review.tags:(d.tags?.length?'confirmed':'unknown');
  const v={ja:d.name,en:d.alias,id:d.id,klass:d.className,category:d.category,tags:(d.tags||[]).join(', '),price:d.price,rarity:d.rarity,sockets:d.socketCount,origin:d.origin,note:d.note};
  FIELDS.forEach(f=>$(f).value=v[f]??'');
+ socketAutoZero=false; // Reading a known item must never overwrite its socket number.
  setCategorySelection(Array.isArray(d.categories)&&d.categories.length?d.categories:[d.category]);
  Object.keys(customActive).forEach(k=>customActive[k]=false);
  customActive.category=selectedCategories.some(v=>!RADIO_OPTIONS.category.includes(v));
@@ -399,7 +401,7 @@ function download(){if(!allowExport())return;const u=URL.createObjectURL(new Blo
 FIELDS.forEach(f=>$(f).addEventListener('input',paint));
 $('editorFile').addEventListener('change',e=>readFile(e,importEditor));$('entryFile').addEventListener('change',e=>readFile(e,openEntry));$('importGo').addEventListener('click',()=>{try{applyImport()}catch(err){alert('取り込み失敗：'+err.message)}});
 $('clear').addEventListener('click',()=>{if(confirm('盤面の本体と記号を消しますか？')){reset();paint()}});
-$('new').addEventListener('click',()=>{if(confirm('登録内容を消して次へ進む？ 必要なら先にJSON保存してね')){FIELDS.forEach(f=>$(f).value='');setCategorySelection([]);$('categoryExtra').value='';reset();resetEffects();tagStatus='unknown';Object.keys(customActive).forEach(k=>customActive[k]=false);paint()}});
+$('new').addEventListener('click',()=>{if(confirm('登録内容を消して次へ進む？ 必要なら先にJSON保存してね')){FIELDS.forEach(f=>$(f).value='');socketAutoZero=false;setCategorySelection([]);$('categoryExtra').value='';reset();resetEffects();tagStatus='unknown';Object.keys(customActive).forEach(k=>customActive[k]=false);paint()}});
 $('copyJSON').addEventListener('click',()=>{if(allowExport())copy($('out').value)});$('copyText').addEventListener('click',()=>{if(!allowExport())return;const d=data();copy('【アイテム登録】'+(d.name||'名称未入力')+'\n確認待ち：'+(missing(d).join('、')||'なし')+'\n'+JSON.stringify(d,null,2))});$('download').addEventListener('click',download);
 
 const RADIO_OPTIONS={
@@ -410,12 +412,29 @@ const RADIO_OPTIONS={
 const TAG_OPTIONS=['自然','神聖','暗黒','魔法','火炎','氷結','吸血','音楽','毒','ヒート','ラック','エンパワー','近接','遠隔','効果','掘り出し物'];
 const numericOptions={price:[...Array.from({length:41},(_,i)=>String(i)),'50','60','70','80','90','100'],sockets:Array.from({length:11},(_,i)=>String(i))};
 const customActive={klass:false,category:false,rarity:false,price:false,sockets:false};
+const SOCKET_CAPABLE_CATEGORIES=new Set(['武器','盾','鎧','兜','靴','アクセサリー']); // Weapon-function pets can select ペット + 武器.
 function addOption(parent,value,label){
  const option=document.createElement('option');option.value=value;option.textContent=label;parent.append(option);return option;
 }
-function setCategorySelection(values){
+function socketCategoryRule(){
+ if(!selectedCategories.length)return 'unselected';
+ if(selectedCategories.some(v=>SOCKET_CAPABLE_CATEGORIES.has(v)))return 'capable';
+ // Custom categories may introduce new equipment types, so do not infer zero.
+ if(selectedCategories.some(v=>!RADIO_OPTIONS.category.includes(v)))return 'unknown';
+ return 'socketless';
+}
+function applySocketCategoryRule(){
+ const rule=socketCategoryRule();
+ if(rule==='socketless'){
+  $('sockets').value='0';customActive.sockets=false;socketAutoZero=true;
+ }else if(socketAutoZero){
+  $('sockets').value='';customActive.sockets=false;socketAutoZero=false;
+ }
+}
+function setCategorySelection(values,updateSocket=false){
  selectedCategories=[...new Set((Array.isArray(values)?values:[]).filter(v=>typeof v==='string').map(v=>v.trim()).filter(Boolean))];
  $('category').value=selectedCategories[0]||'';
+ if(updateSocket)applySocketCategoryRule();
 }
 function makeCategoryField(){
  const wrap=$('categoryChoices');
@@ -425,7 +444,7 @@ function makeCategoryField(){
   const caption=document.createElement('span');caption.textContent=value;
   label.append(cb,caption);wrap.append(label);
   cb.addEventListener('change',()=>{
-   setCategorySelection(cb.checked?[...selectedCategories,value]:selectedCategories.filter(v=>v!==value));
+   setCategorySelection(cb.checked?[...selectedCategories,value]:selectedCategories.filter(v=>v!==value),true);
    paint();
   });
  }
@@ -435,8 +454,8 @@ function makeCategoryField(){
  otherLabel.append(other,caption);wrap.append(otherLabel);
  other.addEventListener('change',()=>{
   customActive.category=other.checked;
-  if(!other.checked)setCategorySelection(selectedCategories.filter(v=>RADIO_OPTIONS.category.includes(v)));
-  else setCategorySelection([...selectedCategories,...$('categoryExtra').value.split(/[,、\n]/).map(v=>v.trim()).filter(Boolean)]);
+  if(!other.checked)setCategorySelection(selectedCategories.filter(v=>RADIO_OPTIONS.category.includes(v)),true);
+  else setCategorySelection([...selectedCategories,...$('categoryExtra').value.split(/[,、\n]/).map(v=>v.trim()).filter(Boolean)],true);
   paint();if(other.checked)$('categoryExtra').focus();
  });
  $('categoryExtra').addEventListener('input',()=>{
@@ -444,7 +463,7 @@ function makeCategoryField(){
   const known=selectedCategories.filter(v=>RADIO_OPTIONS.category.includes(v));
   const extra=$('categoryExtra').value.split(/[,、\n]/).map(v=>v.trim()).filter(Boolean);
   known.splice(pos<0?known.length:Math.min(pos,known.length),0,...extra);
-  setCategorySelection(known);customActive.category=true;paint();
+  setCategorySelection(known,true);customActive.category=true;paint();
  });
 }
 function makeRadioField(id){
@@ -509,13 +528,24 @@ function makeNumericField(id){
   const val=select.value;
   customActive[id]=val==='__other__';
   $(id).value=val==='__other__'?$(id+'Extra').value.trim():val;
+  if(id==='sockets')socketAutoZero=false;
   paint();if(customActive[id])$(id+'Extra').focus();
  });
  $(id+'Extra').addEventListener('input',()=>{
-  customActive[id]=true;$(id).value=$(id+'Extra').value.trim();paint();
+  customActive[id]=true;$(id).value=$(id+'Extra').value.trim();if(id==='sockets')socketAutoZero=false;paint();
  });
 }
 function syncControls(){
+ const socketRule=socketCategoryRule(),socketValue=$('sockets').value;
+ $('socketRuleInfo').textContent=socketRule==='socketless'
+  ? socketValue!==''&&socketValue!=='0'&&!socketAutoZero
+    ? '既存のソケット数を保持中。武器機能のあるペットは「武器」もチェックしてね。'
+    : 'この分類はソケットなし。分類を変更したときに0を自動設定するよ。'
+  : socketRule==='capable'
+    ? 'ソケット対応の分類だよ。アイテムに応じて数を確認してね。'
+    : socketRule==='unknown'
+      ? '独自分類を含むので、ソケット数は自動判定しないよ。'
+      : '分類未選択の間は未確認。武器機能のあるペットは「ペット」と「武器」を両方選んでね。';
  for(const id of ['klass','rarity']){
   const val=$(id).value,known=RADIO_OPTIONS[id].includes(val);
   const other=customActive[id]||(!known&&!!val);
@@ -621,6 +651,7 @@ try{
    $('message').textContent='⚠ 古い下書きに◆・□・▲の配置があります。復元対象外の旧記号を含む元データをバックアップしました。新しい4記号で確認してね。';
   }
   FIELDS.forEach(f=>$(f).value=o.values?.[f]??'');
+  socketAutoZero=!!o.socketAutoZero&&$('sockets').value==='0';
   setCategorySelection(Array.isArray(o.categories)?o.categories:[o.values?.category]);
   customActive.category=selectedCategories.some(v=>!RADIO_OPTIONS.category.includes(v));
   body=new Set(o.body||[]);
@@ -643,7 +674,7 @@ try{
  }
 }catch(e){$('message').textContent='保存済み下書きを復元できませんでした。保存JSONから読み込み直してね。'}
 focusBoardOnEntry(true);paint();
-window.__itemRegisterTest={data,geometry,missing,change,importEditor,applyImport,openEntry,applyPotionStarPreset,setDirectionMode,selectMarkerStatus,directionalData,directionalReview,paint,focusBoardOnEntry,boardView:()=>({expanded:expandedBoard,x:viewportX,y:viewportY,...viewportDimensions()}),rotationState:()=>({mode:rotationStarMode,active:activeStarRotation,marks:KEYS.map((_,i)=>directionalSets(i).map(m=>sort(m))),states:KEYS.map((_,i)=>[...directionalStates(i)])})};
+window.__itemRegisterTest={data,geometry,missing,change,importEditor,applyImport,openEntry,applyPotionStarPreset,setDirectionMode,selectMarkerStatus,directionalData,directionalReview,paint,focusBoardOnEntry,setCategorySelection,socketCategoryRule,applySocketCategoryRule,socketAutoZero:()=>socketAutoZero,boardView:()=>({expanded:expandedBoard,x:viewportX,y:viewportY,...viewportDimensions()}),rotationState:()=>({mode:rotationStarMode,active:activeStarRotation,marks:KEYS.map((_,i)=>directionalSets(i).map(m=>sort(m))),states:KEYS.map((_,i)=>[...directionalStates(i)])})};
 
 const look=$('lookup'),candidate=$('candidate'),catalogInfo=$('catalogInfo');
 let catalog=[];
