@@ -30,7 +30,7 @@ main .panel{margin-bottom:12px}
 header{padding:12px}
 }
 </style></head><body>
-<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.17</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
+<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.18</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
 <section class="panel"><h2>① 基本情報</h2>
 <div class="note">既存の登録データから事前入力できます。候補を検索して読み込むだけで、IDや名前、既知の形状を反映するよ。</div><label class="field"><span>登録済みアイテムを検索（名前・英語名・ID）</span><input id="lookup" placeholder="例：フェドーラ帽 / Fedora"></label><label class="field"><span>候補一覧</span><select id="candidate" aria-label="候補のアイテム"><option value="">候補データを読み込み中...</option></select></label><div class="buttons"><button id="applyCandidate" class="main" type="button">既存情報を入力欄に反映</button></div><div id="catalogInfo" class="sub" role="status">データベースを確認中</div>
 
@@ -457,7 +457,7 @@ $('copyJSON').addEventListener('click',()=>{if(allowExport())copy($('out').value
 
 const RADIO_OPTIONS={
  klass:['共通','レンジャー','リーパー','バーサーカー','パイロマンサー','メイジ','アドベンチャラー','エンジニア','プリーステス'],
- category:['武器','盾','鎧','兜','靴','手袋','バッグ','食べ物','ペット','アクセサリー','ポーション','宝石','スキル','カード','チェスの駒'],
+ category:['武器','盾','鎧','兜','靴','手袋','バッグ','食べ物','ペット','アクセサリー','ポーション','宝石','スキル','呪文','カード','チェスの駒'],
  rarity:['コモン','レア','エピック','レジェンダリー','ゴッド','ユニーク']
 };
 const TAG_OPTIONS=['自然','神聖','暗黒','魔法','火炎','氷結','吸血','音楽','毒','ヒート','ラック','エンパワー','近接','遠隔','効果','掘り出し物'];
