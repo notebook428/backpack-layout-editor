@@ -30,7 +30,7 @@ main .panel{margin-bottom:12px}
 header{padding:12px}
 }
 </style></head><body>
-<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.11</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
+<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.12</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
 <section class="panel"><h2>① 基本情報</h2>
 <div class="note">既存の登録データから事前入力できます。候補を検索して読み込むだけで、IDや名前、既知の形状を反映するよ。</div><label class="field"><span>登録済みアイテムを検索（名前・英語名・ID）</span><input id="lookup" placeholder="例：フェドーラ帽 / Fedora"></label><label class="field"><span>候補一覧</span><select id="candidate" aria-label="候補のアイテム"><option value="">候補データを読み込み中...</option></select></label><div class="buttons"><button id="applyCandidate" class="main" type="button">既存情報を入力欄に反映</button></div><div id="catalogInfo" class="sub" role="status">データベースを確認中</div>
 
@@ -304,10 +304,12 @@ function rotate(x,y,r){return r===0?[x,y]:r===1?[-y,x]:r===2?[-x,-y]:[y,-x]}
 function importEditor(d){if(d.format!=='recho-backpack-editor'||d.grid?.width!==9||d.grid?.height!==7||!Array.isArray(d.bags)||!Array.isArray(d.debugMarks))throw Error('9×7エディタJSONが必要');editor=d;const defs=new Map((d.definitions||[]).map(p=>[p.id,p]));$('bagList').replaceChildren();d.bags.forEach((b,i)=>{const l=document.createElement('label'),c=document.createElement('input');c.type='checkbox';c.checked=true;c.value=i;c.className='bagSelect';l.append(c,document.createTextNode(' '+(defs.get(b.presetId)?.name||b.presetId)+' ('+b.x+','+b.y+')'));$('bagList').append(l)});$('importBox').hidden=false}
 function applyImport(){if(!editor)return;const defs=new Map((editor.definitions||[]).map(p=>[p.id,p])),a=[];document.querySelectorAll('.bagSelect:checked').forEach(c=>{const b=editor.bags[+c.value],p=defs.get(b.presetId);if(!p?.shape)throw Error('バッグ定義がない');const raw=p.shape.map(q=>rotate(q[0],q[1],b.rot)),mx=Math.min(...raw.map(v=>v[0])),my=Math.min(...raw.map(v=>v[1]));raw.forEach(([x,y])=>a.push([b.x+x-mx,b.y+y-my]))});if(!a.length)throw Error('バッグを選んでね');const dx=6-Math.min(...a.map(v=>v[0])),dy=6-Math.min(...a.map(v=>v[1]));const b=new Set(a.map(([x,y])=>key(x+dx,y+dy))),m=KEYS.map(()=>new Set());editor.debugMarks.forEach(v=>{const i=SYMS.indexOf(v.symbol);if(i>=0)m[i].add(key(v.x+dx,v.y+dy))});if(![...b,...m.flatMap(v=>[...v])].map(xy).every(valid))throw Error('盤面内に収まらない');body=b;marks=m;bodyState='draft';states=m.map(v=>v.size?'draft':'unknown');rotationStarMode=false;activeStarRotation=0;rotationStarEdited=false;starsPerRotation=Array.from({length:4},()=>new Set());rotationStates=Array(4).fill('unknown');otherMarksPerRotation=KEYS.slice(1).map(()=>Array.from({length:4},()=>new Set()));otherRotationStates=KEYS.slice(1).map(()=>Array(4).fill('unknown'));paint();const skipped=[...new Set(editor.debugMarks.filter(v=>!SYMS.includes(v.symbol)).map(v=>v.symbol))];if(skipped.length)$('message').textContent='⚠ 未対応の説明マーカー '+skipped.join('・')+' は取り込んでいないよ。元の配置JSONを確認してね。';}
 function openEntry(d){
- if(d.format!=='recho-item-registration'||!d.shape?.length)throw Error('本体形状入りの登録JSONが必要');
+ if(d.format!=='recho-item-registration')throw Error('アイテム登録JSONが必要');
+ if(d.shape!=null&&(!Array.isArray(d.shape)||!d.shape.length||d.shape.some(p=>!Array.isArray(p)||p.length!==2||!p.every(Number.isInteger))))throw Error('本体形状の形式が不正です');
  if(['diamonds','squares','filledTriangles'].some(k=>Array.isArray(d[k])&&d[k].length))throw Error('旧版の◆・□・▲に配置があります。この4記号版では取り込めないため、元JSONを保管し、座標を確認して移行してください');
- const x0=Math.min(...d.shape.map(v=>v[0])),y0=Math.min(...d.shape.map(v=>v[1])),dx=6-x0,dy=6-y0;
- const b=new Set(d.shape.map(v=>key(v[0]+dx,v[1]+dy)));
+ const shape=d.shape||[];
+ const x0=shape.length?Math.min(...shape.map(v=>v[0])):0,y0=shape.length?Math.min(...shape.map(v=>v[1])):0,dx=6-x0,dy=6-y0;
+ const b=new Set(shape.map(v=>key(v[0]+dx,v[1]+dy)));
  const m=KEYS.map(k=>new Set((d[k]||[]).map(v=>key(v[0]+dx,v[1]+dy))));
  if(![...b,...m.flatMap(v=>[...v])].map(xy).every(valid))throw Error('盤面からはみ出す');
  const hasDirections=KEYS.some(k=>d[directionalKey(k)]!=null);
@@ -336,7 +338,7 @@ function openEntry(d){
    }
   });
  }
- body=b;marks=m;bodyState=d.review?.shape||'draft';rotationStarMode=hasDirections;rotationStarEdited=hasDirections;activeStarRotation=0;
+ body=b;marks=m;bodyState=b.size?(d.review?.shape||'draft'):'unknown';rotationStarMode=hasDirections;rotationStarEdited=hasDirections;activeStarRotation=0;
  starsPerRotation=imported[0];rotationStates=importedStates[0];otherMarksPerRotation=imported.slice(1);otherRotationStates=importedStates.slice(1);
  tool=hasDirections?'☆':'body';
  states=KEYS.map((k,i)=>d.review?.markers?.[k]||(d[k]==null?'unknown':m[i].size?'draft':'none'));
