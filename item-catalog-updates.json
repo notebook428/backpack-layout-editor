@@ -25478,6 +25478,258 @@
       "type": "item",
       "bagGroup": "メイジ・チェスの駒",
       "verified": "本体1×1・占有1マス、☆8個・◇△⚡なし、分類・属性・効果・ソケット0を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "mage-chess-board",
+      "name": "チェスボード",
+      "alias": "Chess Board",
+      "className": "メイジ",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 2,
+      "rarity": "レア",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/メイジ」「アイテム」（2026-10-15更新、2026-10-22確認）／The Backpack Battles Wiki「Mage」（2026-10-22照合）",
+      "note": "5分プロトコル・メイジ第1回。日英名・分類・価格・レアリティ・確認済み属性を照合。登録JSONで本体1×1（占有1マス）・☆0個・◇△⚡なし、ソケット0、バフ（なし）・デバフ（なし）を確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "メイジ・アクセサリー",
+      "verified": "本体1×1・占有1マス、☆0個・◇△⚡なし、分類・属性・効果・ソケット0を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "mage-frierens-guide-to-ice",
+      "name": "氷結魔法の手引き",
+      "alias": "Frieren's Guide to Ice",
+      "className": "メイジ",
+      "category": "書物",
+      "tags": [
+        "氷結",
+        "魔法"
+      ],
+      "price": 6,
+      "rarity": "レア",
+      "socketCount": 0,
+      "buffs": [
+        "マナ"
+      ],
+      "debuffs": [
+        "フリーズ"
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 2,
+        "occupied": 2
+      },
+      "stars": [
+        [
+          -2,
+          -1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          2,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          -2,
+          2
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/メイジ」「アイテム」（2026-10-15更新、2026-10-22確認）／The Backpack Battles Wiki「Mage」（2026-10-22照合）",
+      "note": "5分プロトコル・メイジ第1回。日英名・分類・価格・レアリティ・確認済み属性を照合。登録JSONで本体1×2（占有2マス）・☆10個・◇△⚡なし、ソケット0、バフ（マナ）・デバフ（フリーズ）を確定（2026-10-23）。パイロマンサー登録済みの「氷結の書 / Book of Ice」と混同しないこと。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "メイジ・書物",
+      "verified": "本体1×2・占有2マス、☆10個・◇△⚡なし、分類・属性・効果・ソケット0を登録JSONで確認済み（2026-10-23）。"
+    },
+    {
+      "id": "mage-scroll-blessing-of-purity",
+      "name": "呪文の巻物：清らかなる祝福",
+      "alias": "Spell Scroll: Blessing of Purity",
+      "className": "メイジ",
+      "category": "呪文",
+      "tags": [
+        "神聖",
+        "魔法"
+      ],
+      "price": 5,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 1,
+        "occupied": 2
+      },
+      "stars": [
+        [
+          0,
+          -2
+        ],
+        [
+          1,
+          -2
+        ],
+        [
+          -1,
+          -1
+        ],
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          2,
+          -1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Backpack Battles Wiki*「クラス/メイジ」（2026-10-15更新）・The Backpack Battles Wiki「Mage」「Book」「Spell」（2026-10-22照合）",
+      "note": "5分プロトコル・メイジ第3回。日英名・分類・価格・レアリティ・属性および明記されたバフ/デバフのみ登録。登録JSONで本体2×1（占有2マス）・☆6個・◇△⚡なし、ソケット0、バフ・デバフなしを確定（2026-10-23）。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "bagGroup": "メイジ・呪文",
+      "verified": "本体2×1・占有2マス、☆6個・◇△⚡なし、分類・属性・効果・ソケット0を登録JSONで確認済み（2026-10-23）。"
     }
   ]
 }
