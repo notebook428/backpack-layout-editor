@@ -30,7 +30,7 @@ main .panel{margin-bottom:12px}
 header{padding:12px}
 }
 </style></head><body>
-<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.9</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
+<header><div><div class="sub">RECHO × HOTATE · ITEM ENTRY v0.5.10</div><h1>アイテム登録アシスタント ✦</h1><div class="sub">518件の調査を1件ずつ。確認できない情報は推測しません。</div></div><a href="index.html">← 配置エディタに戻る</a></header><main>
 <section class="panel"><h2>① 基本情報</h2>
 <div class="note">既存の登録データから事前入力できます。候補を検索して読み込むだけで、IDや名前、既知の形状を反映するよ。</div><label class="field"><span>登録済みアイテムを検索（名前・英語名・ID）</span><input id="lookup" placeholder="例：フェドーラ帽 / Fedora"></label><label class="field"><span>候補一覧</span><select id="candidate" aria-label="候補のアイテム"><option value="">候補データを読み込み中...</option></select></label><div class="buttons"><button id="applyCandidate" class="main" type="button">既存情報を入力欄に反映</button></div><div id="catalogInfo" class="sub" role="status">データベースを確認中</div>
 
@@ -48,14 +48,14 @@ header{padding:12px}
 </section><div class="right-column">
 <section class="panel"><h2>② 本体と記号の配置</h2><div class="sub">本体・☆・◇・△・⚡を選び、マスをクリック。盤面表示は左下 (1,1)、出力は本体左上 (0,0) 基準だよ。</div><div class="buttons" id="tools"></div>
 <div class="direction-panel">
-<label><input type="checkbox" id="directionStars"> 向き別☆配置モード（ポーションなど）</label>
+<label><input type="checkbox" id="directionStars"> 向き別記号配置モード（☆・◇・△・⚡）</label>
 <div class="buttons"><button type="button" id="applyPotionPreset" class="main" title="ポーション分類の1×2本体に、向き別☆配置を下書きとしてセットします">✦ 定番ポーション型を一括入力</button></div>
 <div class="sub">ポーション専用：本体が空なら縦1×2も作成し、☆1個の4方向パターンを入力します。適用後は「要確認」なので、実物を照合してから一括確認してね。既存の別形状には適用しません。</div>
 <div id="directionStarControls" hidden>
-<div class="sub">先に通常モードで本体を作成してね。向きを選び、表示された本体を基準に☆をクリックして配置。4方向の配置が終わったら、下の「記号の確認状態」の☆欄から一括確認できるよ。☆・◇・△・⚡は常に一緒に表示するよ。◇・△・⚡も選択中の向きで置けるけれど、保存時は本体の基準向きの座標に自動変換するよ。</div>
+<div class="sub">先に通常モードで本体を作成してね。向きごとに☆・◇・△・⚡の位置と確認状態を独立管理するよ。別の向きに置いた記号は引き継がれません。未確認の向きは空白で表示し、確認できたら各記号の「確認済み」または「なし」を選んでね。☆だけは下のボタンで4方向を一括確認できるよ。</div>
 <div class="buttons" id="directionButtons" aria-label="☆を編集する向き"></div>
 <div class="sub" id="directionStatus" aria-live="polite"></div>
-</div></div><div class="boardwrap"><div id="board" class="board"></div></div><div class="sub" id="size">本体未入力</div><div class="buttons"><button id="clear">盤面をクリア</button></div><h3>記号の確認状態</h3><div class="sub">未確認と、存在しないことを確認した状態は区別するよ。</div><div class="status-radio-row"><span class="status-symbol">本体</span><div class="status-radio-group" id="bodyStatus" role="radiogroup" aria-label="本体形状の確認状況"></div></div><div id="statuses"></div><div class="buttons direction-bulk" id="directionBulk" hidden><button type="button" id="confirmAllDirections" class="main">✓ ☆4方向を一括確認</button><span class="sub">☆あり→確認済み／☆なし→確認後「なし」</span></div><h3>配置エディタのJSONを取り込む</h3><div class="sub">元のエディタで「JSON保存」したファイルを選び、形状を表すバッグだけをチェックしてね。説明用マーカーも一緒に読み込めるよ。</div><input id="editorFile" type="file" accept=".json,application/json"><div id="importBox" hidden><div id="bagList" class="baglist"></div><div class="buttons"><button id="importGo">選択バッグ・マーカーを反映</button></div></div>
+</div></div><div class="boardwrap"><div id="board" class="board"></div></div><div class="sub" id="size">本体未入力</div><div class="buttons"><button id="clear">盤面をクリア</button></div><h3>記号の確認状態</h3><div class="sub">未確認と、存在しないことを確認した状態は区別するよ。</div><div class="status-radio-row"><span class="status-symbol">本体</span><div class="status-radio-group" id="bodyStatus" role="radiogroup" aria-label="本体形状の確認状況"></div></div><div id="statuses"></div><div class="buttons direction-bulk" id="directionBulk" hidden><button type="button" id="confirmAllDirections" class="main">✓ ☆4方向を一括確認</button><span class="sub">☆だけ対象：あり→確認済み／なし→確認後「なし」</span></div><h3>配置エディタのJSONを取り込む</h3><div class="sub">元のエディタで「JSON保存」したファイルを選び、形状を表すバッグだけをチェックしてね。説明用マーカーも一緒に読み込めるよ。</div><input id="editorFile" type="file" accept=".json,application/json"><div id="importBox" hidden><div id="bagList" class="baglist"></div><div class="buttons"><button id="importGo">選択バッグ・マーカーを反映</button></div></div>
 </section><section class="panel"><h2>③ リコーに渡すデータ</h2><div class="note" id="check" role="alert" aria-live="polite">入力待ち</div><textarea readonly id="out" spellcheck="false"></textarea><div class="buttons"><button class="main" id="copyText">リコー送信用にコピー</button><button id="copyJSON">JSONをコピー</button><button id="download">JSON保存</button></div><h3>保存した登録JSONを編集</h3><input id="entryFile" type="file" accept=".json,application/json"><div class="note">入力途中の下書きはこのブラウザ内に自動保存。別端末には同期されないから、確定後はJSON保存してね。</div><div class="buttons"><button id="new">次のアイテムを入力</button></div><div class="sub" id="message" role="status"></div></section>
 </div></main><footer>非公式ファン制作ツール。独自サーバーには入力情報を送信しません。<a href="info.html#privacy">プライバシー</a> · <a href="info.html#terms">利用規約</a></footer><script>
 (()=>{
@@ -64,14 +64,19 @@ const $=id=>document.getElementById(id),W=21,H=17,SYMS=['☆','◇','△','⚡']
 let body=new Set(),marks=KEYS.map(()=>new Set()),states=KEYS.map(()=>'unknown'),bodyState='unknown',tool='body',editor=null;
 let rotationStarMode=false,activeStarRotation=0,rotationStarEdited=false;
 let starsPerRotation=Array.from({length:4},()=>new Set()),rotationStates=Array(4).fill('unknown');
+let otherMarksPerRotation=KEYS.slice(1).map(()=>Array.from({length:4},()=>new Set()));
+let otherRotationStates=KEYS.slice(1).map(()=>Array(4).fill('unknown'));
+const directionalSets=i=>i===0?starsPerRotation:otherMarksPerRotation[i-1];
+const directionalStates=i=>i===0?rotationStates:otherRotationStates[i-1];
+const directionalKey=k=>k+'ByRotation';
 const DIRECTIONS=['↑','→','↓','←'];
 let effectChoices={buffs:new Set(),debuffs:new Set()},effectStatus={buffs:'unknown',debuffs:'unknown'},tagStatus='unknown';
 let selectedCategories=[]; // The first category is the legacy primary category.
 const sort=s=>[...s].map(xy).sort((a,b)=>a[1]-b[1]||a[0]-b[0]);
 const values=()=>Object.fromEntries(FIELDS.map(k=>[k,$(k).value]));
 const valid=([x,y])=>Number.isInteger(x)&&Number.isInteger(y)&&x>=0&&x<W&&y>=0&&y<H;
-function save(){try{localStorage.setItem('recho-item-entry-v1',JSON.stringify({values:values(),categories:[...selectedCategories],body:[...body],markerKeys:KEYS,marks:marks.map(m=>[...m]),states,bodyState,tagStatus,effectChoices:{buffs:[...effectChoices.buffs],debuffs:[...effectChoices.debuffs]},effectStatus,rotationStarMode,activeStarRotation,rotationStarEdited,starsPerRotation:starsPerRotation.map(m=>[...m]),rotationStates}))}catch(e){}}
-function reset(){body=new Set();marks=KEYS.map(()=>new Set());states=KEYS.map(()=>'unknown');bodyState='unknown';rotationStarMode=false;activeStarRotation=0;rotationStarEdited=false;starsPerRotation=Array.from({length:4},()=>new Set());rotationStates=Array(4).fill('unknown')}
+function save(){try{localStorage.setItem('recho-item-entry-v1',JSON.stringify({values:values(),categories:[...selectedCategories],body:[...body],markerKeys:KEYS,marks:marks.map(m=>[...m]),states,bodyState,tagStatus,effectChoices:{buffs:[...effectChoices.buffs],debuffs:[...effectChoices.debuffs]},effectStatus,rotationStarMode,activeStarRotation,rotationStarEdited,starsPerRotation:starsPerRotation.map(m=>[...m]),rotationStates,otherMarksPerRotation:otherMarksPerRotation.map(dirs=>dirs.map(m=>[...m])),otherRotationStates}))}catch(e){}}
+function reset(){body=new Set();marks=KEYS.map(()=>new Set());states=KEYS.map(()=>'unknown');bodyState='unknown';rotationStarMode=false;activeStarRotation=0;rotationStarEdited=false;starsPerRotation=Array.from({length:4},()=>new Set());rotationStates=Array(4).fill('unknown');otherMarksPerRotation=KEYS.slice(1).map(()=>Array.from({length:4},()=>new Set()));otherRotationStates=KEYS.slice(1).map(()=>Array(4).fill('unknown'))}
 function resetEffects(){effectChoices={buffs:new Set(),debuffs:new Set()};effectStatus={buffs:'unknown',debuffs:'unknown'}}
 function geometry(){const a=sort(body);if(!a.length)return null;const x=Math.min(...a.map(v=>v[0])),y=Math.min(...a.map(v=>v[1]));return {shape:a.map(v=>[v[0]-x,v[1]-y]),size:{width:Math.max(...a.map(v=>v[0]))-x+1,height:Math.max(...a.map(v=>v[1]))-y+1,occupied:a.length},marks:marks.map(m=>sort(m).map(v=>[v[0]-x,v[1]-y]))};}
 function rotatedPreview(){
@@ -81,20 +86,17 @@ function rotatedPreview(){
  const mx=Math.min(...raw.map(a=>a[0])),my=Math.min(...raw.map(a=>a[1]));
  return {ox,oy,minX:mx,minY:my,body:raw.map(([x,y])=>[x-mx,y-my])};
 }
-// Non-star marks retain canonical body coordinates; only their preview rotates.
-function baseToPreviewMark(x,y,preview){
- const [rx,ry]=rotate(x-preview.ox,y-preview.oy,activeStarRotation);
- return [preview.ox+rx-preview.minX,preview.oy+ry-preview.minY];
-}
-function previewToBaseMark(x,y,preview){
- const [bx,by]=rotate(x-preview.ox+preview.minX,y-preview.oy+preview.minY,(4-activeStarRotation)%4);
- return [preview.ox+bx,preview.oy+by];
-}
+// All markers use footprint-relative coordinates in directional mode; orientations are independent.
 function setDirectionMode(enabled){
  if(enabled&&!body.size){alert('先に本体を配置してください');$('directionStars').checked=false;return;}
- if(enabled&&!rotationStarEdited){
-  const g=geometry();starsPerRotation[0]=new Set((g?.marks[0]||[]).map(([x,y])=>key(x,y)));
-  rotationStates[0]=states[0];rotationStarEdited=true;
+ if(enabled&&!rotationStarMode){
+  const g=geometry();
+  KEYS.forEach((_,i)=>{directionalSets(i)[0]=new Set((g?.marks[i]||[]).map(([x,y])=>key(x,y)));directionalStates(i)[0]=states[i]});
+  rotationStarEdited=true;
+ }else if(!enabled&&rotationStarMode){
+  const cells=sort(body),ox=Math.min(...cells.map(v=>v[0])),oy=Math.min(...cells.map(v=>v[1]));
+  marks=KEYS.map((_,i)=>new Set([...directionalSets(i)[0]].map(v=>{const [x,y]=xy(v);return key(x+ox,y+oy)})));
+  states=KEYS.map((_,i)=>directionalStates(i)[0]);
  }
  rotationStarMode=enabled;tool=enabled?'☆':'body';paint();
 }
@@ -132,11 +134,17 @@ function applyPotionStarPreset(){
  $('message').textContent='定番ポーション型を4方向に仮入力したよ。実機の☆位置を確認し、「☆4方向を一括確認」で確定してね。';
  return true;
 }
-function directionalData(){
- return Object.fromEntries(DIRECTIONS.map((_,i)=>[String(i),rotationStates[i]==='unknown'?null:rotationStates[i]==='none'?[]:sort(starsPerRotation[i])]));
+function directionalData(i){
+ const dirs=directionalSets(i),statuses=directionalStates(i);
+ return Object.fromEntries(DIRECTIONS.map((_,r)=>[String(r),statuses[r]==='unknown'?null:statuses[r]==='none'?[]:sort(dirs[r])]));
 }
-function directionalReview(){
- return Object.fromEntries(DIRECTIONS.map((_,i)=>[String(i),rotationStates[i]]));
+function directionalReview(i){
+ const statuses=directionalStates(i);
+ return Object.fromEntries(DIRECTIONS.map((_,r)=>[String(r),statuses[r]]));
+}
+function summaryReview(i){
+ const statuses=directionalStates(i);
+ return statuses.some(v=>v==='unknown')?'unknown':statuses.some(v=>v==='draft')?'draft':statuses.every(v=>v==='none')?'none':'confirmed';
 }
 function confirmAllDirections(){
  if(!rotationStarMode||!body.size)return;
