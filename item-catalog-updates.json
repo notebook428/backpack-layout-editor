@@ -41604,6 +41604,715 @@
       "bagGroup": "共通・追加",
       "type": "item",
       "verified": "本体1×1・周囲☆26個・シールド/強化を登録JSONで確認済み（2026-10-22）"
+    },
+    {
+      "id": "common-walrus-tusk",
+      "name": "セイウチの牙",
+      "alias": "Walrus Tusk",
+      "className": "共通",
+      "category": "アクセサリー",
+      "tags": [
+        "自然"
+      ],
+      "price": 4,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 2,
+        "occupied": 2
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-22）／https://backpackbattles.wiki/items/walrus-tusk （現行データベースで1×2確認）／日本語Wiki（価格・レアリティ等）",
+      "note": "2026-10-22 縦1×2・占有2マスに修正して確認済み。旧エディタの1×1は誤登録。☆・◇・△・⚡なし。自然タグ・トゲ獲得、ソケット0、デバフなし。 【2026-10-24 第7リレー】確認済みレビューを基本カタログから確定登録台帳へ転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [
+        "トゲ"
+      ],
+      "debuffs": [],
+      "chargeMarks": [],
+      "bagGroup": "共通・序盤",
+      "type": "item",
+      "verified": "本体1×2・記号なし確認済み（2026-10-22）"
+    },
+    {
+      "id": "common-pocket-sand",
+      "name": "ひとつかみの砂",
+      "alias": "Pocket Sand",
+      "className": "共通",
+      "category": "アクセサリー",
+      "tags": [
+        "自然"
+      ],
+      "price": 2,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-22）／Backpack Battles Wiki（共通アイテム）・現行アイテムデータベース（2026-10-19照合）（参考）",
+      "note": "2026-10-22 本体1×1・占有1マスを確認済み。☆・◇・△・⚡なし。自然タグ。目くらましに関係する効果。バフなし。 【2026-10-24 第7リレー】確認済みレビューを基本カタログから確定登録台帳へ転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [
+        "目くらまし"
+      ],
+      "chargeMarks": [],
+      "bagGroup": "共通・序盤",
+      "type": "item",
+      "verified": "本体1×1・☆◇△⚡なしを確認済み（2026-10-22）"
+    },
+    {
+      "id": "common-pan",
+      "name": "フライパン",
+      "alias": "Pan",
+      "className": "共通",
+      "category": "武器",
+      "tags": [
+        "近接"
+      ],
+      "price": 4,
+      "rarity": "コモン",
+      "socketCount": 1,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 3
+      },
+      "stars": [
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-21）／日本語Wiki（価格・レアリティ等）／Backpack Battles Wiki・現行アイテムデータベース（旧資料参考）",
+      "note": "2026-10-21 登録JSONで本体2×2外接・占有3マスのL字と☆7個の座標を確認済み。◇・△・⚡、バフ・デバフは該当なし。 【2026-10-24 第7リレー】確認済みレビューを基本カタログから確定登録台帳へ転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "bagGroup": "共通・序盤",
+      "type": "item",
+      "verified": "本体2×2外接・L字3マスと☆7個の位置を確認済み（2026-10-21）"
+    },
+    {
+      "id": "common-whetstone",
+      "name": "砥石",
+      "alias": "Whetstone",
+      "className": "共通",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 4,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [
+        [
+          0,
+          -1
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-22）／Backpack Battles Wiki 共通・Backpack Battles Database Whetstone（旧形状参考）",
+      "note": "2026-10-22 本体1×1・占有1マス、上(0,-1)と下(0,1)の☆2個の位置を確認済み。◇・△・⚡、属性タグ・バフ・デバフは該当なし。価格4G・コモン・ソケット0。 【2026-10-24 第7リレー】確認済みレビューを基本カタログから確定登録台帳へ転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "type": "item",
+      "verified": "本体1×1と上下の☆2座標を確認済み（2026-10-22）"
+    },
+    {
+      "id": "common-piggybank",
+      "name": "ブタちゃん貯金箱",
+      "alias": "Piggybank",
+      "className": "共通",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 3,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 1,
+        "occupied": 2
+      },
+      "stars": [
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-22）／日本語Wiki https://wikiwiki.jp/bpb/ブタちゃん貯金箱 ／Backpack Battles Database https://backpackbattles.wiki/items/piggybank",
+      "note": "2026-10-22 本体2×1・占有2マスと☆4個の座標を確認済み。◇・△・⚡、属性タグ・バフ・デバフなし。価格3G・コモン・ソケット0。旧カタログの価格13G・レジェンダリ・ソケット1を修正。 【2026-10-24 第7リレー】確認済みレビューを基本カタログから確定登録台帳へ転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "type": "item",
+      "verified": "本体2×1と☆4座標を確認済み（2026-10-22）"
+    },
+    {
+      "id": "original-wooden-sword",
+      "name": "木の剣",
+      "alias": "Wooden Sword",
+      "className": "共通",
+      "category": "武器",
+      "tags": [
+        "近接"
+      ],
+      "price": 3,
+      "rarity": "コモン",
+      "socketCount": 1,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 2,
+        "occupied": 2
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくんによる確認済み登録JSON（2026-10-21）／日本語Wiki（価格・レアリティ等）／公開 Backpack Battles Planner（旧形状参考）",
+      "note": "2026-10-21 登録JSONで本体1×2（占有2マス）を確認済み。☆・◇・△・⚡、バフ・デバフは該当なし。 【2026-10-24 第7リレー】確認済みレビューを基本カタログから確定登録台帳へ転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "type": "item",
+      "verified": "本体1×2、☆・◇・△・⚡なしを確認済み（2026-10-21）"
+    },
+    {
+      "id": "original-hero-sword",
+      "name": "英雄の剣",
+      "alias": "Hero Sword",
+      "className": "共通",
+      "category": "武器",
+      "tags": [
+        "近接"
+      ],
+      "price": 7,
+      "rarity": "エピック",
+      "socketCount": 1,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 2,
+        "occupied": 2
+      },
+      "stars": [
+        [
+          0,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくんによる確認済み登録JSON（2026-10-21）／日本語Wiki（価格・レアリティ等）／公開 Backpack Battles Planner（旧形状参考）",
+      "note": "2026-10-21 登録JSONで本体1×2と☆6座標を確認済み。◇・△・⚡、バフ・デバフは該当なし。 【2026-10-24 第7リレー】確認済みレビューを基本カタログから確定登録台帳へ転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "chargeMarks": [],
+      "buffs": [],
+      "debuffs": [],
+      "oldName": "勇者の剣",
+      "type": "item",
+      "verified": "本体1×2・☆6個の座標を確認済み（2026-10-21）"
+    },
+    {
+      "id": "original-broom",
+      "name": "ホウキ",
+      "alias": "Broom",
+      "className": "共通",
+      "category": "武器",
+      "tags": [
+        "近接"
+      ],
+      "price": 4,
+      "rarity": "コモン",
+      "socketCount": 1,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 4,
+        "occupied": 4
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-21）／日本語Wiki（価格・レアリティ等）／公開 Backpack Battles Planner（旧形状参考）",
+      "note": "2026-10-21 登録JSONで本体1×4・占有4マスを確認済み。☆・◇・△・⚡なし。近接武器、デバフ「目くらまし」関連。バフ該当なし。 【2026-10-24 第7リレー】確認済みレビューを基本カタログから確定登録台帳へ転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [
+        "目くらまし"
+      ],
+      "chargeMarks": [],
+      "type": "item",
+      "verified": "本体1×4・☆◇△⚡なしを確認済み（2026-10-21）"
+    },
+    {
+      "id": "original-armor-buckler",
+      "name": "木の盾",
+      "alias": "Wooden Buckler",
+      "className": "共通",
+      "category": "盾",
+      "tags": [],
+      "price": 4,
+      "rarity": "コモン",
+      "socketCount": 1,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 4
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-21）／公開 Backpack Battles Planner アイテム形状データ（旧版参考）",
+      "note": "2026-10-21 本体2×2・占有4マスを確認済み。☆・◇・△・⚡なし。属性タグ・バフ・デバフは該当なし。 【2026-10-24 第7リレー】確認済みレビューを基本カタログから確定登録台帳へ転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "type": "item",
+      "verified": "本体2×2・☆◇△⚡なしを確認済み（2026-10-21）"
+    },
+    {
+      "id": "original-banana",
+      "name": "バナナ",
+      "alias": "Banana",
+      "className": "共通",
+      "category": "食べ物",
+      "tags": [
+        "自然"
+      ],
+      "price": 3,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 3
+      },
+      "stars": [
+        [
+          0,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "確認済み登録JSON（2026-10-22）／旧公開Planner形状を参考",
+      "note": "本体2×2のL字3マス・☆7箇所確認済み。◇△⚡、バフ・デバフなし。 【2026-10-24 第7リレー】確認済みレビューを基本カタログから確定登録台帳へ転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "type": "item",
+      "verified": "2×2外接・L字3マス、☆7個の座標を確認済み"
     }
   ]
 }
