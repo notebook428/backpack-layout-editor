@@ -37556,6 +37556,594 @@
       "bagGroup": "共通・追加",
       "type": "item",
       "verified": "ホタテくん確認済み登録JSON（2026-10-22）"
+    },
+    {
+      "id": "common-chipped-ruby",
+      "name": "欠けたルビー",
+      "alias": "Chipped Ruby",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 1,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-22）／Backpack Battles 日本語Wiki・Backpack Battles Database（参考） 【基本カタログ旧出典】ホタテくん確認済み登録JSON（2026-10-22）／Backpack Battles 日本語Wiki・Backpack Battles Database（2026-10-19照合済み既存形状を参考）",
+      "note": "本体1×1、占有1マス。☆・◇・△・⚡なし。タグ・バフ・デバフなし。価格1G・コモン。自身のソケット数0。宝石ソケットへの装着可。 【基本カタログの旧注記】2026-10-22 本体1×1・占有1マス確認済み。☆・◇・△・⚡なし。属性タグ・バフ・デバフなし。価格1G・コモン・自身のソケット数0。宝石ソケットへの装着可。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "bagGroup": "宝石・欠けた",
+      "type": "item",
+      "verified": "本体1×1・☆◇△⚡なしを確認済み（2026-10-22）"
+    },
+    {
+      "id": "common-flawed-ruby",
+      "name": "傷物のルビー",
+      "alias": "Flawed Ruby",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 2,
+      "rarity": "レア",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles 日本語Wiki・Backpack Battles Database（2026-10-19照合）",
+      "note": "本体1マス確認／宝石ソケットへの装着可",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "bagGroup": "宝石・傷物の",
+      "type": "item",
+      "verified": "ホタテくんの登録JSONを反映済み（2026-10-22）"
+    },
+    {
+      "id": "common-chipped-topaz",
+      "name": "欠けたトパーズ",
+      "alias": "Chipped Topaz",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 1,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-22）／Backpack Battles 日本語Wiki・Backpack Battles Database（参考） 【基本カタログ旧出典】ホタテくん確認済み登録JSON（2026-10-22）／Backpack Battles 日本語Wiki・Backpack Battles Database（既存形状参考）",
+      "note": "本体1×1、占有1マス。記号なし・属性タグなし。関連バフ：なし、関連デバフ：なし。価格1G、コモン、自身のソケット0。宝石ソケットへの装着可。 【基本カタログの旧注記】2026-10-22 本体1×1・占有1マス確認済み。☆・◇・△・⚡なし。タグなし。関連バフ：なし。関連デバフ：なし。価格1G、コモン、自身のソケット0。宝石ソケットへの装着可。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "bagGroup": "宝石・欠けた",
+      "type": "item",
+      "verified": "本体1×1・☆◇△⚡なしを確認済み（2026-10-22）"
+    },
+    {
+      "id": "common-flawed-topaz",
+      "name": "傷物のトパーズ",
+      "alias": "Flawed Topaz",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 2,
+      "rarity": "レア",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles 日本語Wiki・Backpack Battles Database（2026-10-19照合）",
+      "note": "本体1マス確認／宝石ソケットへの装着可",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "bagGroup": "宝石・傷物の",
+      "type": "item",
+      "verified": "ホタテくんの登録JSONを反映済み（2026-10-22）"
+    },
+    {
+      "id": "common-platinum-card",
+      "name": "プラチナ会員カード",
+      "alias": "Platinum Customer Card",
+      "className": "共通",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 8,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [
+        [
+          -1,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles 日本語Wiki・Backpack Battles Database（2026-10-19照合）",
+      "note": "本体1×1照合／☆4座標はホタテくん確認済み（2026-10-22）",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "bagGroup": "共通・追加",
+      "type": "item",
+      "verified": "本体・☆座標・効果を登録JSONで確認済み（2026-10-22）"
+    },
+    {
+      "id": "common-oil-lamp",
+      "name": "オイルランプ",
+      "alias": "Oil Lamp",
+      "className": "共通",
+      "category": "アクセサリー",
+      "tags": [
+        "火炎"
+      ],
+      "price": 7,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 2,
+        "occupied": 2
+      },
+      "stars": [
+        [
+          -1,
+          1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles 日本語Wiki・Backpack Battles Database（2026-10-19照合）",
+      "note": "本体1×2照合／☆1座標はホタテくん確認済み（2026-10-22）",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [
+        "ヒート"
+      ],
+      "debuffs": [],
+      "chargeMarks": [],
+      "type": "item",
+      "bagGroup": "共通・追加",
+      "verified": "ホタテくん確認済み登録JSON（2026-10-22）"
+    },
+    {
+      "id": "common-sir-sand",
+      "name": "サンドバッグ卿",
+      "alias": "Sir Sand",
+      "className": "共通",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 5,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 2,
+        "occupied": 2
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles 日本語Wiki・Backpack Battles Database（2026-10-19照合）",
+      "note": "本体1×2・☆なし確認済み（2026-10-22）",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [
+        "目くらまし"
+      ],
+      "chargeMarks": [],
+      "bagGroup": "共通・追加",
+      "type": "item",
+      "verified": "ホタテくん確認済み登録JSON（2026-10-22）"
+    },
+    {
+      "id": "common-chipped-amethyst",
+      "name": "欠けたアメシスト",
+      "alias": "Chipped Amethyst",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 1,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-22）／Backpack Battles Database（既存形状参考） 【基本カタログ旧出典】ホタテくん確認済み登録JSON（2026-10-22）／Backpack Battles 日本語Wiki・Backpack Battles Database（既存形状参考）",
+      "note": "本体1×1、☆◇△⚡なし。タグ・バフ・デバフなし。価格1G・コモン、自身のソケット数0。他の装備の宝石ソケットに装着可。 【基本カタログの旧注記】2026-10-22 本体1×1・記号なしを確認済み。属性タグ・バフ・デバフなし。自身のソケット数0、他の装備の宝石ソケットへ装着可。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "bagGroup": "宝石・欠けた",
+      "type": "item",
+      "verified": "本体1×1・☆◇△⚡なしを確認済み（2026-10-22）"
+    },
+    {
+      "id": "common-flawed-amethyst",
+      "name": "傷物のアメシスト",
+      "alias": "Flawed Amethyst",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 2,
+      "rarity": "レア",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles 日本語Wiki・Backpack Battles Database（2026-10-19照合）",
+      "note": "本体1×1照合／ソケット可",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "bagGroup": "宝石・傷物の",
+      "type": "item",
+      "verified": "ホタテくん確認済み登録JSON（2026-10-22）"
+    },
+    {
+      "id": "common-chipped-emerald",
+      "name": "欠けたエメラルド",
+      "alias": "Chipped Emerald",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 1,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-22）／Backpack Battles 日本語Wiki・Backpack Battles Database（参考） 【基本カタログ旧出典】ホタテくん確認済み登録JSON（2026-10-22）／Backpack Battles 日本語Wiki・Backpack Battles Database（既存形状参考）",
+      "note": "本体1×1、占有1マス。記号なし・属性タグなし。関連バフ：リジェネ、関連デバフ：毒。価格1G、コモン、自身のソケット0。宝石ソケットへの装着可。 【基本カタログの旧注記】2026-10-22 本体1×1・占有1マス確認済み。☆・◇・△・⚡なし。タグなし。関連バフ：リジェネ。関連デバフ：毒。価格1G、コモン、自身のソケット0。宝石ソケットへの装着可。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [
+        "リジェネ"
+      ],
+      "debuffs": [
+        "毒"
+      ],
+      "chargeMarks": [],
+      "bagGroup": "宝石・欠けた",
+      "type": "item",
+      "verified": "本体1×1・☆◇△⚡なしを確認済み（2026-10-22）"
     }
   ]
 }
