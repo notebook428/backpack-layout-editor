@@ -36419,6 +36419,336 @@
       "bagGroup": "共通・武器",
       "type": "item",
       "verified": "本体1×2・左右に☆6個・神聖属性と強化を登録JSONで確認済み（2026-10-22）"
+    },
+    {
+      "id": "common-heart-of-darkness",
+      "name": "暗黒のハート",
+      "alias": "Heart of Darkness",
+      "className": "共通",
+      "category": "アクセサリー",
+      "tags": [
+        "暗黒"
+      ],
+      "price": 18,
+      "rarity": "ゴッド",
+      "socketCount": 1,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 4
+      },
+      "stars": [
+        [
+          0,
+          -1
+        ],
+        [
+          1,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles 日本語Wiki・Backpack Battles Database（2026-10-19照合） 【旧出典】Backpack Battles 日本語Wiki・Backpack Battles Database（2026-10-19照合）",
+      "note": "【2026-10-24 最新確定】ホタテくん提供の登録JSON v2で全項目確認済み。過去の暫定・未照合の記載は旧履歴。 【旧注記】原作DBで本体2×2・ソケット1確認／☆対象マス未照合 ｜ 暗黒属性の共通ゴッドアクセサリー。宝石ソケット1。ハートの容器＋堕落のクリスタルで合成。本体2×2、☆配置は実機照合待ち。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "bagGroup": "共通・追加",
+      "type": "item",
+      "verified": "2026-10-24 確定：ホタテくん確認済み登録JSON v2。【旧確認記録】原作DBで本体2×2・ソケット1確認／☆対象マス未照合",
+      "buffs": [
+        "リジェネ",
+        "強化"
+      ],
+      "debuffs": [],
+      "chargeMarks": []
+    },
+    {
+      "id": "base-protective-purse",
+      "name": "守護のハンドバッグ",
+      "alias": "Protective Purse",
+      "className": "共通",
+      "category": "バッグ",
+      "tags": [],
+      "price": 2,
+      "rarity": "ゴッド",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: プランナー公開形状データ（旧版）。現行ゲームでは要再照合。 【旧出典】プランナー公開形状データ（旧版）。現行ゲームでは要再照合。",
+      "note": "【2026-10-24 最新確定】ホタテくん提供の登録JSON v2で全項目確認済み。過去の暫定・未照合の記載は旧履歴。 【旧注記】旧公開形状／現行要照合 ｜ 出典は旧公開形状データ。現行ゲームの外形は随時照合します。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "bag",
+      "verified": "2026-10-24 確定：ホタテくん確認済み登録JSON v2。【旧確認記録】旧公開形状／現行要照合",
+      "bagGroup": "共通",
+      "buffs": [
+        "シールド"
+      ],
+      "debuffs": [],
+      "chargeMarks": []
+    },
+    {
+      "id": "base-stamina-sack",
+      "name": "スタミナバッグ",
+      "alias": "Stamina Sack",
+      "className": "共通",
+      "category": "バッグ",
+      "tags": [],
+      "price": 5,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 3,
+        "occupied": 3
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "diamonds": "unknown",
+          "triangles": "none",
+          "squares": "unknown",
+          "filledTriangles": "unknown",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: プランナー公開形状データ（旧版）。現行ゲームでは要再照合。 【旧出典】プランナー公開形状データ（旧版）。現行ゲームでは要再照合。",
+      "note": "【2026-10-24 最新確定】ホタテくん提供の登録JSON v2で全項目確認済み。過去の暫定・未照合の記載は旧履歴。 【旧注記】旧公開形状／現行要照合 ｜ 出典は旧公開形状データ。現行ゲームの外形は随時照合します。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "bag",
+      "verified": "2026-10-24 確定：ホタテくん確認済み登録JSON v2。【旧確認記録】旧公開形状／現行要照合",
+      "bagGroup": "共通",
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": []
+    },
+    {
+      "id": "common-shepherds-crook",
+      "name": "羊飼いの杖",
+      "alias": "Shepherd's Crook",
+      "className": "共通",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 8,
+      "rarity": "レア",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [
+        "目くらまし",
+        "フリーズ"
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 4,
+        "occupied": 5
+      },
+      "stars": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles Database／Backpack Battles Wiki*（2026-10-19）",
+      "note": "【2026-10-24 最新確定】ホタテくん提供の登録JSON v2で全項目確認済み。実機でも本体2×4・占有5・☆5個を再確認済み。過去の暫定・未照合の記載は旧履歴。 【旧注記】外接2×4確認済／占有5マスのL字は暫定・☆6位置未照合",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "bagGroup": "共通・合成アイテム",
+      "type": "item",
+      "verified": "2026-10-24 確定：ホタテくん確認済み登録JSON v2、実機再確認済み。【旧確認記録】本体左縦棒の2×4・占有5マス、☆5個・目くらまし/フリーズ関連を登録JSONで確認済み（2026-10-22）"
     }
   ]
 }
