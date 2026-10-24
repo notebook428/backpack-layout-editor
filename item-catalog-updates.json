@@ -43304,6 +43304,641 @@
       "bagGroup": "共通",
       "type": "bag",
       "verified": "ゲーム内画像＋ホタテくんの配置図で本体確認済み（2026-10-18）"
+    },
+    {
+      "id": "common-unidentified-amulet",
+      "name": "未鑑定のアミュレット",
+      "alias": "Unidentified Amulet",
+      "className": "共通",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 6,
+      "rarity": "レア",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles 日本語Wiki／wiki.gg、2026-10-19照合",
+      "note": "原作DBで本体1×1確認／購入時変化・☆位置未検証 【2026-10-24 第9回精査】reviewの確認結果を優先して確定台帳に転記。旧『未確認』注記は履歴。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "bagGroup": "共通・追加",
+      "type": "item",
+      "verified": "本体1×1・☆◇△⚡なし・属性と関連効果なしを確認済み（2026-10-22）"
+    },
+    {
+      "id": "common-amulet-life",
+      "name": "生命のアミュレット",
+      "alias": "Amulet of Life",
+      "className": "共通",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 6,
+      "rarity": "レア",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles 日本語Wiki／wiki.gg、2026-10-19照合",
+      "note": "原作DBで本体1×1確認／☆位置未検証 【2026-10-24 第9回精査】reviewの確認結果を優先して確定台帳に転記。旧『未確認』注記は履歴。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "bagGroup": "共通・追加",
+      "type": "item",
+      "verified": "本体1×1・☆◇△⚡なし・属性と関連効果なしを確認済み（2026-10-22）"
+    },
+    {
+      "id": "base-leather-bag",
+      "name": "革のカバン",
+      "alias": "Leather Bag",
+      "className": "共通",
+      "category": "バッグ",
+      "tags": [],
+      "price": 4,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 4
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles Wiki / Steam discussion",
+      "note": "外形確認 【2026-10-24 第9回精査】reviewの確認結果を優先して確定台帳に転記。旧『未確認』注記は履歴。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "bag",
+      "bagGroup": "共通バッグ",
+      "verified": "外形確認（旧プリセット）"
+    },
+    {
+      "id": "base-fanny-pack",
+      "name": "ウエストポーチ",
+      "alias": "Fanny Pack",
+      "className": "共通",
+      "category": "バッグ",
+      "tags": [],
+      "price": 3,
+      "rarity": "レア",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 1,
+        "occupied": 2
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles Wiki",
+      "note": "外形確認 【2026-10-24 第9回精査】reviewの確認結果を優先して確定台帳に転記。旧『未確認』注記は履歴。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "bagGroup": "共通バッグ",
+      "type": "bag",
+      "verified": "ホタテくん確認済み登録JSON（2026-10-22）"
+    },
+    {
+      "id": "base-goobert",
+      "name": "スラバート",
+      "alias": "Goobert",
+      "className": "共通",
+      "category": "ペット",
+      "tags": [],
+      "price": 6,
+      "rarity": "レア",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 4
+      },
+      "stars": [
+        [
+          -1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles Wiki (公式ゲーム参照)",
+      "note": "本体確認／☆未確認 【2026-10-24 第9回精査】reviewの確認結果を優先して確定台帳に転記。旧『未確認』注記は履歴。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "kind": "animal",
+      "verified": "本体2×2・左右の☆4個を登録JSONで確認済み（2026-10-22）"
+    },
+    {
+      "id": "base-shelly",
+      "name": "シェリー",
+      "alias": "Shelly",
+      "className": "共通",
+      "category": "ペット",
+      "tags": [
+        "自然",
+        "神聖"
+      ],
+      "price": 6,
+      "rarity": "レア",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 1,
+        "occupied": 2
+      },
+      "stars": [
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles Database",
+      "note": "本体確認／☆未確認 【2026-10-24 第9回精査】reviewの確認結果を優先して確定台帳に転記。旧『未確認』注記は履歴。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "kind": "animal",
+      "verified": "本体2×1・下側☆4個・自然/神聖属性を登録JSONで確認済み（2026-10-22）"
+    },
+    {
+      "id": "base-ruby",
+      "name": "普通のルビー",
+      "alias": "Regular Ruby",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 4,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles Database",
+      "note": "宝石1×1・☆なし確認済み（2026-10-22） 【2026-10-24 第9回精査】reviewの確認結果を優先して確定台帳に転記。旧『未確認』注記は履歴。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "type": "item",
+      "oldName": "ルビー（通常）",
+      "verified": "本体1×1・☆◇△⚡なし確認済み（2026-10-22）"
+    },
+    {
+      "id": "base-emerald",
+      "name": "普通のエメラルド",
+      "alias": "Regular Emerald",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 4,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles Database",
+      "note": "本体1×1・☆なし確認済み（2026-10-22） 【2026-10-24 第9回精査】reviewの確認結果を優先して確定台帳に転記。旧『未確認』注記は履歴。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "chargeMarks": [],
+      "buffs": [
+        "リジェネ"
+      ],
+      "debuffs": [
+        "毒"
+      ],
+      "type": "item",
+      "oldName": "エメラルド（通常）",
+      "verified": "本体1×1・☆◇△⚡なしを確認済み（2026-10-22）"
+    },
+    {
+      "id": "base-sapphire",
+      "name": "普通のサファイア",
+      "alias": "Regular Sapphire",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 4,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles Database",
+      "note": "本体1×1・☆なし確認済み（2026-10-22） 【2026-10-24 第9回精査】reviewの確認結果を優先して確定台帳に転記。旧『未確認』注記は履歴。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [
+        "シールド",
+        "マナ"
+      ],
+      "debuffs": [
+        "フリーズ"
+      ],
+      "chargeMarks": [],
+      "type": "item",
+      "oldName": "サファイア（通常）",
+      "verified": "本体1×1・☆◇△⚡なし確認済み（2026-10-22）"
+    },
+    {
+      "id": "base-prosperity",
+      "name": "財宝の箱",
+      "alias": "Box of Prosperity",
+      "className": "共通",
+      "category": "バッグ",
+      "tags": [],
+      "price": 5,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 2,
+        "occupied": 4
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: ゲーム内スクリーンショット（2026-10-18）",
+      "note": "ゲーム内画像＋ホタテくんの配置図で確認（2026-10-18） 【2026-10-24 第9回精査】reviewの確認結果を優先して確定台帳に転記。旧『未確認』注記は履歴。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "debuffs": [],
+      "chargeMarks": [],
+      "buffs": [],
+      "bagGroup": "共通",
+      "type": "bag",
+      "verified": "ゲーム内画像＋ホタテくんの配置図で本体確認済み（2026-10-18）"
     }
   ]
 }
