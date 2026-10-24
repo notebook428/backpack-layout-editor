@@ -42313,6 +42313,227 @@
       "chargeMarks": [],
       "type": "item",
       "verified": "2×2外接・L字3マス、☆7個の座標を確認済み"
+    },
+    {
+      "id": "common-perfect-emerald",
+      "name": "完璧なエメラルド",
+      "alias": "Perfect Emerald",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 16,
+      "rarity": "ゴッド",
+      "socketCount": 0,
+      "buffs": [
+        "リジェネ"
+      ],
+      "debuffs": [
+        "毒"
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles Wiki* クラス/共通・Backpack Battles Database（2026-10-19照合）",
+      "note": "本体1マス照合／武器・防具ソケット可",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "bagGroup": "宝石・完璧な",
+      "type": "item",
+      "verified": "ホタテくん確認済み登録JSON（2026-10-24）"
+    },
+    {
+      "id": "common-perfect-ruby",
+      "name": "完璧なルビー",
+      "alias": "Perfect Ruby",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 16,
+      "rarity": "ゴッド",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles 日本語Wiki・Backpack Battles Database（2026-10-19照合）",
+      "note": "宝石1マス／既存の宝石ソケットを使用",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "bagGroup": "宝石・完璧な",
+      "type": "item",
+      "verified": "ホタテくん確認済み登録JSON（2026-10-24）"
+    },
+    {
+      "id": "common-perfect-topaz",
+      "name": "完璧なトパーズ",
+      "alias": "Perfect Topaz",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 16,
+      "rarity": "ゴッド",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles 日本語Wiki・Backpack Battles Database（2026-10-19照合）",
+      "note": "宝石1マス／既存の宝石ソケットを使用",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "bagGroup": "宝石・完璧な",
+      "type": "item",
+      "verified": "ホタテくん確認済み登録JSON（2026-10-24）"
+    },
+    {
+      "id": "common-perfect-sapphire",
+      "name": "完璧なサファイア",
+      "alias": "Perfect Sapphire",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 16,
+      "rarity": "ゴッド",
+      "socketCount": 0,
+      "buffs": [
+        "シールド",
+        "マナ"
+      ],
+      "debuffs": [
+        "フリーズ"
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles Wiki* クラス/共通・Backpack Battles Database（2026-10-19照合）",
+      "note": "本体1マス照合／武器・防具ソケット可",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "bagGroup": "宝石・完璧な",
+      "type": "item",
+      "verified": "ホタテくん確認済み登録JSON（2026-10-24）"
     }
   ]
 }
