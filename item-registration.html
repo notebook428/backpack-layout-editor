@@ -748,12 +748,17 @@ async function fetchCatalog(){
     if(!u.ok)throw Error('追加カタログ HTTP '+u.status);
     const extra=await u.json();
     if(extra.format!=='recho-item-catalog-updates'||!Array.isArray(extra.records))throw Error('追加カタログ形式が違います');
-    const merged=new Map(d.records.map(item=>[item.id,item]));
+    const legacyGemIdMap={"gem-ruby-chipped":"common-chipped-ruby","gem-ruby-flawed":"common-flawed-ruby","gem-ruby-flawless":"common-flawless-ruby","gem-ruby-perfect":"common-perfect-ruby","gem-emerald-chipped":"common-chipped-emerald","gem-emerald-flawed":"common-flawed-emerald","gem-emerald-flawless":"common-flawless-emerald","gem-emerald-perfect":"common-perfect-emerald","gem-sapphire-chipped":"common-chipped-sapphire","gem-sapphire-flawed":"common-flawed-sapphire","gem-sapphire-flawless":"common-flawless-sapphire","gem-sapphire-perfect":"common-perfect-sapphire"};
+    const merged=new Map(d.records.filter(item=>!Object.prototype.hasOwnProperty.call(legacyGemIdMap,item.id)).map(item=>[item.id,item]));
     // Some confirmed entries use a new ID after migration from an older catalog.
     // Keep the confirmed ID and avoid showing its superseded base record twice.
     const migratedIds={'pyromancer-energy-conversion':'multiclass-energy-conversion'};
-    for(const item of extra.records){
-      if(!item||typeof item.id!=='string'||!item.id.trim())throw Error('追加カタログのIDが不正です');
+    const currentIds=new Set(extra.records.map(item=>item?.id));
+    for(const source of extra.records){
+      if(!source||typeof source.id!=='string'||!source.id.trim())throw Error('追加カタログのIDが不正です');
+      const id=legacyGemIdMap[source.id]||source.id;
+      if(id!==source.id&&currentIds.has(id))continue; // Canonical confirmed record wins.
+      const item=id===source.id?source:{...source,id,oldId:source.id};
       const oldId=migratedIds[item.id];
       if(oldId&&merged.has(oldId))merged.delete(oldId);
       merged.set(item.id,{...(merged.get(item.id)||{}),...item});

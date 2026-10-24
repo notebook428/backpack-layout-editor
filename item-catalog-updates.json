@@ -945,9 +945,9 @@
       "chargeMarks": []
     },
     {
-      "id": "gem-emerald-flawless",
+      "id": "common-flawless-emerald",
       "name": "無傷のエメラルド",
-      "alias": "flawless emerald",
+      "alias": "Flawless Emerald",
       "className": "共通",
       "category": "宝石",
       "tags": [],
@@ -986,7 +986,7 @@
         }
       },
       "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
-      "note": "名称を確認・1マス表示用",
+      "note": "名称を確認・1マス表示用 【2026-10-24 ID統合】旧ID gem-emerald-flawless の実機確認済みデータを common-flawless-emerald に移行。旧IDは読み込み時に変換。元記録は docs/legacy-gem-id-history-2026-10-24.json に保管。",
       "isPriestess": false,
       "lookup": [
         "name",
@@ -999,7 +999,11 @@
       "debuffs": [
         "毒"
       ],
-      "chargeMarks": []
+      "chargeMarks": [],
+      "bagGroup": "宝石・無傷の",
+      "type": "item",
+      "verified": "ホタテくん確認済み登録JSON（2026-10-22）",
+      "oldId": "gem-emerald-flawless"
     },
     {
       "id": "common-flawless-amethyst",

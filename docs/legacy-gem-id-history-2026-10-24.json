@@ -1,0 +1,657 @@
+{
+  "format": "recho-legacy-gem-id-history",
+  "version": 1,
+  "archivedOn": "2026-10-24",
+  "sourceHead": "e66392f14b49e69ecba0b197e67faf6691000188",
+  "explanation": "The 12 legacy gem-* records were duplicate records for their common-* counterparts. Their exact original catalog data and the confirmed flawless emerald record are preserved here. Layout JSON imports retain aliases for all 12 old IDs.",
+  "oldToCanonicalIds": {
+    "gem-ruby-chipped": "common-chipped-ruby",
+    "gem-ruby-flawed": "common-flawed-ruby",
+    "gem-ruby-flawless": "common-flawless-ruby",
+    "gem-ruby-perfect": "common-perfect-ruby",
+    "gem-emerald-chipped": "common-chipped-emerald",
+    "gem-emerald-flawed": "common-flawed-emerald",
+    "gem-emerald-flawless": "common-flawless-emerald",
+    "gem-emerald-perfect": "common-perfect-emerald",
+    "gem-sapphire-chipped": "common-chipped-sapphire",
+    "gem-sapphire-flawed": "common-flawed-sapphire",
+    "gem-sapphire-flawless": "common-flawless-sapphire",
+    "gem-sapphire-perfect": "common-perfect-sapphire"
+  },
+  "legacyBaseRecords": [
+    {
+      "id": "gem-ruby-chipped",
+      "name": "欠けたルビー",
+      "alias": "chipped ruby",
+      "className": null,
+      "category": "宝石",
+      "tags": [],
+      "price": null,
+      "rarity": null,
+      "socketCount": null,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": null,
+      "stars": [],
+      "hollowDiamonds": null,
+      "diamonds": null,
+      "triangles": null,
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "unknown",
+          "diamonds": "unknown",
+          "triangles": "unknown",
+          "squares": "unknown",
+          "filledTriangles": "unknown"
+        }
+      },
+      "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
+      "note": "名称を確認・1マス表示用",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false
+    },
+    {
+      "id": "gem-ruby-flawed",
+      "name": "傷物のルビー",
+      "alias": "flawed ruby",
+      "className": null,
+      "category": "宝石",
+      "tags": [],
+      "price": null,
+      "rarity": null,
+      "socketCount": null,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": null,
+      "stars": [],
+      "hollowDiamonds": null,
+      "diamonds": null,
+      "triangles": null,
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "unknown",
+          "diamonds": "unknown",
+          "triangles": "unknown",
+          "squares": "unknown",
+          "filledTriangles": "unknown"
+        }
+      },
+      "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
+      "note": "名称を確認・1マス表示用",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false
+    },
+    {
+      "id": "gem-ruby-flawless",
+      "name": "無傷のルビー",
+      "alias": "flawless ruby",
+      "className": null,
+      "category": "宝石",
+      "tags": [],
+      "price": null,
+      "rarity": null,
+      "socketCount": null,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": null,
+      "stars": [],
+      "hollowDiamonds": null,
+      "diamonds": null,
+      "triangles": null,
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "unknown",
+          "diamonds": "unknown",
+          "triangles": "unknown",
+          "squares": "unknown",
+          "filledTriangles": "unknown"
+        }
+      },
+      "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
+      "note": "名称を確認・1マス表示用",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false
+    },
+    {
+      "id": "gem-ruby-perfect",
+      "name": "完璧なルビー",
+      "alias": "perfect ruby",
+      "className": null,
+      "category": "宝石",
+      "tags": [],
+      "price": null,
+      "rarity": null,
+      "socketCount": null,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": null,
+      "stars": [],
+      "hollowDiamonds": null,
+      "diamonds": null,
+      "triangles": null,
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "unknown",
+          "diamonds": "unknown",
+          "triangles": "unknown",
+          "squares": "unknown",
+          "filledTriangles": "unknown"
+        }
+      },
+      "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
+      "note": "名称を確認・1マス表示用",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false
+    },
+    {
+      "id": "gem-emerald-chipped",
+      "name": "欠けたエメラルド",
+      "alias": "chipped emerald",
+      "className": null,
+      "category": "宝石",
+      "tags": [],
+      "price": null,
+      "rarity": null,
+      "socketCount": null,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": null,
+      "stars": [],
+      "hollowDiamonds": null,
+      "diamonds": null,
+      "triangles": null,
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "unknown",
+          "diamonds": "unknown",
+          "triangles": "unknown",
+          "squares": "unknown",
+          "filledTriangles": "unknown"
+        }
+      },
+      "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
+      "note": "名称を確認・1マス表示用",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false
+    },
+    {
+      "id": "gem-emerald-flawed",
+      "name": "傷物のエメラルド",
+      "alias": "flawed emerald",
+      "className": null,
+      "category": "宝石",
+      "tags": [],
+      "price": null,
+      "rarity": null,
+      "socketCount": null,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": null,
+      "stars": [],
+      "hollowDiamonds": null,
+      "diamonds": null,
+      "triangles": null,
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "unknown",
+          "diamonds": "unknown",
+          "triangles": "unknown",
+          "squares": "unknown",
+          "filledTriangles": "unknown"
+        }
+      },
+      "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
+      "note": "名称を確認・1マス表示用",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false
+    },
+    {
+      "id": "gem-emerald-flawless",
+      "name": "無傷のエメラルド",
+      "alias": "flawless emerald",
+      "className": null,
+      "category": "宝石",
+      "tags": [],
+      "price": null,
+      "rarity": null,
+      "socketCount": null,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": null,
+      "stars": [],
+      "hollowDiamonds": null,
+      "diamonds": null,
+      "triangles": null,
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "unknown",
+          "diamonds": "unknown",
+          "triangles": "unknown",
+          "squares": "unknown",
+          "filledTriangles": "unknown"
+        }
+      },
+      "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
+      "note": "名称を確認・1マス表示用",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false
+    },
+    {
+      "id": "gem-emerald-perfect",
+      "name": "完璧なエメラルド",
+      "alias": "perfect emerald",
+      "className": null,
+      "category": "宝石",
+      "tags": [],
+      "price": null,
+      "rarity": null,
+      "socketCount": null,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": null,
+      "stars": [],
+      "hollowDiamonds": null,
+      "diamonds": null,
+      "triangles": null,
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "unknown",
+          "diamonds": "unknown",
+          "triangles": "unknown",
+          "squares": "unknown",
+          "filledTriangles": "unknown"
+        }
+      },
+      "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
+      "note": "名称を確認・1マス表示用",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false
+    },
+    {
+      "id": "gem-sapphire-chipped",
+      "name": "欠けたサファイア",
+      "alias": "chipped sapphire",
+      "className": null,
+      "category": "宝石",
+      "tags": [],
+      "price": null,
+      "rarity": null,
+      "socketCount": null,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": null,
+      "stars": [],
+      "hollowDiamonds": null,
+      "diamonds": null,
+      "triangles": null,
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "unknown",
+          "diamonds": "unknown",
+          "triangles": "unknown",
+          "squares": "unknown",
+          "filledTriangles": "unknown"
+        }
+      },
+      "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
+      "note": "名称を確認・1マス表示用",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false
+    },
+    {
+      "id": "gem-sapphire-flawed",
+      "name": "傷物のサファイア",
+      "alias": "flawed sapphire",
+      "className": null,
+      "category": "宝石",
+      "tags": [],
+      "price": null,
+      "rarity": null,
+      "socketCount": null,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": null,
+      "stars": [],
+      "hollowDiamonds": null,
+      "diamonds": null,
+      "triangles": null,
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "unknown",
+          "diamonds": "unknown",
+          "triangles": "unknown",
+          "squares": "unknown",
+          "filledTriangles": "unknown"
+        }
+      },
+      "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
+      "note": "名称を確認・1マス表示用",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false
+    },
+    {
+      "id": "gem-sapphire-flawless",
+      "name": "無傷のサファイア",
+      "alias": "flawless sapphire",
+      "className": null,
+      "category": "宝石",
+      "tags": [],
+      "price": null,
+      "rarity": null,
+      "socketCount": null,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": null,
+      "stars": [],
+      "hollowDiamonds": null,
+      "diamonds": null,
+      "triangles": null,
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "unknown",
+          "diamonds": "unknown",
+          "triangles": "unknown",
+          "squares": "unknown",
+          "filledTriangles": "unknown"
+        }
+      },
+      "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
+      "note": "名称を確認・1マス表示用",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false
+    },
+    {
+      "id": "gem-sapphire-perfect",
+      "name": "完璧なサファイア",
+      "alias": "perfect sapphire",
+      "className": null,
+      "category": "宝石",
+      "tags": [],
+      "price": null,
+      "rarity": null,
+      "socketCount": null,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": null,
+      "stars": [],
+      "hollowDiamonds": null,
+      "diamonds": null,
+      "triangles": null,
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "unknown",
+          "diamonds": "unknown",
+          "triangles": "unknown",
+          "squares": "unknown",
+          "filledTriangles": "unknown"
+        }
+      },
+      "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
+      "note": "名称を確認・1マス表示用",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false
+    }
+  ],
+  "originalConfirmedFlawlessEmeraldRecord": {
+    "id": "gem-emerald-flawless",
+    "name": "無傷のエメラルド",
+    "alias": "flawless emerald",
+    "className": "共通",
+    "category": "宝石",
+    "tags": [],
+    "price": 8,
+    "rarity": "レジェンダリー",
+    "socketCount": 0,
+    "shape": [
+      [
+        0,
+        0
+      ]
+    ],
+    "size": {
+      "width": 1,
+      "height": 1,
+      "occupied": 1
+    },
+    "stars": [],
+    "hollowDiamonds": [],
+    "diamonds": null,
+    "triangles": [],
+    "squares": null,
+    "filledTriangles": null,
+    "review": {
+      "shape": "confirmed",
+      "markers": {
+        "stars": "none",
+        "hollowDiamonds": "none",
+        "triangles": "none",
+        "chargeMarks": "none"
+      },
+      "tags": "none",
+      "effects": {
+        "buffs": "confirmed",
+        "debuffs": "confirmed"
+      }
+    },
+    "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
+    "note": "名称を確認・1マス表示用",
+    "isPriestess": false,
+    "lookup": [
+      "name",
+      "alias"
+    ],
+    "pending": false,
+    "buffs": [
+      "リジェネ"
+    ],
+    "debuffs": [
+      "毒"
+    ],
+    "chargeMarks": []
+  },
+  "originalVerifiedFlawlessEmeraldPreset": {
+    "id": "gem-emerald-flawless",
+    "name": "無傷のエメラルド",
+    "alias": "flawless emerald",
+    "className": "共通",
+    "category": "宝石",
+    "tags": [],
+    "price": 8,
+    "rarity": "レジェンダリー",
+    "socketCount": 0,
+    "shape": [
+      [
+        0,
+        0
+      ]
+    ],
+    "size": {
+      "width": 1,
+      "height": 1,
+      "occupied": 1
+    },
+    "stars": [],
+    "hollowDiamonds": [],
+    "diamonds": null,
+    "triangles": [],
+    "squares": null,
+    "filledTriangles": null,
+    "review": {
+      "shape": "confirmed",
+      "markers": {
+        "stars": "none",
+        "hollowDiamonds": "none",
+        "triangles": "none",
+        "chargeMarks": "none"
+      },
+      "tags": "none",
+      "effects": {
+        "buffs": "confirmed",
+        "debuffs": "confirmed"
+      }
+    },
+    "origin": "Editor built-in preset: 品質ティア名はホタテくん確認（2026-10-19）",
+    "note": "名称を確認・1マス表示用",
+    "isPriestess": false,
+    "lookup": [
+      "name",
+      "alias"
+    ],
+    "pending": false,
+    "buffs": [
+      "リジェネ"
+    ],
+    "debuffs": [
+      "毒"
+    ],
+    "chargeMarks": [],
+    "bagGroup": "宝石・無傷の",
+    "type": "item",
+    "verified": "ホタテくん確認済み登録JSON（2026-10-22）",
+    "oldId": "common-flawless-emerald"
+  }
+}
