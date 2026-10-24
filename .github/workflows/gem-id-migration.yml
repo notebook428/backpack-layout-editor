@@ -1,0 +1,22 @@
+name: Gem ID migration regression
+on:
+  push:
+    paths:
+      - "index.html"
+      - "item-catalog.json"
+      - "item-catalog-updates.json"
+      - "item-registration.html"
+      - "docs/legacy-gem-id-history-2026-10-24.json"
+      - "tests/gem-id-migration.test.cjs"
+      - ".github/workflows/gem-id-migration.yml"
+  workflow_dispatch:
+jobs:
+  gem-id-compatibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify legacy gem JSON migration and roundtrip
+        run: node tests/gem-id-migration.test.cjs
