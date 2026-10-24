@@ -42534,6 +42534,145 @@
       "bagGroup": "宝石・完璧な",
       "type": "item",
       "verified": "ホタテくん確認済み登録JSON（2026-10-24）"
+    },
+    {
+      "id": "common-ice-armor",
+      "name": "氷の鎧",
+      "alias": "Ice Armor",
+      "className": "共通",
+      "category": "鎧",
+      "tags": [
+        "氷結"
+      ],
+      "price": 11,
+      "rarity": "エピック",
+      "socketCount": 2,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "size": {
+        "width": 2,
+        "height": 3,
+        "occupied": 6
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles 日本語Wiki・Backpack Battles Database（2026-10-19照合）",
+      "note": "本体2×3／☆効果なし／ソケット位置は未検証",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [
+        "シールド",
+        "ヒート"
+      ],
+      "debuffs": [
+        "フリーズ"
+      ],
+      "chargeMarks": [],
+      "bagGroup": "共通・鎧",
+      "type": "item",
+      "verified": "ホタテくん確認済み登録JSON（2026-10-24）"
+    },
+    {
+      "id": "common-perfect-amethyst",
+      "name": "完璧なアメシスト",
+      "alias": "Perfect Amethyst",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 16,
+      "rarity": "ゴッド",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles Wiki* クラス/共通・Backpack Battles Database（2026-10-19照合）",
+      "note": "本体1マス照合／武器・防具ソケット可",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "bagGroup": "宝石・完璧な",
+      "type": "item",
+      "verified": "ホタテくん確認済み登録JSON（2026-10-24）"
     }
   ]
 }
