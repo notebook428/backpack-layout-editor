@@ -764,8 +764,8 @@
           "debuffs": "confirmed"
         }
       },
-      "origin": "Editor built-in preset: Backpack Battles Database",
-      "note": "本体確認／☆未確認",
+      "origin": "Editor built-in preset: Backpack Battles Database／Backpack Battles Wiki*「フロストバイト」「クラス/共通」（2026-10-22照合）",
+      "note": "本体1×3・☆なし（ホタテくんが2026-10-24確認）／5分プロトコル第4回：共有の氷結武器として基本情報補完。フローズンフレイム経由でパイロマンサーのショップにも登場。形状は維持。",
       "isPriestess": false,
       "lookup": [
         "name",
@@ -778,6 +778,9 @@
       "debuffs": [
         "フリーズ"
       ],
+      "type": "item",
+      "bagGroup": "共通・武器",
+      "verified": "日本語Wikiで価格・レアリティ・ソケット2・属性・効果を照合（2026-10-22）／☆なしをホタテくんが確認（2026-10-24）",
       "chargeMarks": []
     },
     {
