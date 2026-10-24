@@ -42673,6 +42673,637 @@
       "bagGroup": "宝石・完璧な",
       "type": "item",
       "verified": "ホタテくん確認済み登録JSON（2026-10-24）"
+    },
+    {
+      "id": "common-corrupted-crystal",
+      "name": "堕落のクリスタル",
+      "alias": "Corrupted Crystal",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [
+        "暗黒"
+      ],
+      "price": 7,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles 日本語Wiki／wiki.gg、2026-10-19照合",
+      "note": "原作DBで1×1照合済／☆は対象外（宝石） 【2026-10-24 第8回精査】確認済み情報を登録台帳へ確定転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [
+        "シールド"
+      ],
+      "debuffs": [],
+      "chargeMarks": [],
+      "bagGroup": "共通・追加",
+      "type": "item",
+      "verified": "ホタテくん確認済み登録JSON（2026-10-22）"
+    },
+    {
+      "id": "common-bunch-coins",
+      "name": "コインの山",
+      "alias": "Bunch of Coins",
+      "className": "共通",
+      "category": "アクセサリー",
+      "tags": [],
+      "price": 9,
+      "rarity": "レア",
+      "socketCount": 0,
+      "buffs": [],
+      "debuffs": [],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles Wiki 共通 / Backpack Battles Database Bunch of Coins",
+      "note": "日本語名・1×1形状確認／☆なし 【2026-10-24 第8回精査】確認済み情報を登録台帳へ確定転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "verified": "本体1×1・☆◇△⚡なし、価格9G・レア確認済み（2026-10-22）"
+    },
+    {
+      "id": "common-burning-coal",
+      "name": "燃える石炭",
+      "alias": "Burning Coal",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [
+        "火炎"
+      ],
+      "price": 2,
+      "rarity": "レア",
+      "socketCount": 0,
+      "buffs": [
+        "ヒート",
+        "シールド"
+      ],
+      "debuffs": [
+        "フリーズ"
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "chargeMarks": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "confirmed"
+        }
+      },
+      "origin": "Editor built-in preset: Backpack Battles Wiki 共通 / Backpack Battles Database Burning Coal",
+      "note": "日本語名・1×1形状確認／宝石ソケット配置可／非武器ソケット（防具など）装着時は戦闘開始時にシールド獲得。武器装着時とバッグ直置き時はヒート獲得。フリーズは付与ではなく抵抗の対象。 【2026-10-24 第8回精査】確認済み情報を登録台帳へ確定転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "type": "item",
+      "verified": "本体1×1・記号なし・火炎属性・ヒート/シールド・フリーズ抵抗を確認（2026-10-22）"
+    },
+    {
+      "id": "base-goobling",
+      "name": "チビバート",
+      "alias": "Goobling",
+      "className": "共通",
+      "category": "ペット",
+      "tags": [],
+      "price": 2,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-22）／Backpack Battles Database（既存形状参考）",
+      "note": "2026-10-22 本体1×1と左右の☆2個（-1,0）（1,0）を確認済み。◇・△・⚡、属性タグ・バフ・デバフは該当なし。旧名称「スラバリング」を維持。 【2026-10-24 第8回精査】確認済み情報を登録台帳へ確定転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "type": "item",
+      "kind": "animal",
+      "oldName": "スラバリング",
+      "verified": "本体1×1・左右☆2箇所を確認済み（2026-10-22）"
+    },
+    {
+      "id": "base-garlic",
+      "name": "ニンニク",
+      "alias": "Garlic",
+      "className": "共通",
+      "category": "食べ物",
+      "tags": [
+        "自然"
+      ],
+      "price": 2,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 2,
+        "occupied": 2
+      },
+      "stars": [
+        [
+          0,
+          -1
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-22）／Backpack Battles Database（既存形状参考）",
+      "note": "2026-10-22 本体1×2・占有2マス、☆6個の座標を確認済み。◇・△・⚡なし。自然タグ。関連バフはシールド・吸血。デバフなし。 【2026-10-24 第8回精査】確認済み情報を登録台帳へ確定転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [
+        "シールド",
+        "吸血"
+      ],
+      "debuffs": [],
+      "chargeMarks": [],
+      "type": "item",
+      "kind": "food",
+      "verified": "本体1×2・☆6個の座標確認済み（2026-10-22）"
+    },
+    {
+      "id": "original-stone",
+      "name": "石炭のかたまり",
+      "alias": "Lump of Coal",
+      "className": "共通",
+      "category": "宝石",
+      "tags": [],
+      "price": 2,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-22）／公開 Backpack Battles Planner（旧版・形状参考）",
+      "note": "2026-10-22 本体1×1・占有1マスを確認済み。☆・◇・△・⚡なし。タグなし。関連バフ：シールド。デバフなし。 【2026-10-24 第8回精査】確認済み情報を登録台帳へ確定転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [
+        "シールド"
+      ],
+      "debuffs": [],
+      "chargeMarks": [],
+      "type": "item",
+      "oldName": "石炭",
+      "verified": "1×1の本体、☆◇△⚡なしを確認済み（2026-10-22）"
+    },
+    {
+      "id": "starter-herbs",
+      "name": "癒しのハーブ",
+      "alias": "Healing Herbs",
+      "className": "共通",
+      "category": "アクセサリー",
+      "tags": [
+        "自然"
+      ],
+      "price": 4,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-22）／日本語Wiki（価格・レアリティ等）／Backpack Battles Wiki クラス（既存形状参考）",
+      "note": "2026-10-22 本体1×1・占有1マスを確認済み。☆・◇・△・⚡なし。自然タグ。リジェネ関連。デバフなし。 【2026-10-24 第8回精査】確認済み情報を登録台帳へ確定転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [
+        "リジェネ"
+      ],
+      "debuffs": [],
+      "chargeMarks": [],
+      "type": "item",
+      "verified": "本体1×1・☆◇△⚡なしを確認済み（2026-10-22）"
+    },
+    {
+      "id": "starter-stone",
+      "name": "石",
+      "alias": "Stone",
+      "className": "共通",
+      "category": "武器",
+      "tags": [
+        "自然",
+        "遠隔"
+      ],
+      "price": 1,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-21）／Backpack Battles Wiki https://wikiwiki.jp/bpb/%E7%9F%B3",
+      "note": "2026-10-21 本体1×1・☆◇△⚡なしを確認済み。自然・遠隔、ソケット0。命中時に相手のシールドを4破壊（自分のシールド獲得ではない）。関連バフ「シールド」は破壊対象として登録。デバフは該当なし。 【2026-10-24 第8回精査】確認済み情報を登録台帳へ確定転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [
+        "シールド"
+      ],
+      "debuffs": [],
+      "chargeMarks": [],
+      "type": "item",
+      "verified": "本体1×1・☆◇△⚡なしを確認済み（2026-10-21）"
+    },
+    {
+      "id": "starter-shell",
+      "name": "輝く殻",
+      "alias": "Shiny Shell",
+      "className": "共通",
+      "category": "アクセサリー",
+      "tags": [
+        "自然",
+        "神聖"
+      ],
+      "price": 2,
+      "rarity": "コモン",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "size": {
+        "width": 1,
+        "height": 1,
+        "occupied": 1
+      },
+      "stars": [
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "hollowDiamonds": [],
+      "triangles": [],
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "confirmed",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "confirmed",
+        "effects": {
+          "buffs": "none",
+          "debuffs": "none"
+        }
+      },
+      "origin": "ホタテくん確認済み登録JSON（2026-10-22）／Backpack Battles Wiki / Item Database（初期形状参考）",
+      "note": "2026-10-22 本体1×1・占有1マスと左右の☆2個（-1,0）、（1,0）の位置を確認済み。◇・△・⚡、バフ・デバフなし。自然・神聖タグ。価格2G・コモン・ソケット0。 【2026-10-24 第8回精査】確認済み情報を登録台帳へ確定転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "buffs": [],
+      "debuffs": [],
+      "chargeMarks": [],
+      "type": "item",
+      "verified": "本体1×1・左右☆2個の座標を確認済み（2026-10-22）"
+    },
+    {
+      "id": "base-holdall",
+      "name": "旅行カバン",
+      "alias": "Holdall",
+      "className": "共通",
+      "category": "バッグ",
+      "tags": [],
+      "price": 7,
+      "rarity": "エピック",
+      "socketCount": 0,
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "size": {
+        "width": 3,
+        "height": 2,
+        "occupied": 6
+      },
+      "stars": [],
+      "hollowDiamonds": [],
+      "diamonds": null,
+      "triangles": [],
+      "squares": null,
+      "filledTriangles": null,
+      "review": {
+        "shape": "confirmed",
+        "markers": {
+          "stars": "none",
+          "hollowDiamonds": "none",
+          "triangles": "none",
+          "chargeMarks": "none"
+        },
+        "tags": "none",
+        "effects": {
+          "buffs": "confirmed",
+          "debuffs": "none"
+        }
+      },
+      "origin": "Editor built-in preset: ゲーム内スクリーンショット（2026-10-18）",
+      "note": "ゲーム内画像＋ホタテくんの配置図で確認（2026-10-18） 【2026-10-24 第8回精査】確認済み情報を登録台帳へ確定転記。",
+      "isPriestess": false,
+      "lookup": [
+        "name",
+        "alias"
+      ],
+      "pending": false,
+      "debuffs": [],
+      "chargeMarks": [],
+      "buffs": [
+        "シールド"
+      ],
+      "bagGroup": "共通",
+      "type": "bag",
+      "verified": "ゲーム内画像＋ホタテくんの配置図で本体確認済み（2026-10-18）"
     }
   ]
 }
