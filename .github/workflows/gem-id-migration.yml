@@ -9,6 +9,7 @@ on:
       - "docs/legacy-gem-id-history-2026-10-24.json"
       - "tests/gem-id-migration.test.cjs"
       - "tests/offboard-drag.test.cjs"
+      - "tests/bag-overlap-tabs.test.cjs"
       - ".github/workflows/gem-id-migration.yml"
   workflow_dispatch:
 jobs:
@@ -23,3 +24,5 @@ jobs:
         run: node tests/gem-id-migration.test.cjs
       - name: Verify off-board drag and cancel handling
         run: node tests/offboard-drag.test.cjs
+      - name: Verify overlapping bag selection tabs
+        run: node tests/bag-overlap-tabs.test.cjs

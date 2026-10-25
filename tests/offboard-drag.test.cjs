@@ -30,8 +30,11 @@ const canvas = Object.assign(eventTarget(), {
 });
 const windowMock = eventTarget();
 const stashZone = {classList: {toggle() {}, remove() {}}};
+const overlapTabs = Object.assign(eventTarget(),{contains() {return false;}});
+
 const ctx = vm.createContext({
-  canvas, window: windowMock, $: name => name === 'stashZone' ? stashZone : {},
+  canvas, window: windowMock, $: name => name === 'stashZone' ? stashZone : name === 'bagOverlapTabs' ? overlapTabs : {},
+  setOverlapCell() {}, renderBagOverlapTabs() {},
   W: 9, H: 7,
   cellFromEvent: e => ({x: Math.floor(e.clientX / 10), y: Math.floor(e.clientY / 10)}),
   isOutsideBoard: e => e.clientX < 0 || e.clientX >= 90 || e.clientY < 0 || e.clientY >= 70,
@@ -49,7 +52,7 @@ const ctx = vm.createContext({
 });
 vm.runInContext(`
 let bags=[],items=[],stash=[],gems=[],debugMarks=[],selected=null,hovered=null;
-let drag=null,rangeDrag=null,rangeMode=false,debugMode=false,mode='auto',undoStack=[],redoStack=[];
+let drag=null,rangeDrag=null,rangeMode=false,debugMode=false,mode='auto',overlapPickedBag=null,undoStack=[],redoStack=[];
 let rangeSelection=new Set();
 function state(){return JSON.parse(JSON.stringify({bags,items,stash,gems,debugMarks}))}
 function restore(s){bags=JSON.parse(JSON.stringify(s.bags));items=JSON.parse(JSON.stringify(s.items));
