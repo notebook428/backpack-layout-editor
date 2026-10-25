@@ -152,4 +152,24 @@ code('togglePriestessCatalog()');
 assert.equal(elements.filterClass.value,'','Unavailable class selection should reset');
 assert.deepEqual(selectedTags(),[],'Removed Priestess-only tag must not remain selected');
 assert.equal(visible().length,4);
-console.log('PASS: multi-tag chips AND/OR, preserving and pruning selected tags, class/rarity/effects/price and full search regression.');
+// Both published catalogs must use the same canonical "遠隔" tag. A
+// duplicate synonym otherwise appears as a separate checkbox in the UI.
+const base=JSON.parse(fs.readFileSync(path.join(__dirname,'..','item-catalog.json'),'utf8')).records;
+const presetsStart=html.indexOf('const PRESETS = [');
+const presetsEnd=html.indexOf('\n];',presetsStart);
+assert.ok(presetsStart>0&&presetsEnd>presetsStart,'Missing actual editor preset declarations');
+const actualPresets=vm.runInNewContext(html.slice(presetsStart,presetsEnd+3)+'\nPRESETS');
+const affectedIds=['common-jynx-staff','adventurer-boomerang','adventurer-daggerang',
+ 'adventurer-dragon-knight','engineer-lightning-staff','engineer-thunder-drake',
+ 'engineer-stuff-throwinator'];
+for(const [label,catalog] of [['editor',actualPresets],['base catalog',base]]){
+ assert.ok(!catalog.some(p=>p.tags?.includes('遠距離')),label+' must not expose old 遠距離 tag');
+ for(const id of affectedIds){
+  const matches=catalog.filter(p=>p.id===id);
+  assert.equal(matches.length,1,label+' should contain '+id+' once');
+  assert.ok(matches[0].tags.includes('遠隔'),label+' should expose 遠隔 for '+id);
+  assert.equal(matches[0].tags.filter(t=>t==='遠隔').length,1,label+' must not duplicate 遠隔 for '+id);
+  assert.equal(new Set(matches[0].tags).size,matches[0].tags.length,'No duplicate tags for '+id);
+ }
+}
+console.log('PASS: multi-tag chips, AND/OR, toggles, reset, and seven canonical 遠隔 tags in both catalogs.');
