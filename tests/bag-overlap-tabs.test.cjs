@@ -60,7 +60,7 @@ const ctx=vm.createContext({
 vm.runInContext(`
 let bags=[],items=[],stash=[],gems=[],debugMarks=[],selected=null,hovered=null;
 let mode='auto',drag=null,rangeDrag=null,rangeMode=false,debugMode=false;
-let overlapCell=null,overlapTabKey='';
+let overlapCell=null,overlapTabKey='',overlapPickedBag=null;
 let undoStack=[],redoStack=[],rangeSelection=new Set();
 function list(){return [...bags,...items,...gems]}
 function state(){return JSON.parse(JSON.stringify({bags,items,stash,gems,debugMarks}))}
@@ -82,7 +82,7 @@ function reset(){
  ];
  items=[];stash=[];gems=[];debugMarks=[];selected=null;hovered=null;
  mode='auto';drag=null;rangeDrag=null;rangeMode=false;debugMode=false;
- overlapCell=null;overlapTabKey='';undoStack=[];redoStack=[];
+ overlapCell=null;overlapTabKey='';overlapPickedBag=null;undoStack=[];redoStack=[];
 }
 function inspect(){return JSON.stringify({bags,items,stash,selected,drag:drag&&{id:drag.id,offx:drag.offx},overlapCell,undo:undoStack.length})}
 `,ctx);
@@ -121,6 +121,18 @@ assert.equal(inspect().undo,0);
 assert.equal(buttons()[1].attributes['aria-pressed'],'true');
 hover(15,15);
 assert.equal(tabs.hidden,true,'No selector on a non-overlapping cell');
+
+// Clicking a tab also determines which bag a later board drag will grab.
+reset();
+vm.runInContext("items.push({uid:'item',presetId:'An item',type:'item',x:2,y:1,rot:0})",ctx);
+hover(25,15);
+buttons()[1].emit('click');
+canvas.emit('pointerdown',25,15);
+assert.equal(inspect().drag.id,'bag-a','Selection from tab must override top item and top bag');
+canvas.emit('pointermove',35,15);
+windowMock.emit('pointerup',35,15);
+assert.equal(inspect().bags.find(x=>x.uid==='bag-a').x,2);
+assert.equal(inspect().items[0].x,2,'Selecting bag must not drag the covering item');
 
 // A tab must bypass an item covering the overlapping cell in auto mode.
 reset();
