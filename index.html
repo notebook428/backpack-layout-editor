@@ -49,7 +49,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 .debug-tools #debugCount{color:#f1d49f;font-size:12px}
 #board.debug-active{cursor:crosshair;outline:2px solid #a88acb;outline-offset:1px}
 </style></head><body>
-<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.42</span></header>
+<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.43</span></header>
 <main>
 <aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><label class="tiny" style="display:block;margin:0 0 6px"><input type="checkbox" id="auditOnly"> 共通アイテムの要照合だけ表示</label><select class="field" id="auditKind" aria-label="要照合の種類" style="margin-bottom:9px"><option value="all">形状または☆が未照合</option><option value="shape">形状が暫定・未照合</option><option value="stars">☆が未確認</option></select><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。Shift+Pで通常の一覧にプリーステスのアイテムを追加・解除できます。</div></aside>
 <section class="panel center"><div class="starting-sets">
@@ -1104,7 +1104,7 @@ canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;canvas.focus();
    selected=null;hovered=null;canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging');render();return;
  }
  let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,startClientX:e.clientX,startClientY:e.clientY,moved:false,members:a.type==='bag'?groupMembers(a):null};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
-canvas.addEventListener('pointermove',e=>{let c=cellFromEvent(e);showCursorCoord(c);if(debugMode)return;
+canvas.addEventListener('pointermove',e=>{if((drag&&drag.pointer!==e.pointerId)||(rangeDrag&&rangeDrag.pointer!==e.pointerId))return;let c=cellFromEvent(e);showCursorCoord(c);if(debugMode)return;
  if(rangeDrag){
    if(rangeDrag.kind==='select'){rangeDrag.end={x:Math.max(0,Math.min(W-1,c.x)),y:Math.max(0,Math.min(H-1,c.y))}}
    else if(inBoard(c.x,c.y)){
@@ -1120,6 +1120,8 @@ canvas.addEventListener('pointermove',e=>{let c=cellFromEvent(e);showCursorCoord
  else{let pos=clampPos(a,c.x-drag.offx,c.y-drag.offy);if(pos.x!==a.x||pos.y!==a.y){a.x=pos.x;a.y=pos.y;drag.moved=true}}
  drag.lastx=c.x;drag.lasty=c.y;render()}}else{let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;if(hovered!==a?.uid){hovered=a?.uid||null;render()}}});
 function endDrag(e){
+ const active=rangeDrag||drag;
+ if(!active||active.pointer!==e?.pointerId)return;
  $('stashZone').classList.remove('drop-target');
  if(rangeDrag){
    const r=rangeDrag;rangeDrag=null;canvas.classList.remove('dragging');
@@ -1135,7 +1137,22 @@ function endDrag(e){
  }else if(a&&drag.moved&&a.type==='gem'&&e?.type==='pointerup'){const c=cellFromEvent(e);if(inBoard(c.x,c.y)){const hosts=items.filter(canSocket).filter(q=>absCells(q).some(([x,y])=>x===c.x&&y===c.y));const host=hosts.at(-1);if(host&&!attachGem(a,host,c.x,c.y))toast('装着できません。ソケットの空きと位置を確認してね');}}
 
  if(JSON.stringify(state())!==JSON.stringify(drag.before)){undoStack.push(drag.before);if(undoStack.length>70)undoStack.shift();redoStack.length=0}drag=null;render()}
-canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);canvas.addEventListener('lostpointercapture',endDrag);canvas.addEventListener('pointerleave',()=>{if(!drag){hovered=null;showCursorCoord({x:-1,y:-1});render()}});
+// Use a window-level release so drops still finish when pointer capture changes.
+function cancelDrag(e){
+ const active=rangeDrag||drag;
+ if(!active||(e?.pointerId!=null&&active.pointer!==e.pointerId))return;
+ const before=active.before;
+ drag=null;rangeDrag=null;
+ $('stashZone').classList.remove('drop-target');
+ canvas.classList.remove('dragging');
+ if(before&&JSON.stringify(state())!==JSON.stringify(before))restore(before);
+ else render();
+}
+window.addEventListener('pointerup',endDrag,true);
+window.addEventListener('pointercancel',cancelDrag,true);
+canvas.addEventListener('lostpointercapture',cancelDrag);
+window.addEventListener('blur',()=>cancelDrag());
+canvas.addEventListener('pointerleave',()=>{if(!drag&&!rangeDrag){hovered=null;showCursorCoord({x:-1,y:-1});render()}});
 
 function fileSafe(s){return s.replace(/[\\/:*?"<>|]/g,'_')}
 function download(data,name,type){let blob=data instanceof Blob?data:new Blob([data],{type});const u=URL.createObjectURL(blob);let a=document.createElement('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
