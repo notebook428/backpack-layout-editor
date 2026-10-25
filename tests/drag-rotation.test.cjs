@@ -34,7 +34,7 @@ const ctx=vm.createContext({
  inBoard:(x,y)=>x>=0&&y>=0&&x<9&&y<7,
  cellFromEvent:e=>({x:Math.floor(e.clientX/10),y:Math.floor(e.clientY/10)}),
  isOutsideBoard:e=>e.clientX<0||e.clientX>=90||e.clientY<0||e.clientY>=70,
- showCursorCoord(){},setOverlapCell(){},render(){},toast(){},paintDebugAt(){},
+ showCursorCoord(){},setOverlapCell(){},renderBagOverlapTabs(){},render(){},toast(){},paintDebugAt(){},
  chooseRange(){},toggleRangeMode(){},moveRange:()=>[0,0],rangeHit:()=>null,rangeMembers:()=>[],
  canSocket:()=>false,attachGem:()=>false,moveBagGroup(){},
  clampPos:(a,x,y)=>({x:Math.max(0,Math.min(9-(a.rot%2?1:3),x)),
