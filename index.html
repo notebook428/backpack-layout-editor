@@ -49,7 +49,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 .debug-tools #debugCount{color:#f1d49f;font-size:12px}
 #board.debug-active{cursor:crosshair;outline:2px solid #a88acb;outline-offset:1px}
 </style></head><body>
-<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.45</span></header>
+<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.46</span></header>
 <main>
 <aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><label class="tiny" style="display:block;margin:0 0 6px"><input type="checkbox" id="auditOnly"> 共通アイテムの要照合だけ表示</label><select class="field" id="auditKind" aria-label="要照合の種類" style="margin-bottom:9px"><option value="all">形状または☆が未照合</option><option value="shape">形状が暫定・未照合</option><option value="stars">☆が未確認</option></select><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。Shift+Pで通常の一覧にプリーステスのアイテムを追加・解除できます。</div></aside>
 <section class="panel center"><div class="starting-sets">
@@ -969,14 +969,17 @@ function stashAll(){
  rangeSelection.clear();selected=null;hovered=null;render();toast('アイテムをまとめて保管しました');
 }
 function stashSelected(){const bag=bags.find(x=>x.uid===selected);if(bag){stashBag(bag);return}let a=items.find(x=>x.uid===selected),gem=gems.find(x=>x.uid===selected);if(!a&&!gem)return;if(gem&&gem.hostId){toast('装着中の宝石は先に外してね');return}record();if(a){items=items.filter(x=>x.uid!==a.uid);stash.push(a)}else{gem.stored=true}selected=null;hovered=null;render();toast('保管ボックスへ移動しました')}
-// Standalone item returns must never create an uncovered or colliding body.
+// During editing, bag coverage is a warning, not a placement restriction.
+// Restore at the stored position if its body is free; otherwise choose the
+// nearest collision-free spot on the 9x7 board, including outside all bags.
 function findStashItemSpot(a){
- const g=shape(a),coverage=bagUnion(),occupied=new Set(items.flatMap(x=>absCells(x).map(([u,v])=>v*W+u)));
+ const g=shape(a),occupied=new Set(items.flatMap(x=>absCells(x).map(([u,v])=>v*W+u)));
  let best=null;
  for(let y=0;y<=H-g.height;y++)for(let x=0;x<=W-g.width;x++){
   const keys=g.body.map(([u,v])=>(y+v)*W+(x+u));
-  if(keys.some(k=>!coverage.has(k)||occupied.has(k)))continue;
-  const score=(Math.abs(x-a.x)+Math.abs(y-a.y))*100+y*W+x;
+  if(keys.some(k=>occupied.has(k)))continue;
+  const distance=Math.abs(x-a.x)+Math.abs(y-a.y);
+  const score=distance*100+y*W+x;
   if(!best||score<best.score)best={x,y,score};
  }
  return best;
@@ -994,8 +997,11 @@ function returnFromStash(id){
   if(mode!=='auto')mode='bag';selected=id;render();toast(getP(a).name+' と中身'+contents.length+'個を戻しました');return;
  }
  const p=getP(a),spot=findStashItemSpot(a);
- if(!spot){toast('バッグの空きマスがありません。スペースを確保してから戻してね');return}
- record();stash=stash.filter(x=>x.uid!==id);a.x=spot.x;a.y=spot.y;delete a.storedWithBag;items.push(a);if(mode!=='auto')mode='item';selected=id;render();toast(p.name+' を盤面に戻しました');
+ if(!spot){toast('盤面に重ならず置ける場所がありません。空きを作ってから戻してね');return}
+ record();stash=stash.filter(x=>x.uid!==id);a.x=spot.x;a.y=spot.y;delete a.storedWithBag;items.push(a);
+ const coverage=bagUnion(),outside=absCells(a).some(([x,y])=>!coverage.has(y*W+x));
+ if(mode!=='auto')mode='item';selected=id;render();
+ toast(outside?p.name+' をバッグ外に仮配置しました（配置警告あり）':p.name+' を盤面に戻しました');
 }
 function rotateInStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;if(a.type==='bag'&&stash.some(x=>x.storedWithBag===id)){toast('中身入りバッグは盤面に戻してから回転してね');return}record();a.rot=(a.rot+1)%4;render()}
 function deleteFromStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;record();for(const gem of gems.filter(q=>q.hostId===id)){gem.hostId=null;gem.slot=null;gem.stored=true}if(a.type==='bag')for(const child of stash.filter(q=>q.storedWithBag===id)){delete child.storedWithBag;if(child.linkBag===id)child.linkBag=null}stash=stash.filter(x=>x.uid!==id);render()}
