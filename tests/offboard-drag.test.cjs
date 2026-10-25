@@ -42,8 +42,10 @@ const ctx = vm.createContext({
   groupMembers: a => [a],
   chooseRange() {}, toggleRangeMode() {}, moveRange: () => [0,0],
   rangeHit: () => null, rangeMembers: () => [], attachGem: () => false,
-  canSocket: () => false, absCells: a => [[a.x,a.y]],
-  shape: () => ({width:1,height:1,body:[[0,0]]})
+  canSocket: () => false,
+  absCells: a => a.type==='bag'?[[a.x,a.y],[a.x+1,a.y]]:[[a.x,a.y]],
+  shape: a => a.type==='bag'?({width:2,height:1,body:[[0,0],[1,0]]}):({width:1,height:1,body:[[0,0]]}),
+  getP: a => ({name:a.presetId}), findSpot: () => ({x:1,y:1})
 });
 vm.runInContext(`
 let bags=[],items=[],stash=[],gems=[],debugMarks=[],selected=null,hovered=null;
@@ -54,6 +56,10 @@ function restore(s){bags=JSON.parse(JSON.stringify(s.bags));items=JSON.parse(JSO
  stash=JSON.parse(JSON.stringify(s.stash));gems=JSON.parse(JSON.stringify(s.gems));
  debugMarks=JSON.parse(JSON.stringify(s.debugMarks));drag=null;rangeDrag=null;selected=null;hovered=null;render()}
 function list(){return [...bags,...items,...gems]}
+function record(){undoStack.push(state());redoStack.length=0}
+function resetRange(){rangeSelection.clear();rangeDrag=null}
+function childrenOf(b){return items.filter(a=>a.linkBag===b.uid)}
+function bagUnion(){return new Set(bags.flatMap(a=>absCells(a).map(([x,y])=>y*W+x)))}
 function atCell(x,y){return [...bags,...items,...gems.filter(g=>!g.stored)].findLast(a=>a.x===x&&a.y===y)||null}
 function reset(type='item',x=1,y=1){
  bags=[];items=[];stash=[];gems=[];undoStack=[];redoStack=[];selected=null;hovered=null;
@@ -63,6 +69,13 @@ function reset(type='item',x=1,y=1){
 }
 function inspect(){return JSON.stringify({bags,items,stash,gems,undo:undoStack.length,drag:!!drag,rangeDrag:!!rangeDrag})}
 `, ctx);
+const stashHelperStart=html.indexOf('// Store a bag and its linked contents as one reversible bundle.');
+const stashHelperEnd=html.indexOf('function stashAll(){',stashHelperStart);
+const stashFnsStart=html.indexOf('function stashSelected(){',stashHelperEnd);
+const stashFnsEnd=html.indexOf('const DEBUG_SYMBOLS=',stashFnsStart);
+assert.ok(stashHelperStart>0&&stashHelperEnd>stashHelperStart&&stashFnsStart>stashHelperEnd&&stashFnsEnd>stashFnsStart);
+vm.runInContext(html.slice(stashHelperStart,stashHelperEnd),ctx);
+vm.runInContext(html.slice(stashFnsStart,stashFnsEnd),ctx);
 vm.runInContext(html.slice(first,last), ctx);
 const reset = (type,x,y) => vm.runInContext(`reset(${JSON.stringify(type)},${x},${y})`, ctx);
 const snapshot = () => JSON.parse(vm.runInContext('inspect()', ctx));
@@ -84,11 +97,64 @@ reset('item',1,1);
 down();move(35,35);move(120,90);up(120,90);
 assert.equal(snapshot().stash.length,1);
 
-// Bags are never stored by an off-board drop.
+// Bags can now be stored by dragging outside the board.
 reset('bag',1,1);
 down();move(120,90);up(120,90);
+assert.equal(snapshot().bags.length,0);
+assert.equal(snapshot().stash.length,1);
+assert.equal(snapshot().stash[0].type,'bag');
+assert.equal(snapshot().undo,1);
+vm.runInContext("returnFromStash('sample')",ctx);
 assert.equal(snapshot().bags.length,1);
 assert.equal(snapshot().stash.length,0);
+assert.equal(snapshot().bags[0].x,1,'Return should prefer its saved placement');
+
+// Moving a bag with linked items must preserve child identity, attachment
+// and relative placement, even if the bag is moved outside directly.
+reset('bag',1,1);
+vm.runInContext(`
+items.push({uid:'child',presetId:'armor',type:'item',x:2,y:1,rot:0,linkBag:'sample'});
+gems.push({uid:'gem-1',presetId:'ruby',type:'gem',x:2,y:1,rot:0,hostId:'child',slot:0,stored:false});
+`,ctx);
+down();move(120,90);up(120,90);
+let bundled=snapshot();
+assert.equal(bundled.bags.length,0);
+assert.equal(bundled.items.length,0);
+assert.equal(bundled.stash.length,2);
+assert.equal(bundled.stash[1].storedWithBag,'sample');
+assert.equal(bundled.gems[0].hostId,'child','Mounted gem host must survive stashing');
+assert.equal(bundled.undo,1);
+vm.runInContext("returnFromStash('sample')",ctx);
+bundled=snapshot();
+assert.equal(bundled.bags.length,1);
+assert.equal(bundled.items.length,1);
+assert.equal(bundled.stash.length,0);
+assert.equal(bundled.items[0].x-bundled.bags[0].x,1,'Item offset must survive');
+assert.equal(bundled.gems[0].hostId,'child');
+assert.equal(bundled.items[0].storedWithBag,undefined);
+vm.runInContext('restore(undoStack.pop())',ctx);
+assert.equal(snapshot().stash.length,2,'Undo return should restore the bag bundle');
+
+// The toolbar storage path also supports bags with their contents.
+reset('bag',1,1);
+vm.runInContext("items.push({uid:'child',presetId:'armor',type:'item',x:2,y:1,rot:0,linkBag:'sample'});selected='sample';stashSelected()",ctx);
+assert.equal(snapshot().stash.length,2);
+assert.equal(snapshot().undo,1);
+vm.runInContext("rotateInStash('sample')",ctx);
+assert.equal(snapshot().stash[0].rot,0,'Bundled bag cannot be rotated in storage');
+vm.runInContext("deleteFromStash('sample')",ctx);
+assert.equal(snapshot().stash.length,1,'Deleting a stashed bag preserves its contents');
+assert.equal(snapshot().stash[0].storedWithBag,undefined);
+assert.equal(snapshot().stash[0].linkBag,null);
+
+// When no room exists for the contents, return must leave the bundle in storage.
+reset('bag',1,1);
+vm.runInContext("items.push({uid:'child',presetId:'armor',type:'item',x:2,y:1,rot:0,linkBag:'sample'});selected='sample';stashSelected()",ctx);
+vm.runInContext("for(let y=0;y<7;y++)for(let x=0;x<9;x++)items.push({uid:'block-'+x+'-'+y,type:'item',presetId:'block',x,y,rot:0})",ctx);
+const undoBefore=snapshot().undo;
+vm.runInContext("returnFromStash('sample')",ctx);
+assert.equal(snapshot().stash.length,2);
+assert.equal(snapshot().undo,undoBefore);
 
 // A tiny accidental move over the canvas edge is not an intentional drop.
 reset('item',8,1);
@@ -131,4 +197,4 @@ down();move(115,85);up(115,85);
 assert.equal(snapshot().gems.length,1);
 assert.equal(snapshot().gems[0].stored,true);
 assert.equal(snapshot().undo,1);
-console.log('PASS: off-board item/gem storage, bag exclusion, threshold, pointer ownership, cancellation, capture loss and blur.');
+console.log('PASS: item/gem/bag storage, bundled restore/undo/delete, no-room protection, threshold and pointer cancellation.');
