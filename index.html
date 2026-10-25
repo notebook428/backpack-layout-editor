@@ -705,7 +705,7 @@ let definitions=[...PRESETS], byId=new Map(definitions.map(x=>[x.id,x]));
 let bags=[],items=[],stash=[],gems=[],debugMarks=[],debugMode=false,debugSymbol='☆',selected=null,hovered=null,mode='auto',drag=null,undoStack=[],redoStack=[],uidCounter=1;
 let priestessOnly=false,ctrlSoloArmed=false; // priestessOnly is the legacy flag name; true now means include Priestess in the normal catalog.
 let rangeMode=false,rangeSelection=new Set(),rangeDrag=null; // temporary multi-selection, excluded from JSON exports
-let overlapCell=null,overlapTabKey=""; // ephemeral selection tabs, never saved
+let overlapCell=null,overlapTabKey="",overlapPickedBag=null; // ephemeral selection tabs, never saved
 const isEditableTarget=el=>!!(el&&(['INPUT','TEXTAREA','SELECT'].includes(el.tagName)||el.isContentEditable));
 // Layout JSON is separate from browser-local display preferences.
 const OPTIONS_KEY='recho-backpack-options-v1';
@@ -1053,7 +1053,7 @@ async function copyDebugCoordinates(){
   try{await navigator.clipboard.writeText(text);toast('座標リストをコピーしました')}
   catch(_){window.prompt('以下の座標をコピーしてください',text)}
 }
-function setMode(v){if(mode!==v&&rangeMode)resetRange();mode=v;hovered=null;selected=null;overlapCell=null;render()}
+function setMode(v){if(mode!==v&&rangeMode)resetRange();mode=v;hovered=null;selected=null;overlapCell=null;overlapPickedBag=null;render()}
 function cycleMode(){const order=['item','bag','gem','auto'];setMode(order[(order.indexOf(mode)+1)%order.length]);toast('操作レイヤー：'+({bag:'バッグ',item:'通常アイテム',gem:'宝石',auto:'上層から操作'}[mode]));}
 function togglePriestessCatalog(){priestessOnly=!priestessOnly;$('search').value='';$('category').value='';if(priestessOnly)$('auditOnly').checked=false;$('auditOnly').disabled=priestessOnly;$('auditKind').disabled=priestessOnly;buildCatalog();toast(priestessOnly?'通常アイテム＋プリーステスを表示':'通常アイテムのみ表示');}
 function rangeMembers(){
@@ -1128,7 +1128,7 @@ function rotateRange(){
  render();toast('選択範囲をまとめて90°回転しました');
 }
 function state(){return deep({bags,items,stash,gems,debugMarks})}
-function restore(s){bags=deep(s.bags||[]);items=deep(s.items||[]);stash=deep(s.stash||[]);gems=deep(s.gems||[]);debugMarks=deep(s.debugMarks||[]);selected=null;hovered=null;drag=null;overlapCell=null;resetRange();render()}
+function restore(s){bags=deep(s.bags||[]);items=deep(s.items||[]);stash=deep(s.stash||[]);gems=deep(s.gems||[]);debugMarks=deep(s.debugMarks||[]);selected=null;hovered=null;drag=null;overlapCell=null;overlapPickedBag=null;resetRange();render()}
 function record(){undoStack.push(state());if(undoStack.length>70)undoStack.shift();redoStack.length=0}
 function undo(){if(drag)return;if(undoStack.length){redoStack.push(state());restore(undoStack.pop())}}
 function redo(){if(drag)return;if(redoStack.length){undoStack.push(state());restore(redoStack.pop())}}
@@ -1165,14 +1165,14 @@ function setOverlapCell(c){
 }
 function selectBagFromTab(id){
  const bag=bags.find(a=>a.uid===id);if(!bag)return false;
- selected=id;hovered=id;render();return true;
+ selected=id;hovered=id;overlapPickedBag=id;render();return true;
 }
 function startBagTabDrag(id,e){
  if(e.button!==0||debugMode||rangeMode||drag||rangeDrag)return;
  const a=bags.find(b=>b.uid===id);if(!a)return;
  e.preventDefault();e.stopPropagation();
  const c=cellFromEvent(e);
- selected=a.uid;hovered=a.uid;
+ selected=a.uid;hovered=a.uid;overlapPickedBag=id;
  drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,
   before:state(),pointer:e.pointerId,startClientX:e.clientX,startClientY:e.clientY,
   moved:false,members:groupMembers(a),bundleIds:childrenOf(a).map(x=>x.uid)};
@@ -1227,6 +1227,13 @@ function topObjectAt(x,y,forRange=false){
  return hitFrom(items,x,y)||hitFrom(bags,x,y);
 }
 function atCell(x,y){
+ // After clicking a tab, the chosen bag wins on shared cells, even when an
+ // item visually covers it. Click anywhere else to resume normal picking.
+ if((mode==='auto'||mode==='bag')&&overlapPickedBag){
+  const overlapping=overlappingBagsAt(x,y);
+  const picked=overlapping.length>1&&overlapping.find(a=>a.uid===overlapPickedBag);
+  if(picked)return picked;
+ }
  if(mode==='auto')return topObjectAt(x,y);
  if(mode==='gem')return gemAt(x,y);
  return hitFrom(mode==='bag'?bags:items,x,y);
@@ -1263,7 +1270,7 @@ canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;canvas.focus();
    }
    selected=null;hovered=null;canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging');render();return;
  }
- setOverlapCell(c);let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,startClientX:e.clientX,startClientY:e.clientY,moved:false,members:a.type==='bag'?groupMembers(a):null,bundleIds:a.type==='bag'?childrenOf(a).map(x=>x.uid):null};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
+ setOverlapCell(c);let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;if(a?.uid!==overlapPickedBag)overlapPickedBag=null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,startClientX:e.clientX,startClientY:e.clientY,moved:false,members:a.type==='bag'?groupMembers(a):null,bundleIds:a.type==='bag'?childrenOf(a).map(x=>x.uid):null};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
 canvas.addEventListener('pointermove',e=>{if((drag&&drag.pointer!==e.pointerId)||(rangeDrag&&rangeDrag.pointer!==e.pointerId))return;let c=cellFromEvent(e);showCursorCoord(c);if(debugMode)return;if(!drag&&!rangeDrag)setOverlapCell(c);
  if(rangeDrag){
    if(rangeDrag.kind==='select'){rangeDrag.end={x:Math.max(0,Math.min(W-1,c.x)),y:Math.max(0,Math.min(H-1,c.y))}}
