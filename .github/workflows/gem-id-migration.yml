@@ -8,6 +8,7 @@ on:
       - "item-registration.html"
       - "docs/legacy-gem-id-history-2026-10-24.json"
       - "tests/gem-id-migration.test.cjs"
+      - "tests/offboard-drag.test.cjs"
       - ".github/workflows/gem-id-migration.yml"
   workflow_dispatch:
 jobs:
@@ -20,3 +21,5 @@ jobs:
           node-version: "22"
       - name: Verify legacy gem JSON migration and roundtrip
         run: node tests/gem-id-migration.test.cjs
+      - name: Verify off-board drag and cancel handling
+        run: node tests/offboard-drag.test.cjs
