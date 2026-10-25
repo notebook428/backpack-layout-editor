@@ -1,6 +1,17 @@
 <!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Backpack Battles バッグ配置エディタ | Recho</title><style>
-:root{color-scheme:dark;--bg:#0e1525;--panel:#182238;--panel2:#1e2c45;--edge:#32425e;--text:#eff1f9;--dim:#acb9ce;--gold:#f1d49f;--violet:#bba6f3;--red:#ff6f82}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#2a3354 0%,#0e1525 58%);color:var(--text);font:14px/1.6 system-ui,-apple-system,"Yu Gothic",Meiryo,sans-serif}header{max-width:1480px;margin:auto;padding:22px 25px 10px;display:flex;align-items:end;justify-content:space-between;gap:15px;flex-wrap:wrap}h1{margin:0;font:700 clamp(23px,2.3vw,34px)/1.25 Georgia,"Yu Mincho",serif;letter-spacing:.02em}header .eyebrow{font-size:11px;letter-spacing:.22em;color:var(--gold);font-weight:800}header p{margin:5px 0 0;color:var(--dim)}.version{color:#b4c6e6;border:1px solid var(--edge);border-radius:50px;padding:6px 13px;font-size:12px}main{max-width:1480px;margin:auto;padding:12px 22px 22px;display:grid;grid-template-columns:minmax(232px,270px) minmax(530px,1fr) minmax(235px,290px);gap:16px;align-items:start}.panel{background:linear-gradient(155deg,#1b2740,#162037);border:1px solid var(--edge);border-radius:16px;padding:16px;box-shadow:0 10px 35px #0002}.panel h2{font-size:16px;margin:0 0 10px;color:var(--gold)}.tiny{font-size:11px;color:var(--dim)}.field{width:100%;padding:10px 11px;background:#111b2f;border:1px solid #394965;border-radius:8px;color:var(--text);font:inherit;margin-bottom:9px}.field:focus{outline:2px solid #9983d8}.catalog-controls{display:flex;gap:8px}.catalog-controls select{flex:1;min-width:0}.catalog-list{height:min(57vh,570px);min-height:300px;overflow:auto;display:grid;align-content:start;gap:6px;padding-right:3px}.preset{display:flex;align-items:center;gap:10px;padding:9px;text-align:left;background:#1f2e48;border:1px solid transparent;border-radius:9px;color:var(--text);cursor:pointer;width:100%;font:inherit}.preset:hover{background:#304362;border-color:#889ac2}.preset.pending{opacity:.58;cursor:not-allowed;background:#222c3f;border-style:dashed;border-color:#586276}.preset.pending small{color:#e5c498}.preset:focus-visible{outline:2px solid var(--gold)}.swatch{width:16px;height:16px;border-radius:4px;flex:none;border:1px solid #ffffff55}.preset strong{display:block;font-size:13px;font-weight:650;line-height:1.3}.preset small{font-size:11px;color:#b7c3d7}.preset .plus{margin-left:auto;color:var(--gold);font-size:23px}.toolbar{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 13px}.btn{color:var(--text);background:#293751;border:1px solid #485a78;border-radius:8px;font:inherit;padding:8px 11px;cursor:pointer;transition:background .15s}.btn:hover{background:#3a4b6c}.btn:focus-visible{outline:2px solid var(--gold)}.btn.primary{background:#534479;border-color:#a38cdb}.btn.primary:hover{background:#66558e}.btn.danger{color:#ffb3bd}.btn:disabled{opacity:.45;cursor:default}.btn.small{padding:5px 9px}.mode-wrap{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}.mode-wrap label{font-size:12px;color:var(--dim)}.modebtn.active{background:#625286;border-color:#bca4f5}.board-frame{border-radius:13px;border:1px solid #4d5c76;padding:12px;background:linear-gradient(160deg,#111c2e,#0c1424);display:flex;justify-content:center;align-items:center;min-height:0;overflow:hidden}.board-outer{width:100%;max-width:660px;aspect-ratio:9/7;position:relative}canvas#board{width:100%;height:100%;display:block;cursor:crosshair;touch-action:none;user-select:none;border-radius:5px}canvas#board.dragging{cursor:grabbing}.status{border:1px solid #3c4e68;border-radius:9px;padding:10px 12px;background:#17243a;color:var(--dim);min-height:58px;line-height:1.5;font-size:12px;margin-top:12px}.status.bad{border-color:#a54a5d;color:#ffc0cb;background:#38232f}.controls-footer{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:13px}.controls-footer label{cursor:pointer;font-size:12px}.legend{display:grid;gap:7px;max-height:255px;overflow:auto;margin-bottom:10px}.legend-item{display:flex;align-items:center;gap:8px;font-size:12px;border-bottom:1px solid #334159;padding-bottom:5px}.legend-item .count{margin-left:auto;color:#a5b8d9}.section-break{border:0;border-top:1px solid var(--edge);margin:17px 0}.selection{min-height:75px}.selection strong{color:#f2ddae}.tips{padding-left:17px;margin:6px 0 0;color:var(--dim);font-size:12px}.tips li{margin-bottom:4px}.note{color:#c8bddf;line-height:1.5;background:#27233c;border:1px solid #4b436c;padding:10px;border-radius:8px;font-size:12px}.kv{display:flex;justify-content:space-between;gap:10px;margin:9px 0;color:#b4c7dc;font-size:12px}.kv b{color:white}.checks{display:flex;flex-direction:column;gap:6px}.checks label{font-size:12px;cursor:pointer}input[type=checkbox]{accent-color:#bda0fb}.file-input{display:none}.footer{max-width:1480px;padding:0 24px 30px;margin:auto;font-size:12px;color:#8696b0;line-height:1.9}.footer a{color:#d0c3ff;text-decoration:underline;text-underline-offset:3px}.footer a:hover{color:#fff}#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#283b58;border:1px solid #8b9fc2;color:white;padding:11px 17px;border-radius:9px;z-index:9;opacity:0;pointer-events:none;transition:.2s}#toast.show{opacity:1}@media(max-width:1090px){main{grid-template-columns:235px minmax(450px,1fr)}aside.right{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:15px}.right .section-break{display:none}}@media(max-width:780px){main{grid-template-columns:1fr;padding:12px}.catalog-list{height:215px;min-height:0}.board-frame{padding:6px}.right{display:block!important;grid-column:auto!important}header{padding:18px 14px 4px}.toolbar{gap:5px}.toolbar button{font-size:12px;padding:7px}h1{font-size:25px}}
+:root{color-scheme:dark;--bg:#0e1525;--panel:#182238;--panel2:#1e2c45;--edge:#32425e;--text:#eff1f9;--dim:#acb9ce;--gold:#f1d49f;--violet:#bba6f3;--red:#ff6f82}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#2a3354 0%,#0e1525 58%);color:var(--text);font:14px/1.6 system-ui,-apple-system,"Yu Gothic",Meiryo,sans-serif}header{max-width:1480px;margin:auto;padding:22px 25px 10px;display:flex;align-items:end;justify-content:space-between;gap:15px;flex-wrap:wrap}h1{margin:0;font:700 clamp(23px,2.3vw,34px)/1.25 Georgia,"Yu Mincho",serif;letter-spacing:.02em}header .eyebrow{font-size:11px;letter-spacing:.22em;color:var(--gold);font-weight:800}header p{margin:5px 0 0;color:var(--dim)}.version{color:#b4c6e6;border:1px solid var(--edge);border-radius:50px;padding:6px 13px;font-size:12px}main{max-width:1480px;margin:auto;padding:12px 22px 22px;display:grid;grid-template-columns:minmax(232px,270px) minmax(530px,1fr) minmax(235px,290px);gap:16px;align-items:start}.panel{background:linear-gradient(155deg,#1b2740,#162037);border:1px solid var(--edge);border-radius:16px;padding:16px;box-shadow:0 10px 35px #0002}.panel h2{font-size:16px;margin:0 0 10px;color:var(--gold)}.tiny{font-size:11px;color:var(--dim)}.field{width:100%;padding:10px 11px;background:#111b2f;border:1px solid #394965;border-radius:8px;color:var(--text);font:inherit;margin-bottom:9px}.field:focus{outline:2px solid #9983d8}.catalog-controls{display:flex;gap:8px}.catalog-controls select{flex:1;min-width:0}.catalog-filter-panel{margin:2px 0 10px;padding:10px;border:1px solid #546580;border-radius:10px;background:#182740}
+.catalog-filter-panel summary{font-size:12px;font-weight:700;color:#efdaad;cursor:pointer}.catalog-filter-panel summary .active-count{display:inline-block;margin-left:5px;color:#191d31;background:#f1d49f;border-radius:20px;padding:0 6px;font-size:10px}.catalog-filter-panel summary .active-count:empty{display:none}
+.catalog-filter-panel[open] summary{margin-bottom:9px}
+.catalog-filter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.catalog-filter-grid label{font-size:11px;color:#b8c7e2;min-width:0}
+.catalog-filter-grid .field{margin:3px 0 0;padding:7px 6px;min-width:0;font-size:12px}
+.catalog-price-fields{display:flex;gap:5px;align-items:center}
+.catalog-price-fields input{width:0;flex:1}
+.catalog-filter-footer{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:9px;flex-wrap:wrap}
+.catalog-filter-footer .tiny{font-size:10px}
+.catalog-clear{padding:5px 9px;font-size:11px}
+.catalog-list{height:min(57vh,570px);min-height:300px;overflow:auto;display:grid;align-content:start;gap:6px;padding-right:3px}.preset{display:flex;align-items:center;gap:10px;padding:9px;text-align:left;background:#1f2e48;border:1px solid transparent;border-radius:9px;color:var(--text);cursor:pointer;width:100%;font:inherit}.preset:hover{background:#304362;border-color:#889ac2}.preset.pending{opacity:.58;cursor:not-allowed;background:#222c3f;border-style:dashed;border-color:#586276}.preset.pending small{color:#e5c498}.preset:focus-visible{outline:2px solid var(--gold)}.swatch{width:16px;height:16px;border-radius:4px;flex:none;border:1px solid #ffffff55}.preset strong{display:block;font-size:13px;font-weight:650;line-height:1.3}.preset small{font-size:11px;color:#b7c3d7}.preset .plus{margin-left:auto;color:var(--gold);font-size:23px}.toolbar{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 13px}.btn{color:var(--text);background:#293751;border:1px solid #485a78;border-radius:8px;font:inherit;padding:8px 11px;cursor:pointer;transition:background .15s}.btn:hover{background:#3a4b6c}.btn:focus-visible{outline:2px solid var(--gold)}.btn.primary{background:#534479;border-color:#a38cdb}.btn.primary:hover{background:#66558e}.btn.danger{color:#ffb3bd}.btn:disabled{opacity:.45;cursor:default}.btn.small{padding:5px 9px}.mode-wrap{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}.mode-wrap label{font-size:12px;color:var(--dim)}.modebtn.active{background:#625286;border-color:#bca4f5}.board-frame{border-radius:13px;border:1px solid #4d5c76;padding:12px;background:linear-gradient(160deg,#111c2e,#0c1424);display:flex;justify-content:center;align-items:center;min-height:0;overflow:hidden}.board-outer{width:100%;max-width:660px;aspect-ratio:9/7;position:relative}canvas#board{width:100%;height:100%;display:block;cursor:crosshair;touch-action:none;user-select:none;border-radius:5px}canvas#board.dragging{cursor:grabbing}.status{border:1px solid #3c4e68;border-radius:9px;padding:10px 12px;background:#17243a;color:var(--dim);min-height:58px;line-height:1.5;font-size:12px;margin-top:12px}.status.bad{border-color:#a54a5d;color:#ffc0cb;background:#38232f}.controls-footer{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:13px}.controls-footer label{cursor:pointer;font-size:12px}.legend{display:grid;gap:7px;max-height:255px;overflow:auto;margin-bottom:10px}.legend-item{display:flex;align-items:center;gap:8px;font-size:12px;border-bottom:1px solid #334159;padding-bottom:5px}.legend-item .count{margin-left:auto;color:#a5b8d9}.section-break{border:0;border-top:1px solid var(--edge);margin:17px 0}.selection{min-height:75px}.selection strong{color:#f2ddae}.tips{padding-left:17px;margin:6px 0 0;color:var(--dim);font-size:12px}.tips li{margin-bottom:4px}.note{color:#c8bddf;line-height:1.5;background:#27233c;border:1px solid #4b436c;padding:10px;border-radius:8px;font-size:12px}.kv{display:flex;justify-content:space-between;gap:10px;margin:9px 0;color:#b4c7dc;font-size:12px}.kv b{color:white}.checks{display:flex;flex-direction:column;gap:6px}.checks label{font-size:12px;cursor:pointer}input[type=checkbox]{accent-color:#bda0fb}.file-input{display:none}.footer{max-width:1480px;padding:0 24px 30px;margin:auto;font-size:12px;color:#8696b0;line-height:1.9}.footer a{color:#d0c3ff;text-decoration:underline;text-underline-offset:3px}.footer a:hover{color:#fff}#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#283b58;border:1px solid #8b9fc2;color:white;padding:11px 17px;border-radius:9px;z-index:9;opacity:0;pointer-events:none;transition:.2s}#toast.show{opacity:1}@media(max-width:1090px){main{grid-template-columns:235px minmax(450px,1fr)}aside.right{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:15px}.right .section-break{display:none}}@media(max-width:780px){main{grid-template-columns:1fr;padding:12px}.catalog-list{height:215px;min-height:0}.board-frame{padding:6px}.right{display:block!important;grid-column:auto!important}header{padding:18px 14px 4px}.toolbar{gap:5px}.toolbar button{font-size:12px;padding:7px}h1{font-size:25px}}
 .options{margin:14px 0;padding:12px 13px;border:1px solid #495776;border-radius:9px;background:#212d46}.options summary{cursor:pointer;color:#e5d5ff;font-weight:650}.options[open] summary{margin-bottom:10px}.opt-label{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--dim);font-size:12px}#itemInset{width:100%;accent-color:#bea1f5;cursor:pointer;margin:9px 0}
 .controls-footer #copyPng{background:#4c5a80;border-color:#879ccc}
 .starting-sets{background:#212d46;border:1px solid #68719b;border-radius:12px;padding:12px 13px;margin-bottom:14px}
@@ -58,9 +69,17 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 .bag-overlap-tabs button:active{cursor:grabbing}
 @media(max-width:780px){.bag-overlap-tabs{max-width:150px;padding:4px}.bag-overlap-tabs button{max-width:138px;font-size:10px;min-height:27px}}
 </style></head><body>
-<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.48</span></header>
+<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.49</span></header>
 <main>
-<aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><label class="tiny" style="display:block;margin:0 0 6px"><input type="checkbox" id="auditOnly"> 共通アイテムの要照合だけ表示</label><select class="field" id="auditKind" aria-label="要照合の種類" style="margin-bottom:9px"><option value="all">形状または☆が未照合</option><option value="shape">形状が暫定・未照合</option><option value="stars">☆が未確認</option></select><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。Shift+Pで通常の一覧にプリーステスのアイテムを追加・解除できます。</div></aside>
+<aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><label class="tiny" style="display:block;margin:0 0 6px"><input type="checkbox" id="auditOnly"> 共通アイテムの要照合だけ表示</label><select class="field" id="auditKind" aria-label="要照合の種類" style="margin-bottom:9px"><option value="all">形状または☆が未照合</option><option value="shape">形状が暫定・未照合</option><option value="stars">☆が未確認</option></select><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><details class="catalog-filter-panel" id="catalogFilterPanel"><summary>詳細検索 · クラス／レアリティ／属性／効果／価格 <span class="active-count" id="filterActiveCount" aria-live="polite"></span></summary><div class="catalog-filter-grid">
+<label>クラス<select id="filterClass" class="field" aria-label="クラス"><option value="">すべてのクラス</option></select></label>
+<label>レアリティ<select id="filterRarity" class="field" aria-label="レアリティ"><option value="">すべてのレアリティ</option></select></label>
+<label>属性・タグ<select id="filterTag" class="field" aria-label="属性・タグ"><option value="">すべての属性</option></select></label>
+<label>バフ<select id="filterBuff" class="field" aria-label="バフ"><option value="">すべてのバフ</option></select></label>
+<label>デバフ<select id="filterDebuff" class="field" aria-label="デバフ"><option value="">すべてのデバフ</option></select></label>
+<label>ソケット<select id="filterSocket" class="field" aria-label="ソケット数"><option value="">指定なし</option><option value="0">0個</option><option value="1">1個以上</option><option value="2">2個以上</option><option value="3">3個以上</option></select></label>
+<label style="grid-column:1/-1">価格（G）<span class="catalog-price-fields"><input id="filterPriceMin" class="field" type="number" min="0" step="1" placeholder="下限" aria-label="最低価格"><span>〜</span><input id="filterPriceMax" class="field" type="number" min="0" step="1" placeholder="上限" aria-label="最高価格"></span></label>
+</div><div class="catalog-filter-footer"><span class="tiny">条件はすべて AND 検索。未設定の価格・レアリティは指定時に対象外。</span><button type="button" id="clearCatalogFilters" class="btn catalog-clear">条件をリセット</button></div></details><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。Shift+Pで通常の一覧にプリーステスのアイテムを追加・解除できます。</div></aside>
 <section class="panel center"><div class="starting-sets">
   <div class="start-caption"><strong>🧳 初期装備セット</strong><span>7クラス・全14種</span></div>
   <select id="startSet" class="field" aria-label="呼び出す初期装備セット"><option value="">クラスを選ぶと初期配置を呼び出します…</option></select>
@@ -1055,7 +1074,7 @@ async function copyDebugCoordinates(){
 }
 function setMode(v){if(mode!==v&&rangeMode)resetRange();mode=v;hovered=null;selected=null;overlapCell=null;overlapPickedBag=null;render()}
 function cycleMode(){const order=['item','bag','gem','auto'];setMode(order[(order.indexOf(mode)+1)%order.length]);toast('操作レイヤー：'+({bag:'バッグ',item:'通常アイテム',gem:'宝石',auto:'上層から操作'}[mode]));}
-function togglePriestessCatalog(){priestessOnly=!priestessOnly;$('search').value='';$('category').value='';if(priestessOnly)$('auditOnly').checked=false;$('auditOnly').disabled=priestessOnly;$('auditKind').disabled=priestessOnly;buildCatalog();toast(priestessOnly?'通常アイテム＋プリーステスを表示':'通常アイテムのみ表示');}
+function togglePriestessCatalog(){priestessOnly=!priestessOnly;if(priestessOnly)$('auditOnly').checked=false;$('auditOnly').disabled=priestessOnly;$('auditKind').disabled=priestessOnly;buildCatalog();toast(priestessOnly?'通常アイテム＋プリーステスを表示':'通常アイテムのみ表示');}
 function rangeMembers(){
  const active=new Map([...bags,...items,...gems.filter(g=>onBoardGem(g)&&!g.hostId)].filter(a=>rangeSelection.has(a.uid)).map(a=>[a.uid,a]));
  if($('moveTogether').checked)for(const b of [...active.values()].filter(a=>a.type==='bag'))for(const child of childrenOf(b))active.set(child.uid,child);
@@ -1478,14 +1497,93 @@ function applyStarterSet(id){
  $('startSetInfo').textContent=spec.className+'｜'+spec.title+'｜持ち物：'+starterSetPreview(spec)+'（ユーザー再現図に基づく原作初期配置）';
  render();toast(spec.className+'の初期配置を再現しました');return true;
 }
-function activeCatalogDefs(){return (priestessOnly?definitions:definitions.filter(p=>!p.id.startsWith('priest-')))}
-function buildCatalog(){const cat=$('category'),old=cat.value;cat.replaceChildren(new Option('すべてのカテゴリ',''));const cats=[...new Set(activeCatalogDefs().flatMap(p=>[p.category||'その他',...(Array.isArray(p.categories)?p.categories:[])]))].sort((a,b)=>a.localeCompare(b,'ja'));cats.forEach(v=>cat.append(new Option(v,v)));cat.value=cats.includes(old)?old:'';filterCatalog()}
+function activeCatalogDefs(){return priestessOnly?definitions:definitions.filter(p=>!p.id.startsWith('priest-'))}
+function resetCatalogSelect(id,label,values){
+ const el=$(id),old=el.value;
+ el.replaceChildren(new Option(label,''));
+ const all=[...new Set(values.filter(x=>typeof x==='string'&&x.trim()))].sort((a,b)=>a.localeCompare(b,'ja'));
+ for(const value of all)el.append(new Option(value,value));
+ el.value=all.includes(old)?old:'';
+}
+function buildCatalog(){
+ const available=activeCatalogDefs();
+ resetCatalogSelect('category','すべてのカテゴリ',available.flatMap(p=>[p.category||'その他',...(Array.isArray(p.categories)?p.categories:[])]));
+ resetCatalogSelect('filterClass','すべてのクラス',available.map(p=>p.className));
+ resetCatalogSelect('filterRarity','すべてのレアリティ',available.map(p=>p.rarity));
+ resetCatalogSelect('filterTag','すべての属性',available.flatMap(p=>p.tags||[]));
+ resetCatalogSelect('filterBuff','すべてのバフ',available.flatMap(p=>p.buffs||[]));
+ resetCatalogSelect('filterDebuff','すべてのデバフ',available.flatMap(p=>p.debuffs||[]));
+ filterCatalog();
+}
 function needsShapeAudit(p){const v=p.verified||'';const withoutStars=v.replace(/☆[^／]*|星[^／]*|ソケット[^／]*/g,'');return !!p.pending||/仮形状|暫定|形状未|形状は未|未照合|実機照合待ち|実機要照合|未確認|未確定/.test(withoutStars)}
-function filterCatalog(){let search=$('search').value.trim().normalize('NFKC').toLocaleLowerCase(),cat=$('category').value,available=activeCatalogDefs(),filtered=available.filter(p=>(!$('auditOnly').checked||(p.id.startsWith('common-')&&( $('auditKind').value==='stars'?p.stars===null:$('auditKind').value==='shape'?needsShapeAudit(p):needsShapeAudit(p)||p.stars===null)))&&(!cat||p.category===cat||(Array.isArray(p.categories)&&p.categories.includes(cat)))&&(!search||(p.name+(p.oldName||'')+(p.alias||'')+(p.oldAlias||'')+(p.bagGroup||'')).normalize('NFKC').toLocaleLowerCase().includes(search))).sort(sorted);$('catalogCount').textContent=`${filtered.length} / ${available.length} プリセットを表示${priestessOnly?'（プリーステス追加中）':''}`;let listEl=$('catalog');listEl.replaceChildren();let frag=document.createDocumentFragment();for(const p of filtered){const unavailable=!!p.pending||!Array.isArray(p.shape)||p.shape.length===0;let btn=document.createElement('button');btn.type='button';btn.className='preset';if(unavailable){btn.disabled=true;btn.classList.add('pending')}btn.title=(p.note||'')+'\n'+(p.verified||'');let sw=document.createElement('span');sw.className='swatch';sw.style.background=unavailable?'#777d90':colorFor(p);let body=document.createElement('span');body.style.flex='1';let name=document.createElement('strong');name.textContent=p.name;let txt=document.createElement('small');if(unavailable)txt.textContent=p.pending?`${p.bagGroup||'バッグ'} · ${p.outerSize?'外接'+p.outerSize.join('×')+' · ':''}${p.pendingReason||'形状調査中'} · 配置不可`:`${p.category||'アイテム'} · 形状未確認 · 配置不可`;else{let g=geom(p,0);txt.textContent=`${p.type==='bag'?(p.bagGroup||'バッグ'):p.category||'アイテム'} · ${g.width}×${g.height} · ${p.stars===null?'☆未確認':p.stars.length?'☆'+p.stars.length:'☆なし'}`;}body.append(name,txt);let plus=document.createElement('span');plus.className='plus';plus.textContent=unavailable?'🔒':'+';btn.append(sw,body,plus);if(!unavailable)btn.addEventListener('click',()=>addPreset(p.id));frag.append(btn)}listEl.append(frag);if(!filtered.length){let msg=document.createElement('div');msg.className='tiny';msg.textContent='条件に一致するプリセットがありません。検索語や絞り込みを変更してください。';listEl.append(msg)}}
+function catalogQueryTokens(value){return value.normalize('NFKC').trim().toLocaleLowerCase().split(/\s+/).filter(Boolean)}
+function catalogFilterValues(){
+ const price=parse=>parse===''?null:Number(parse);
+ return{tokens:catalogQueryTokens($('search').value),category:$('category').value,
+  className:$('filterClass').value,rarity:$('filterRarity').value,
+  tag:$('filterTag').value,buff:$('filterBuff').value,debuff:$('filterDebuff').value,
+  socket:$('filterSocket').value===''?null:Number($('filterSocket').value),
+  minPrice:price($('filterPriceMin').value),maxPrice:price($('filterPriceMax').value),
+  audit:$('auditOnly').checked,auditKind:$('auditKind').value};
+}
+function catalogMatches(p,f){
+ if(f.audit&&!(p.id.startsWith('common-')&&(f.auditKind==='stars'?p.stars===null:f.auditKind==='shape'?needsShapeAudit(p):needsShapeAudit(p)||p.stars===null)))return false;
+ if(f.category&&p.category!==f.category&&!(Array.isArray(p.categories)&&p.categories.includes(f.category)))return false;
+ if(f.className&&p.className!==f.className)return false;
+ if(f.rarity&&p.rarity!==f.rarity)return false;
+ if(f.tag&&!(p.tags||[]).includes(f.tag))return false;
+ if(f.buff&&!(p.buffs||[]).includes(f.buff))return false;
+ if(f.debuff&&!(p.debuffs||[]).includes(f.debuff))return false;
+ if(f.socket!==null&&!(Number.isInteger(p.socketCount)&&p.socketCount>=f.socket))return false;
+ if(f.minPrice!==null||f.maxPrice!==null){
+  if(!Number.isFinite(p.price)||p.price<0)return false;
+  if(f.minPrice!==null&&p.price<f.minPrice)return false;
+  if(f.maxPrice!==null&&p.price>f.maxPrice)return false;
+ }
+ if(f.tokens.length){
+  const haystack=[p.name,p.oldName,p.alias,p.oldAlias,p.bagGroup,p.className,p.category,
+   ...(p.categories||[]),...(p.tags||[]),...(p.buffs||[]),...(p.debuffs||[])]
+   .filter(x=>typeof x==='string').join(' ').normalize('NFKC').toLocaleLowerCase();
+  if(!f.tokens.every(token=>haystack.includes(token)))return false;
+ }
+ return true;
+}
+function clearCatalogFilters(){
+ for(const id of ['search','category','filterClass','filterRarity','filterTag','filterBuff','filterDebuff','filterSocket','filterPriceMin','filterPriceMax'])$(id).value='';
+ $('auditOnly').checked=false;$('auditKind').value='all';
+ filterCatalog();
+}
+function filterCatalog(){
+ const available=activeCatalogDefs(),filters=catalogFilterValues();
+ const activeCount=['className','rarity','tag','buff','debuff'].filter(k=>!!filters[k]).length
+  +Number(filters.socket!==null)+Number(filters.minPrice!==null)+Number(filters.maxPrice!==null);
+ $('filterActiveCount').textContent=activeCount?activeCount+'条件':'';
+ const filtered=available.filter(p=>catalogMatches(p,filters)).sort(sorted);
+ $('catalogCount').textContent=`${filtered.length} / ${available.length} プリセットを表示${priestessOnly?'（プリーステス追加中）':''}`;
+ let listEl=$('catalog');listEl.replaceChildren();let frag=document.createDocumentFragment();
+ for(const p of filtered){
+  const unavailable=!!p.pending||!Array.isArray(p.shape)||p.shape.length===0;
+  let btn=document.createElement('button');btn.type='button';btn.className='preset';
+  if(unavailable){btn.disabled=true;btn.classList.add('pending')}
+  btn.title=(p.note||'')+'\n'+(p.verified||'');
+  let sw=document.createElement('span');sw.className='swatch';sw.style.background=unavailable?'#777d90':colorFor(p);
+  let body=document.createElement('span');body.style.flex='1';let name=document.createElement('strong');name.textContent=p.name;
+  let txt=document.createElement('small');
+  if(unavailable)txt.textContent=p.pending?`${p.bagGroup||'バッグ'} · ${p.outerSize?'外接'+p.outerSize.join('×')+' · ':''}${p.pendingReason||'形状調査中'} · 配置不可`:`${p.category||'アイテム'} · 形状未確認 · 配置不可`;
+  else{let g=geom(p,0);txt.textContent=`${p.type==='bag'?(p.bagGroup||'バッグ'):p.category||'アイテム'} · ${g.width}×${g.height} · ${p.stars===null?'☆未確認':p.stars.length?'☆'+p.stars.length:'☆なし'}`}
+  body.append(name,txt);let plus=document.createElement('span');plus.className='plus';plus.textContent=unavailable?'🔒':'+';
+  btn.append(sw,body,plus);if(!unavailable)btn.addEventListener('click',()=>addPreset(p.id));frag.append(btn);
+ }
+ listEl.append(frag);
+ if(!filtered.length){let msg=document.createElement('div');msg.className='tiny';msg.textContent='条件に一致するプリセットがありません。検索語や絞り込みを変更してください。';listEl.append(msg)}
+}
 function toast(s){let el=$('toast');el.textContent=s;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),1900)}
 function reset(){if((list().length||stash.length||debugMarks.length)&&!confirm('バッグ・アイテム・宝石・保管箱・説明マーカーをすべて消去しますか？（Ctrl+Zで元に戻せます）'))return;record();bags=[];items=[];stash=[];gems=[];debugMarks=[];selected=null;resetRange();render()}
 document.querySelectorAll('.modebtn').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
 $('auditOnly').addEventListener('change',filterCatalog);$('auditKind').addEventListener('change',filterCatalog);$('search').addEventListener('input',filterCatalog);$('category').addEventListener('change',filterCatalog);
+for(const id of ['filterClass','filterRarity','filterTag','filterBuff','filterDebuff','filterSocket'])$(id).addEventListener('change',filterCatalog);
+for(const id of ['filterPriceMin','filterPriceMax'])$(id).addEventListener('input',filterCatalog);
+$('clearCatalogFilters').addEventListener('click',clearCatalogFilters);
 $('startSet').addEventListener('change',e=>{if(!applyStarterSet(e.target.value))e.target.value=''});
 document.querySelectorAll('.debug-marker-btn').forEach(b=>b.addEventListener('click',()=>setDebugSymbol(b.dataset.symbol)));
 $('debugClear').addEventListener('click',clearDebugMarks);$('debugCopyCoords').addEventListener('click',copyDebugCoordinates);$('debugClose').addEventListener('click',()=>setDebugMode(false));$('debugPng').addEventListener('change',render);
