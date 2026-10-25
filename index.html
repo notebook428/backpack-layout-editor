@@ -902,8 +902,8 @@ function renderStash(){
  if(!stash.length&&!gems.some(g=>g.stored)){const hint=document.createElement('span');hint.className='stash-empty';hint.textContent='保管中のものはありません。盤面からドラッグするか「保管する」を押してね。';root.append(hint);return;}
  for(const a of stash.filter(x=>!x.storedWithBag)){let p=getP(a),g=shape(a);let row=document.createElement('div');row.className='stash-item';let stripe=document.createElement('span');stripe.className='stash-icon';stripe.style.background=a.color||colorFor(p);
  let textEl=document.createElement('div');textEl.className='stash-item-text';let name=document.createElement('strong');name.textContent=p.name;let details=document.createElement('small');details.textContent=`${g.width}×${g.height} · ${a.rot*90}°`;const attached=gems.filter(q=>q.hostId===a.uid);if(attached.length)details.textContent+=' · 💎'+attached.length+'個装着';
-  if(a.type==='bag'){const contents=stash.filter(x=>x.storedWithBag===a.uid);details.textContent+=' · 中身'+contents.length+'個';if(contents.length){const names=document.createElement('small');names.textContent=contents.map(x=>getP(x).name).join('・');textEl.append(names)}}
   textEl.append(name,details);
+  if(a.type==='bag'){const contents=stash.filter(x=>x.storedWithBag===a.uid);details.textContent+=' · 中身'+contents.length+'個';if(contents.length){const names=document.createElement('small');names.textContent=contents.map(x=>getP(x).name).join('・');textEl.append(names)}}
  let actions=document.createElement('div');actions.className='stash-actions';
  for(const [label,tip,fn] of [['戻す','盤面へ戻す',()=>returnFromStash(a.uid)],['↻','保管中に90°回転（中身入りバッグは盤面で回転）',()=>rotateInStash(a.uid)],['×','保管中のものを削除（バッグの中身は保管したまま）',()=>deleteFromStash(a.uid)]]){let btn=document.createElement('button');btn.type='button';btn.className='btn small';btn.textContent=label;btn.title=tip;btn.addEventListener('click',fn);actions.append(btn)}
  row.append(stripe,textEl,actions);root.append(row)
