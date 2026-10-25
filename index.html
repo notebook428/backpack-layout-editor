@@ -49,14 +49,14 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 .debug-tools #debugCount{color:#f1d49f;font-size:12px}
 #board.debug-active{cursor:crosshair;outline:2px solid #a88acb;outline-offset:1px}
 </style></head><body>
-<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.43</span></header>
+<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.44</span></header>
 <main>
 <aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><label class="tiny" style="display:block;margin:0 0 6px"><input type="checkbox" id="auditOnly"> 共通アイテムの要照合だけ表示</label><select class="field" id="auditKind" aria-label="要照合の種類" style="margin-bottom:9px"><option value="all">形状または☆が未照合</option><option value="shape">形状が暫定・未照合</option><option value="stars">☆が未確認</option></select><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。Shift+Pで通常の一覧にプリーステスのアイテムを追加・解除できます。</div></aside>
 <section class="panel center"><div class="starting-sets">
   <div class="start-caption"><strong>🧳 初期装備セット</strong><span>7クラス・全14種</span></div>
   <select id="startSet" class="field" aria-label="呼び出す初期装備セット"><option value="">クラスを選ぶと初期配置を呼び出します…</option></select>
   <div class="tiny" id="startSetInfo">初期配置14セットを再現します。現在の配置がある場合は上書きを確認します。</div>
-</div><div class="toolbar"><button class="btn danger" id="new" title="バッグ・アイテム・宝石・保管中のアイテムをすべて消去">全消去</button><button class="btn" id="undo" title="Ctrl+Z">↶ 戻す</button><button class="btn" id="redo" title="Ctrl+Y">↷ やり直す</button><button class="btn" id="rotate" title="R キー">⟳ 回転</button><button class="btn danger" id="delete" title="D / Delete キー">削除</button><button class="btn" id="storeSelected" title="Bキーで選択中のアイテムを保管">▣ 保管する</button><button class="btn" id="storeAll" title="盤面上の通常アイテムと宝石をまとめて保管。バッグは残ります">▣ 全部保管</button><button class="btn" id="rangeSelect" title="Shift+Sでも切替可能。盤面をドラッグして範囲指定">▧ 範囲選択</button></div><div class="tiny range-hint" id="rangeHint" aria-live="polite">範囲選択：ボタンまたはShift+S → ドラッグで囲む → ドラッグで移動／Rで一括回転</div>
+</div><div class="toolbar"><button class="btn danger" id="new" title="バッグ・アイテム・宝石・保管中のアイテムをすべて消去">全消去</button><button class="btn" id="undo" title="Ctrl+Z">↶ 戻す</button><button class="btn" id="redo" title="Ctrl+Y">↷ やり直す</button><button class="btn" id="rotate" title="R キー">⟳ 回転</button><button class="btn danger" id="delete" title="D / Delete キー">削除</button><button class="btn" id="storeSelected" title="Bキーで選択中のバッグ・アイテム・宝石を保管">▣ 保管する</button><button class="btn" id="storeAll" title="盤面上の通常アイテムと宝石をまとめて保管。バッグは残ります">▣ 全部保管</button><button class="btn" id="rangeSelect" title="Shift+Sでも切替可能。盤面をドラッグして範囲指定">▧ 範囲選択</button></div><div class="tiny range-hint" id="rangeHint" aria-live="polite">範囲選択：ボタンまたはShift+S → ドラッグで囲む → ドラッグで移動／Rで一括回転</div>
 <div class="mode-wrap"><label>選択レイヤー</label><button class="btn small modebtn" data-mode="item">通常アイテム</button><button class="btn small modebtn" data-mode="bag">バッグ</button><button class="btn small modebtn" data-mode="gem">💎 宝石</button><button class="btn small modebtn active" data-mode="auto" title="表示が上にある対象を優先して選択（宝石→通常アイテム→バッグ）">上層から操作</button><span class="tiny">Ctrl単独：レイヤー切替（上層から操作→通常アイテム→バッグ→宝石） · 右クリック/R：回転 · D：削除 · Shift+P：プリーステス一覧</span><label class="move-together"><input id="moveTogether" type="checkbox" checked> バッグを中身ごと動かす</label></div>
 <div class="debug-tools" id="debugTools" hidden aria-label="開発用の説明マーカー">
   <strong>✎ 説明用マーカー</strong><span class="hint">盤面のマスをクリックして置く／同じ記号を押し直して消す</span>
@@ -74,7 +74,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
   <span class="hint">Shift+Dで閉じる。通常アイテムの移動は一時停止。JSON保存・Undo対応。</span>
 </div>
 <div class="board-frame"><div class="board-outer"><div class="axis-y" aria-label="Y座標の目盛り（下から1〜7）"><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div><canvas id="board" width="720" height="560" tabindex="0" aria-label="9列7行のバッグ配置盤面。左下のマスは1,1で、右方向にX、上方向にYが増えます"></canvas><div class="axis-corner" aria-hidden="true">↗</div><div class="axis-x" aria-label="X座標の目盛り（左から1〜9）"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></div></div></div><div class="coord-readout"><span>左下のマス：(1, 1) ・ X → / Y ↑</span><strong id="cursorCoord" aria-live="polite">カーソル：(－, －)</strong></div><div class="status" id="status" aria-live="polite"></div>
-<div class="stash" id="stashZone"><div class="stash-header"><h3>▣ 保管ボックス <span id="stashCount">0個</span></h3><span>アイテム・宝石を盤面外へドラッグして離すと保管（バッグは対象外）</span></div><div class="stash-items" id="stashItems" aria-live="polite"></div></div>
+<div class="stash" id="stashZone"><div class="stash-header"><h3>▣ 保管ボックス <span id="stashCount">0個</span></h3><span>バッグ・アイテム・宝石を盤面外へドラッグすると保管。バッグの中身は一緒に保管します</span></div><div class="stash-items" id="stashItems" aria-live="polite"></div></div>
 <div class="controls-footer"><button class="btn" id="save">JSON 保存</button><button class="btn" id="load">JSON 読み込み</button><input class="file-input" type="file" id="file" accept="application/json,.json"><button class="btn primary" id="copyPng" title="配置図と凡例を画像としてコピー">画像をコピー</button><button class="btn" id="png">PNG 書き出し</button><label><input id="pngStars" type="checkbox" checked> 画像に☆・◆・◇・△を含める</label></div></section>
 <aside class="panel right"><div><h2>色別凡例</h2><div class="tiny">同じアイテムは同じ色。個数は配置数。</div><div class="legend" id="legend" aria-live="polite"></div><div class="tiny" style="margin:13px 0 6px;color:#f1d49f">配置バッグ</div><div class="legend" id="bagLegend" aria-live="polite" style="max-height:130px"></div><div class="kv"><span>バッグ開放マス</span><b id="coverage">0 / 63</b></div><div class="kv"><span>通常アイテム</span><b id="itemCount">0</b></div><div class="kv"><span>宝石</span><b id="gemCount">0</b></div><div class="tiny" style="color:#f1d49f;margin-top:10px">💎 宝石凡例</div><div class="legend" id="gemLegend" style="max-height:110px"></div></div><div><hr class="section-break"><h2>選択中</h2><div id="selection" class="selection tiny">盤面のアイテムをクリックして選択。</div><hr class="section-break"><h2>操作のヒント</h2><ul class="tips"><li>「初期装備セット」で各クラスの初期バッグと初期アイテムを対応する位置・向きで一括配置できます。</li><li>アイテムをドラッグして移動。☆はホバーと移動中だけ見えます。</li><li>バッグの移動は「バッグ」レイヤーへ切替。「中身ごと」ONでアイテムも追従します。</li><li>宝石を装着するには💎宝石レイヤーで宝石を武器・防具のマスへドラッグ。取り外しも同じレイヤーから。</li><li>バッグをまたぐアイテムは通常アイテムレイヤーで選び、右の「選択中」から追従先を指定できます。</li><li><b>R</b> 回転、<b>Delete</b> 削除、<b>B</b> 保管、<b>Ctrl+Z</b> 戻す。</li><li>「保管する」で選択した通常アイテムを退避。保管ボックスの「戻す」で空き場所に再配置。</li><li>赤枠は重複かバッグ外。赤枠でも編集・JSON保存できます。</li><li>座標は左下のマスを (1,1) として表示します。右へX、上へYが増えます。</li></ul><details class="options"><summary>⚙ 表示オプション</summary><label class="opt-label" for="itemInset">アイテムとバッグのすき間 <b id="insetValue">12 px</b></label><input id="itemInset" type="range" min="6" max="18" step="1" value="12"><div class="tiny">数値を大きくすると、背景のバッグがよく見えます。設定はこのブラウザに保存します。</div></details><div class="note" style="margin-top:12px">原作初期装備は7クラス×2パターン、計14セットの配置位置と向きをユーザー作成の再現図に合わせて収録。初期位置は自動配置ではありません。原作アイテムの☆等、未確認情報は引き続き要照合です。今回調査した原作バッグ19種類はゲーム画面で形状を確認済み。びっくりサックは配置対象から除外しました。検証用テトロミノも引き続き使えます。v0.8では宝石の表示サイズを小さくしています。宝石とバッグ内の通常アイテムは別レイヤーです。原作アイテム名は日本語Wikiと照合したものから順次改訂。未照合の名称・☆・形状には現行版との差があり得ます。 一部の原作プリセットは☆座標の調査中。<b>☆未確認</b>と書かれたものは、☆が無いという意味ではありません。</div></div></aside>
 </main><div class="footer">本ツールはファン制作の非公式エディタです。ゲーム本編や制作者とは無関係です。配置データはブラウザ内で処理され、運営者の独自サーバーには送信されません。<a href="item-registration.html">アイテム登録アシスタント</a> · <a href="info.html#terms">利用規約</a> · <a href="info.html#disclaimer">免責事項</a> · <a href="info.html#privacy">プライバシー</a> · <a href="info.html#changes">更新履歴</a> · <a href="info.html#guide">使い方</a></div><div id="toast" role="status"></div>
@@ -895,18 +895,61 @@ function render(){renderBoard(ctx);if(debugMode)$('debugCount').textContent=debu
  $('rangeSelect').classList.toggle('range-active',rangeMode);
  $('rangeSelect').setAttribute('aria-pressed',String(rangeMode));
  $('rangeHint').textContent=rangeMode?(rangeSelection.size?'選択中：'+rangeMembers().length+'個。選択したものをドラッグで移動／Rで一括回転。':'範囲選択中：現在の操作レイヤー（'+({bag:'バッグ',item:'通常アイテム',gem:'宝石',auto:'上層から操作'}[mode]||mode)+'）をドラッグで囲んでね。'):'範囲選択：ボタンまたはShift+S → ドラッグで囲む → ドラッグで移動／Rで一括回転';
- $('undo').disabled=!undoStack.length;$('redo').disabled=!redoStack.length;document.querySelectorAll('.modebtn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));$('delete').disabled=!found;$('rotate').disabled=!found&&!rangeSelection.size;$('storeSelected').disabled=!(found&&found.type==='item'||found&&found.type==='gem'&&!found.hostId);$('storeAll').disabled=!items.length&&!gems.some(g=>!g.stored&&!g.hostId);renderStash();
+ $('undo').disabled=!undoStack.length;$('redo').disabled=!redoStack.length;document.querySelectorAll('.modebtn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));$('delete').disabled=!found;$('rotate').disabled=!found&&!rangeSelection.size;$('storeSelected').disabled=!(found&&['bag','item'].includes(found.type)||found&&found.type==='gem'&&!found.hostId);$('storeAll').disabled=!items.length&&!gems.some(g=>!g.stored&&!g.hostId);renderStash();
 }
 function renderStash(){
  const root=$('stashItems');root.replaceChildren();$('stashCount').textContent=(stash.length+gems.filter(g=>g.stored&&!g.hostId).length)+'個';
- if(!stash.length&&!gems.some(g=>g.stored)){const hint=document.createElement('span');hint.className='stash-empty';hint.textContent='保管中のアイテムはありません。盤面のアイテムを選択して「保管する」を押してね。';root.append(hint);return;}
- for(const a of stash){let p=getP(a),g=shape(a);let row=document.createElement('div');row.className='stash-item';let stripe=document.createElement('span');stripe.className='stash-icon';stripe.style.background=a.color||colorFor(p);
- let textEl=document.createElement('div');textEl.className='stash-item-text';let name=document.createElement('strong');name.textContent=p.name;let details=document.createElement('small');details.textContent=`${g.width}×${g.height} · ${a.rot*90}°`;const attached=gems.filter(q=>q.hostId===a.uid);if(attached.length)details.textContent+=' · 💎'+attached.length+'個装着';textEl.append(name,details);
+ if(!stash.length&&!gems.some(g=>g.stored)){const hint=document.createElement('span');hint.className='stash-empty';hint.textContent='保管中のものはありません。盤面からドラッグするか「保管する」を押してね。';root.append(hint);return;}
+ for(const a of stash.filter(x=>!x.storedWithBag)){let p=getP(a),g=shape(a);let row=document.createElement('div');row.className='stash-item';let stripe=document.createElement('span');stripe.className='stash-icon';stripe.style.background=a.color||colorFor(p);
+ let textEl=document.createElement('div');textEl.className='stash-item-text';let name=document.createElement('strong');name.textContent=p.name;let details=document.createElement('small');details.textContent=`${g.width}×${g.height} · ${a.rot*90}°`;const attached=gems.filter(q=>q.hostId===a.uid);if(attached.length)details.textContent+=' · 💎'+attached.length+'個装着';
+  textEl.append(name,details);
+  if(a.type==='bag'){const contents=stash.filter(x=>x.storedWithBag===a.uid);details.textContent+=' · 中身'+contents.length+'個';if(contents.length){const names=document.createElement('small');names.textContent=contents.map(x=>getP(x).name).join('・');textEl.append(names)}}
  let actions=document.createElement('div');actions.className='stash-actions';
- for(const [label,tip,fn] of [['戻す','盤面へ戻す',()=>returnFromStash(a.uid)],['↻','保管中に90°回転',()=>rotateInStash(a.uid)],['×','保管中のアイテムを削除',()=>deleteFromStash(a.uid)]]){let btn=document.createElement('button');btn.type='button';btn.className='btn small';btn.textContent=label;btn.title=tip;btn.addEventListener('click',fn);actions.append(btn)}
+ for(const [label,tip,fn] of [['戻す','盤面へ戻す',()=>returnFromStash(a.uid)],['↻','保管中に90°回転（中身入りバッグは盤面で回転）',()=>rotateInStash(a.uid)],['×','保管中のものを削除（バッグの中身は保管したまま）',()=>deleteFromStash(a.uid)]]){let btn=document.createElement('button');btn.type='button';btn.className='btn small';btn.textContent=label;btn.title=tip;btn.addEventListener('click',fn);actions.append(btn)}
  row.append(stripe,textEl,actions);root.append(row)
  }
  for(const gem of gems.filter(g=>g.stored&&!g.hostId)){const card=document.createElement('div');card.className='stash-item';const label=document.createElement('div');label.className='stash-item-text';label.textContent='💎 '+getP(gem).name;const back=document.createElement('button');back.className='btn small';back.textContent='戻す';back.addEventListener('click',()=>{record();gem.stored=false;let spot=findSpot(getP(gem));gem.x=spot.x;gem.y=spot.y;render()});card.append(label,back);root.append(card)}
+}
+// Store a bag and its linked contents as one reversible bundle.
+function stashBag(b,{bundleIds=null,recordChange=true}={}){
+ if(!bags.some(x=>x.uid===b.uid))return false;
+ const childIds=new Set(bundleIds??childrenOf(b).map(x=>x.uid));
+ const children=items.filter(x=>childIds.has(x.uid));
+ if(recordChange)record();
+ bags=bags.filter(x=>x.uid!==b.uid);
+ items=items.filter(x=>!childIds.has(x.uid));
+ stash.push(b);
+ for(const a of children){a.storedWithBag=b.uid;stash.push(a)}
+ selected=null;hovered=null;resetRange();render();
+ toast('バッグを中身'+children.length+'個と一緒に保管しました');
+ return true;
+}
+// Restore an entire bundle without dropping items outside the returned bag or
+// colliding with items already on the board. Prefer its saved coordinates.
+function bagReturnSpot(b,contents){
+ const g=shape(b),existingBags=bagUnion();
+ const occupied=new Set(items.flatMap(a=>absCells(a).map(([x,y])=>y*W+x)));
+ let best=null;
+ for(let y=0;y<=H-g.height;y++)for(let x=0;x<=W-g.width;x++){
+  const dx=x-b.x,dy=y-b.y;
+  const bagCells=new Set(g.body.map(([u,v])=>(y+v)*W+(x+u)));
+  const coverage=new Set([...existingBags,...bagCells]),used=new Set();
+  let valid=true;
+  for(const a of contents){
+   for(const [u,v] of absCells(a)){
+    const cx=u+dx,cy=v+dy,key=cy*W+cx;
+    if(!inBoard(cx,cy)||!coverage.has(key)||occupied.has(key)||used.has(key)){valid=false;break}
+    used.add(key);
+   }
+   if(!valid)break;
+  }
+  if(!valid)continue;
+  const distance=Math.abs(dx)+Math.abs(dy);
+  const bagOverlap=[...bagCells].filter(k=>existingBags.has(k)).length;
+  const score=distance*100+bagOverlap;
+  if(!best||score<best.score)best={x,y,score};
+ }
+ return best;
 }
 function stashAll(){
  const loose=gems.filter(g=>!g.stored&&!g.hostId);
@@ -916,10 +959,23 @@ function stashAll(){
  for(const g of gems){if(g.hostId&&stash.some(a=>a.uid===g.hostId))g.stored=false;else if(!g.hostId)g.stored=true}
  rangeSelection.clear();selected=null;hovered=null;render();toast('アイテムをまとめて保管しました');
 }
-function stashSelected(){let a=items.find(x=>x.uid===selected),gem=gems.find(x=>x.uid===selected);if(!a&&!gem)return;if(gem&&gem.hostId){toast('装着中の宝石は先に外してね');return}record();if(a){items=items.filter(x=>x.uid!==a.uid);stash.push(a)}else{gem.stored=true}selected=null;hovered=null;render();toast('保管ボックスへ移動しました')}
-function returnFromStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;let p=getP(a);let spot=findSpot(p,a.rot);record();stash=stash.filter(x=>x.uid!==id);a.x=spot.x;a.y=spot.y;items.push(a);if(mode!=='auto')mode='item';selected=id;render();toast(p.name+' を盤面に戻しました')}
-function rotateInStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;record();a.rot=(a.rot+1)%4;render()}
-function deleteFromStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;record();for(const gem of gems.filter(q=>q.hostId===id)){gem.hostId=null;gem.slot=null;gem.stored=true}stash=stash.filter(x=>x.uid!==id);render()}
+function stashSelected(){const bag=bags.find(x=>x.uid===selected);if(bag){stashBag(bag);return}let a=items.find(x=>x.uid===selected),gem=gems.find(x=>x.uid===selected);if(!a&&!gem)return;if(gem&&gem.hostId){toast('装着中の宝石は先に外してね');return}record();if(a){items=items.filter(x=>x.uid!==a.uid);stash.push(a)}else{gem.stored=true}selected=null;hovered=null;render();toast('保管ボックスへ移動しました')}
+function returnFromStash(id){
+ const a=stash.find(x=>x.uid===id);if(!a)return;
+ if(a.type==='bag'){
+  const contents=stash.filter(x=>x.storedWithBag===id);
+  const spot=bagReturnSpot(a,contents);
+  if(!spot){toast('中身を含む配置スペースがありません。空きを作ってから戻してね');return}
+  record();const dx=spot.x-a.x,dy=spot.y-a.y,ids=new Set([id,...contents.map(x=>x.uid)]);
+  stash=stash.filter(x=>!ids.has(x.uid));
+  a.x=spot.x;a.y=spot.y;bags.push(a);
+  for(const child of contents){child.x+=dx;child.y+=dy;delete child.storedWithBag;items.push(child)}
+  if(mode!=='auto')mode='bag';selected=id;render();toast(getP(a).name+' と中身'+contents.length+'個を戻しました');return;
+ }
+ const p=getP(a),spot=findSpot(p,a.rot);record();stash=stash.filter(x=>x.uid!==id);a.x=spot.x;a.y=spot.y;delete a.storedWithBag;items.push(a);if(mode!=='auto')mode='item';selected=id;render();toast(p.name+' を盤面に戻しました');
+}
+function rotateInStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;if(a.type==='bag'&&stash.some(x=>x.storedWithBag===id)){toast('中身入りバッグは盤面に戻してから回転してね');return}record();a.rot=(a.rot+1)%4;render()}
+function deleteFromStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;record();for(const gem of gems.filter(q=>q.hostId===id)){gem.hostId=null;gem.slot=null;gem.stored=true}if(a.type==='bag')for(const child of stash.filter(q=>q.storedWithBag===id)){delete child.storedWithBag;if(child.linkBag===id)child.linkBag=null}stash=stash.filter(x=>x.uid!==id);render()}
 const DEBUG_SYMBOLS=['☆','□','△','◇','◆','▲'];
 function setDebugMode(next){
   debugMode=!!next;if(debugMode&&rangeMode)toggleRangeMode(false);const panel=$('debugTools');panel.hidden=!debugMode;
@@ -1103,7 +1159,7 @@ canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;canvas.focus();
    }
    selected=null;hovered=null;canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging');render();return;
  }
- let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,startClientX:e.clientX,startClientY:e.clientY,moved:false,members:a.type==='bag'?groupMembers(a):null};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
+ let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,startClientX:e.clientX,startClientY:e.clientY,moved:false,members:a.type==='bag'?groupMembers(a):null,bundleIds:a.type==='bag'?childrenOf(a).map(x=>x.uid):null};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
 canvas.addEventListener('pointermove',e=>{if((drag&&drag.pointer!==e.pointerId)||(rangeDrag&&rangeDrag.pointer!==e.pointerId))return;let c=cellFromEvent(e);showCursorCoord(c);if(debugMode)return;
  if(rangeDrag){
    if(rangeDrag.kind==='select'){rangeDrag.end={x:Math.max(0,Math.min(W-1,c.x)),y:Math.max(0,Math.min(H-1,c.y))}}
@@ -1114,7 +1170,7 @@ canvas.addEventListener('pointermove',e=>{if((drag&&drag.pointer!==e.pointerId)|
    }
    render();return;
  }
- if(drag){let a=list().find(x=>x.uid===drag.id);$('stashZone').classList.toggle('drop-target',!!a&&(a.type==='item'||a.type==='gem')&&isOutsideBoard(e));if(a&&inBoard(c.x,c.y)){
+ if(drag){let a=list().find(x=>x.uid===drag.id);$('stashZone').classList.toggle('drop-target',!!a&&(a.type==='item'||a.type==='gem'||a.type==='bag')&&isOutsideBoard(e));if(a&&inBoard(c.x,c.y)){
  if(a.type==='bag') {const dx=c.x-drag.lastx,dy=c.y-drag.lasty;if(dx||dy){moveBagGroup(a,dx,dy,drag.members);drag.moved=true}}
  else if(a.type==='gem'){if(c.x!==drag.lastx||c.y!==drag.lasty){a.hostId=null;a.slot=null;a.stored=false;Object.assign(a,clampPos(a,c.x,c.y));drag.moved=true}}
  else{let pos=clampPos(a,c.x-drag.offx,c.y-drag.offy);if(pos.x!==a.x||pos.y!==a.y){a.x=pos.x;a.y=pos.y;drag.moved=true}}
@@ -1130,8 +1186,9 @@ function endDrag(e){
    render();return;
  }
  if(!drag)return;canvas.classList.remove('dragging');const a=list().find(x=>x.uid===drag.id);const validDrop=e?.type==='pointerup'&&Math.hypot(e.clientX-drag.startClientX,e.clientY-drag.startClientY)>=12;
- if(a&&validDrop&&isOutsideBoard(e)&&(a.type==='item'||a.type==='gem')){
-   if(a.type==='item'){items=items.filter(x=>x.uid!==a.uid);stash.push(a);toast('アイテムを宝石ごと保管しました')}
+ if(a&&validDrop&&isOutsideBoard(e)&&(a.type==='item'||a.type==='gem'||a.type==='bag')){
+   if(a.type==='bag'){stashBag(a,{bundleIds:drag.bundleIds,recordChange:false})}
+    else if(a.type==='item'){items=items.filter(x=>x.uid!==a.uid);stash.push(a);toast('アイテムを宝石ごと保管しました')}
    else{a.hostId=null;a.slot=null;a.stored=true;toast('宝石を保管ボックスへ移動しました')}
    selected=null;hovered=null;
  }else if(a&&drag.moved&&a.type==='gem'&&e?.type==='pointerup'){const c=cellFromEvent(e);if(inBoard(c.x,c.y)){const hosts=items.filter(canSocket).filter(q=>absCells(q).some(([x,y])=>x===c.x&&y===c.y));const host=hosts.at(-1);if(host&&!attachGem(a,host,c.x,c.y))toast('装着できません。ソケットの空きと位置を確認してね');}}
@@ -1170,8 +1227,10 @@ function validateDef(p){return !!(p&&typeof p.id==='string'&&/^[\w-]{1,90}$/.tes
 // Canonical IDs are common-*. Historical definitions remain in docs/legacy-gem-id-history-2026-10-24.json.
 const LEGACY_GEM_ID_MAP={"gem-ruby-chipped":"common-chipped-ruby","gem-ruby-flawed":"common-flawed-ruby","gem-ruby-flawless":"common-flawless-ruby","gem-ruby-perfect":"common-perfect-ruby","gem-emerald-chipped":"common-chipped-emerald","gem-emerald-flawed":"common-flawed-emerald","gem-emerald-flawless":"common-flawless-emerald","gem-emerald-perfect":"common-perfect-emerald","gem-sapphire-chipped":"common-chipped-sapphire","gem-sapphire-flawed":"common-flawed-sapphire","gem-sapphire-flawless":"common-flawless-sapphire","gem-sapphire-perfect":"common-perfect-sapphire"};
 function loadJSON(text){let o=JSON.parse(text);if(o.format!=='recho-backpack-editor'||o.grid?.width!==W||o.grid?.height!==H||!Array.isArray(o.bags)||!Array.isArray(o.items))throw Error('本エディタ用9×7配置JSONではありません');if(!Array.isArray(o.stash)&&o.stash!=null)throw Error('保管データが不正です');if(o.gems!=null&&!Array.isArray(o.gems))throw Error('宝石データが不正です');if(o.debugMarks!=null&&!Array.isArray(o.debugMarks))throw Error('マーカーデータが不正です');if(o.items.length+o.bags.length+(o.stash?.length||0)+(o.gems?.length||0)>250)throw Error('配置・保管数が多すぎます（上限250個）');if((o.debugMarks?.length||0)>63)throw Error('マーカーは最大63マスです');let incoming=new Map();for(const p of o.definitions||[])if(validateDef(p)&&!['original-greatsword','original-ripsaw','pyromancer-book-of-ice'].includes(p.id)&&!Object.prototype.hasOwnProperty.call(LEGACY_GEM_ID_MAP,p.id))incoming.set(p.id,p);let currentMap=new Map(byId);for(const [id,p] of incoming)if(!currentMap.has(id))currentMap.set(id,p);
-  let seen=new Set();function sanitize(a,type){if(a?.presetId&&Object.prototype.hasOwnProperty.call(LEGACY_GEM_ID_MAP,a.presetId))a={...a,presetId:LEGACY_GEM_ID_MAP[a.presetId]};if(a?.presetId==='original-greatsword')a={...a,presetId:'common-impractically-large-greatsword'};if(a?.presetId==='original-ripsaw')a={...a,presetId:'common-rib-saw-blade'};if(!a||typeof a.presetId!=='string'||!currentMap.has(a.presetId))throw Error('未登録のプリセットがあります');const p=currentMap.get(a.presetId);if(p.type!==(type==='stash'?'item':type))throw Error('バッグ/アイテムの分類が一致しません');if(!p.shape?.length)throw Error('形状未確認のプリセットが含まれています');if(!Number.isInteger(a.x)||!Number.isInteger(a.y)||!Number.isInteger(a.rot)||a.rot<0||a.rot>3)throw Error('座標または回転値が不正です');let g=geom(p,a.rot),cells=g.body.map(([x,y])=>[x+a.x,y+a.y]);if(cells.some(([x,y])=>!inBoard(x,y))){if(['priest-cow','priest-lion'].includes(p.id)){const pos={x:Math.max(0,Math.min(a.x,W-g.width)),y:Math.max(0,Math.min(a.y,H-g.height))};a={...a,...pos};}else if(type!=='stash')throw Error('盤面外に出る配置があります');}let id=typeof a.uid==='string'&&a.uid.length<=80&&!seen.has(a.uid)?a.uid:uid();seen.add(id);return{uid:id,presetId:p.id,x:a.x,y:a.y,rot:a.rot,linkBag:typeof a.linkBag==='string'?a.linkBag:null,color:(typeof a.color==='string'&&(/^#[0-9a-f]{6}$/i.test(a.color)||/^hsl\(\d{1,3} \d{1,3}% \d{1,3}%\)$/.test(a.color)))?a.color:colorFor(p),type:p.type}}
+  let seen=new Set();function sanitize(a,type){if(a?.presetId&&Object.prototype.hasOwnProperty.call(LEGACY_GEM_ID_MAP,a.presetId))a={...a,presetId:LEGACY_GEM_ID_MAP[a.presetId]};if(a?.presetId==='original-greatsword')a={...a,presetId:'common-impractically-large-greatsword'};if(a?.presetId==='original-ripsaw')a={...a,presetId:'common-rib-saw-blade'};if(!a||typeof a.presetId!=='string'||!currentMap.has(a.presetId))throw Error('未登録のプリセットがあります');const p=currentMap.get(a.presetId);if(type!=='stash'&&p.type!==type)throw Error('バッグ/アイテムの分類が一致しません');if(!p.shape?.length)throw Error('形状未確認のプリセットが含まれています');if(!Number.isInteger(a.x)||!Number.isInteger(a.y)||!Number.isInteger(a.rot)||a.rot<0||a.rot>3)throw Error('座標または回転値が不正です');let g=geom(p,a.rot),cells=g.body.map(([x,y])=>[x+a.x,y+a.y]);if(cells.some(([x,y])=>!inBoard(x,y))){if(['priest-cow','priest-lion'].includes(p.id)){const pos={x:Math.max(0,Math.min(a.x,W-g.width)),y:Math.max(0,Math.min(a.y,H-g.height))};a={...a,...pos};}else if(type!=='stash')throw Error('盤面外に出る配置があります');}let id=typeof a.uid==='string'&&a.uid.length<=80&&!seen.has(a.uid)?a.uid:uid();seen.add(id);return{uid:id,presetId:p.id,x:a.x,y:a.y,rot:a.rot,linkBag:typeof a.linkBag==='string'?a.linkBag:null,color:(typeof a.color==='string'&&(/^#[0-9a-f]{6}$/i.test(a.color)||/^hsl\(\d{1,3} \d{1,3}% \d{1,3}%\)$/.test(a.color)))?a.color:colorFor(p),type:p.type,...(type==='stash'&&p.type==='item'&&typeof a.storedWithBag==='string'?{storedWithBag:a.storedWithBag}:{})}}
   let nb=o.bags.map(a=>sanitize(a,'bag')),ni=o.items.map(a=>sanitize(a,'item')),ns=(o.stash||[]).map(a=>sanitize(a,'stash'));
+ const storedBagIds=new Set(ns.filter(a=>a.type==='bag').map(a=>a.uid));
+ for(const a of ns)if(a.storedWithBag&&!storedBagIds.has(a.storedWithBag))delete a.storedWithBag;
  let ng=[];for(const old of (o.gems||[])){const a=old?.presetId&&Object.prototype.hasOwnProperty.call(LEGACY_GEM_ID_MAP,old.presetId)?{...old,presetId:LEGACY_GEM_ID_MAP[old.presetId]}:old;if(!a||!currentMap.has(a.presetId)||!isGemPreset(currentMap.get(a.presetId)))throw Error('不正な宝石が含まれています');let g=sanitize(a,'item');g.type='gem';g.stored=!!a.stored;g.hostId=typeof a.hostId==='string'?a.hostId:null;g.slot=Number.isInteger(a.slot)?a.slot:null;ng.push(g)}
  // Backward compatible migration of v0.7 gems stored as regular item instances.
  for(const arr of [ni,ns])for(let i=arr.length-1;i>=0;i--)if(isGemPreset(currentMap.get(arr[i].presetId))){let a=arr.splice(i,1)[0];a.type='gem';a.hostId=null;a.slot=null;a.stored=arr===ns;ng.push(a)}
@@ -1319,7 +1378,7 @@ window.addEventListener('blur',()=>{ctrlSoloArmed=false;});
 canvas.addEventListener('pointerdown',()=>{ctrlSoloArmed=false;});
 buildStarterSets();buildCatalog();render();
 // Expose a limited, read-only test hook to automate verification without changing app state.
-window.__rechoTest={cycleMode,togglePriestessCatalog,rotateAtCell,activeCatalogDefs,getMode:()=>mode,priestessOnly:()=>priestessOnly,setMode,deleteSelected,setSelected:(id)=>{selected=id;render()},setDebugMode,setDebugSymbol,paintDebugAt,debugCoordinates,debugMarks:()=>deep(debugMarks),attachGem,bagCandidates,linkedBag,moveBagGroup,rotateBagGroup,stashAdd:stashSelected,stashAll,stashReturn:returnFromStash,range:()=>({mode:rangeMode,selected:[...rangeSelection]}),chooseRange,moveRange,rotateRange,toggleRangeMode,options:()=>deep(options),render:()=>render(),png:()=>makePNGCanvas(),counts:()=>({bags:bags.length,items:items.length,stash:stash.length,gems:gems.length,debugMarks:debugMarks.length,errors:validate().number,open:bagUnion().size}),displayCell:(x,y)=>displayCell(x,y),snapshot:()=>state(),exportDocument:()=>deep(makeLayoutDocument()),geom:(id,r)=>geom(byId.get(id),r),load:loadJSON,starterSets:()=>STARTER_SETS.map(s=>({id:s.id,className:s.className,title:s.title,bags:s.bags,items:s.items})),applyStarterSet};
+window.__rechoTest={cycleMode,togglePriestessCatalog,rotateAtCell,activeCatalogDefs,getMode:()=>mode,priestessOnly:()=>priestessOnly,setMode,deleteSelected,setSelected:(id)=>{selected=id;render()},setDebugMode,setDebugSymbol,paintDebugAt,debugCoordinates,debugMarks:()=>deep(debugMarks),attachGem,bagCandidates,linkedBag,moveBagGroup,rotateBagGroup,stashAdd:stashSelected,stashAll,stashReturn:returnFromStash,stashBag,bagReturnSpot,range:()=>({mode:rangeMode,selected:[...rangeSelection]}),chooseRange,moveRange,rotateRange,toggleRangeMode,options:()=>deep(options),render:()=>render(),png:()=>makePNGCanvas(),counts:()=>({bags:bags.length,items:items.length,stash:stash.length,gems:gems.length,debugMarks:debugMarks.length,errors:validate().number,open:bagUnion().size}),displayCell:(x,y)=>displayCell(x,y),snapshot:()=>state(),exportDocument:()=>deep(makeLayoutDocument()),geom:(id,r)=>geom(byId.get(id),r),load:loadJSON,starterSets:()=>STARTER_SETS.map(s=>({id:s.id,className:s.className,title:s.title,bags:s.bags,items:s.items})),applyStarterSet};
 })();
 
 </script>

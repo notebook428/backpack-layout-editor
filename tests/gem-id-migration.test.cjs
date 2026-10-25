@@ -97,4 +97,32 @@ const registration=fs.readFileSync(path.join(root,'item-registration.html'),'utf
 assert.ok(registration.includes('const legacyGemIdMap='));
 assert.ok(registration.includes('currentIds.has(id)'));
 assert.ok(registration.includes('d.records.filter(item=>!Object.prototype.hasOwnProperty.call(legacyGemIdMap,item.id))'));
+// Stashed bags and their child-item grouping must survive a real JSON export/import.
+for(const id of ['base-leather-bag','common-ice-armor','common-chipped-ruby'])
+  assert.ok(presetIds.includes(id),'Missing preset for bag-bundle regression: '+id);
+const storedBag={
+  format:'recho-backpack-editor',version:2,grid:{width:9,height:7},
+  bags:[],items:[],
+  stash:[
+    {uid:'bag-bundle',presetId:'base-leather-bag',x:0,y:0,rot:0},
+    {uid:'item-bundle',presetId:'common-ice-armor',x:0,y:0,rot:0,storedWithBag:'bag-bundle'}
+  ],
+  gems:[{uid:'gem-bundle',presetId:'common-chipped-ruby',x:0,y:0,rot:0,hostId:'item-bundle',slot:0,stored:false}]
+};
+ctx.input=JSON.stringify(storedBag);
+vm.runInContext('loadJSON(input)',ctx);
+let bundleImported=JSON.parse(vm.runInContext('JSON.stringify({bags,items,stash,gems})',ctx));
+assert.equal(bundleImported.bags.length,0);
+assert.equal(bundleImported.stash.length,2);
+assert.equal(bundleImported.stash[0].type,'bag');
+assert.equal(bundleImported.stash[1].storedWithBag,'bag-bundle');
+assert.equal(bundleImported.gems[0].hostId,'item-bundle');
+const bundleExport=JSON.parse(vm.runInContext('JSON.stringify(makeLayoutDocument())',ctx));
+assert.equal(bundleExport.stash[1].storedWithBag,'bag-bundle');
+ctx.input=JSON.stringify(bundleExport);
+vm.runInContext('loadJSON(input)',ctx);
+bundleImported=JSON.parse(vm.runInContext('JSON.stringify({bags,items,stash,gems})',ctx));
+assert.equal(bundleImported.stash[0].type,'bag');
+assert.equal(bundleImported.stash[1].storedWithBag,'bag-bundle');
+assert.equal(bundleImported.gems[0].hostId,'item-bundle');
 console.log('PASS: 12 legacy gem IDs, actual layout importer, v0.7 migration, JSON roundtrip, rejection, catalogue uniqueness, confirmed data and registration aliases.');
