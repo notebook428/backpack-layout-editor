@@ -59,6 +59,7 @@ function restore(s){bags=JSON.parse(JSON.stringify(s.bags));items=JSON.parse(JSO
  stash=JSON.parse(JSON.stringify(s.stash));gems=JSON.parse(JSON.stringify(s.gems));
  debugMarks=JSON.parse(JSON.stringify(s.debugMarks));drag=null;rangeDrag=null;selected=null;hovered=null;render()}
 function list(){return [...bags,...items,...gems]}
+function moveRotate(a){Object.assign(a,clampPos(a,a.x,a.y))}
 function gemCell(g){const h=items.find(a=>a.uid===g.hostId);
  return h?{x:h.x+1,y:h.y}:{x:g.x,y:g.y}}
 function undo(){if(undoStack.length){redoStack.push(state());restore(undoStack.pop())}}
