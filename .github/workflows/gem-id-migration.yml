@@ -10,6 +10,7 @@ on:
       - "tests/gem-id-migration.test.cjs"
       - "tests/offboard-drag.test.cjs"
       - "tests/bag-overlap-tabs.test.cjs"
+      - "tests/drag-rotation.test.cjs"
       - ".github/workflows/gem-id-migration.yml"
   workflow_dispatch:
 jobs:
@@ -26,3 +27,5 @@ jobs:
         run: node tests/offboard-drag.test.cjs
       - name: Verify overlapping bag selection tabs
         run: node tests/bag-overlap-tabs.test.cjs
+      - name: Verify drag rotations near the board boundary
+        run: node tests/drag-rotation.test.cjs

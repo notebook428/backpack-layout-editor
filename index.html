@@ -58,7 +58,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 .bag-overlap-tabs button:active{cursor:grabbing}
 @media(max-width:780px){.bag-overlap-tabs{max-width:150px;padding:4px}.bag-overlap-tabs button{max-width:138px;font-size:10px;min-height:27px}}
 </style></head><body>
-<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.47</span></header>
+<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.48</span></header>
 <main>
 <aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><label class="tiny" style="display:block;margin:0 0 6px"><input type="checkbox" id="auditOnly"> 共通アイテムの要照合だけ表示</label><select class="field" id="auditKind" aria-label="要照合の種類" style="margin-bottom:9px"><option value="all">形状または☆が未照合</option><option value="shape">形状が暫定・未照合</option><option value="stars">☆が未確認</option></select><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。Shift+Pで通常の一覧にプリーステスのアイテムを追加・解除できます。</div></aside>
 <section class="panel center"><div class="starting-sets">
@@ -1255,10 +1255,22 @@ function rotateAtCell(x,y){if(debugMode||!inBoard(x,y))return false;if(rangeMode
  mode=target.type;selected=target.uid;hovered=target.uid;drag=null;
  rotateSelected();return true;
 }
-function rotateSelected(){if(rangeSelection.size){rotateRange();return}let a=list().find(a=>a.uid===selected);if(!a)return;if(a.type==='gem'){toast('宝石は1マスなので回転不要です');return}if(!drag)record();if(a.type==='bag')rotateBagGroup(a);else{a.rot=(a.rot+1)%4;moveRotate(a)}render()}
+// While dragging an item, do not clamp after rotating. Repeated rotations
+// must keep both its anchor position and the original pointer capture stable.
+function rotateDraggedItem(){
+ if(!drag)return false;
+ const a=items.find(a=>a.uid===drag.id);
+ if(!a)return false;
+ a.rot=(a.rot+1)%4;
+ drag.moved=true;
+ selected=a.uid;hovered=a.uid;
+ render();
+ return true;
+}
+function rotateSelected(){if(rangeSelection.size){rotateRange();return}let a=list().find(a=>a.uid===selected);if(!a)return;if(a.type==='gem'){toast('宝石は1マスなので回転不要です');return}if(drag?.id===a.uid&&a.type==='item'){rotateDraggedItem();return}if(!drag)record();if(a.type==='bag')rotateBagGroup(a);else{a.rot=(a.rot+1)%4;moveRotate(a)}render()}
 function deleteSelected(){const a=list().find(a=>a.uid===selected);if(!a)return;record();if(a.type==='item')for(const gem of gems.filter(g=>g.hostId===a.uid)){let c=gemCell(gem);gem.x=c.x;gem.y=c.y;gem.hostId=null;gem.slot=null;gem.stored=false}
  bags=bags.filter(x=>x.uid!==a.uid);items=items.filter(x=>x.uid!==a.uid);gems=gems.filter(x=>x.uid!==a.uid);selected=null;hovered=null;render()}
-canvas.addEventListener('contextmenu',e=>{e.preventDefault();if(debugMode)return;const c=cellFromEvent(e);showCursorCoord(c);rotateAtCell(c.x,c.y)});
+canvas.addEventListener('contextmenu',e=>{e.preventDefault();if(debugMode)return;if(rotateDraggedItem())return;const c=cellFromEvent(e);showCursorCoord(c);rotateAtCell(c.x,c.y)});
 canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;canvas.focus();let c=cellFromEvent(e);showCursorCoord(c);if(debugMode){paintDebugAt(c.x,c.y);return;}
  if(rangeMode||e.shiftKey){
    if(!rangeMode)toggleRangeMode(true);
@@ -1284,7 +1296,7 @@ canvas.addEventListener('pointermove',e=>{if((drag&&drag.pointer!==e.pointerId)|
  if(drag){let a=list().find(x=>x.uid===drag.id);$('stashZone').classList.toggle('drop-target',!!a&&(a.type==='item'||a.type==='gem'||a.type==='bag')&&isOutsideBoard(e));if(a&&inBoard(c.x,c.y)){
  if(a.type==='bag') {const dx=c.x-drag.lastx,dy=c.y-drag.lasty;if(dx||dy){moveBagGroup(a,dx,dy,drag.members);drag.moved=true}}
  else if(a.type==='gem'){if(c.x!==drag.lastx||c.y!==drag.lasty){a.hostId=null;a.slot=null;a.stored=false;Object.assign(a,clampPos(a,c.x,c.y));drag.moved=true}}
- else{let pos=clampPos(a,c.x-drag.offx,c.y-drag.offy);if(pos.x!==a.x||pos.y!==a.y){a.x=pos.x;a.y=pos.y;drag.moved=true}}
+ else{let pos={x:c.x-drag.offx,y:c.y-drag.offy};if(pos.x!==a.x||pos.y!==a.y){a.x=pos.x;a.y=pos.y;drag.moved=true}}
  drag.lastx=c.x;drag.lasty=c.y;render()}}else{let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;if(hovered!==a?.uid){hovered=a?.uid||null;render()}}});
 function endDrag(e){
  const active=rangeDrag||drag;
@@ -1310,7 +1322,11 @@ function endDrag(e){
     else if(a.type==='item'){items=items.filter(x=>x.uid!==a.uid);stash.push(a);toast('アイテムを宝石ごと保管しました')}
    else{const pos=gemCell(a);a.x=pos.x;a.y=pos.y;a.hostId=null;a.slot=null;a.stored=true;toast('宝石を保管ボックスへ移動しました')}
    selected=null;hovered=null;
- }else if(a&&drag.moved&&a.type==='gem'&&e?.type==='pointerup'){const c=cellFromEvent(e);if(inBoard(c.x,c.y)){const hosts=items.filter(canSocket).filter(q=>absCells(q).some(([x,y])=>x===c.x&&y===c.y));const host=hosts.at(-1);if(host&&!attachGem(a,host,c.x,c.y))toast('装着できません。ソケットの空きと位置を確認してね');}}
+ }else if(a&&e?.type==='pointerup'&&a.type==='item'){
+   // Clamp only after the drag is finished, not after each intermediate
+   // rotation. Dragging from/over an edge may temporarily extend off-board.
+   moveRotate(a);
+  }else if(a&&drag.moved&&a.type==='gem'&&e?.type==='pointerup'){const c=cellFromEvent(e);if(inBoard(c.x,c.y)){const hosts=items.filter(canSocket).filter(q=>absCells(q).some(([x,y])=>x===c.x&&y===c.y));const host=hosts.at(-1);if(host&&!attachGem(a,host,c.x,c.y))toast('装着できません。ソケットの空きと位置を確認してね');}}
 
  if(JSON.stringify(state())!==JSON.stringify(drag.before)){undoStack.push(drag.before);if(undoStack.length>70)undoStack.shift();redoStack.length=0}drag=null;setOverlapCell(isOutsideBoard(e)?null:cellFromEvent(e));render()}
 // Use a window-level release so drops still finish when pointer capture changes.
