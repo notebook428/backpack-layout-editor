@@ -928,7 +928,7 @@ function stashBag(b,{bundleIds=null,recordChange=true}={}){
  bags=bags.filter(x=>x.uid!==b.uid);
  items=items.filter(x=>!childIds.has(x.uid));
  stash.push(b);
- for(const a of children){a.storedWithBag=b.uid;stash.push(a)}
+ for(const a of children){if(!a.linkBag)a.linkBag=b.uid;a.storedWithBag=b.uid;stash.push(a)}
  selected=null;hovered=null;resetRange();render();
  toast('バッグを中身'+children.length+'個と一緒に保管しました');
  return true;
