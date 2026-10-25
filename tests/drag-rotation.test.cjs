@@ -32,6 +32,7 @@ const ctx=vm.createContext({
                                      :{width:3,height:1,body:[[0,0],[1,0],[2,0]]})
   :{width:1,height:1,body:[[0,0]]},
  inBoard:(x,y)=>x>=0&&y>=0&&x<9&&y<7,
+ absCells:a=>ctx.shape(a).body.map(([u,v])=>[u+a.x,v+a.y]),
  cellFromEvent:e=>({x:Math.floor(e.clientX/10),y:Math.floor(e.clientY/10)}),
  isOutsideBoard:e=>e.clientX<0||e.clientX>=90||e.clientY<0||e.clientY>=70,
  showCursorCoord(){},setOverlapCell(){},renderBagOverlapTabs(){},render(){},toast(){},paintDebugAt(){},
