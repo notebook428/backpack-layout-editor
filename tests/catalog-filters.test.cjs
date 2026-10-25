@@ -7,7 +7,7 @@ const path=require('node:path');
 const vm=require('node:vm');
 const html=fs.readFileSync(path.join(__dirname,'..','index.html'),'utf8');
 for(const id of ['filterClass','filterRarity','filterTag','filterBuff','filterDebuff','filterSocket',
-                  'filterPriceMin','filterPriceMax','clearCatalogFilters','catalogFilterPanel'])
+                  'filterPriceMin','filterPriceMax','clearCatalogFilters','catalogFilterPanel','filterActiveCount'])
  assert.ok(html.includes('id="'+id+'"'),'Missing filter control '+id);
 assert.ok(html.includes("$('clearCatalogFilters').addEventListener('click',clearCatalogFilters)"));
 const start=html.indexOf('function activeCatalogDefs(){');
@@ -26,7 +26,7 @@ function node(tag='div'){
  };
 }
 const names=['search','category','filterClass','filterRarity','filterTag','filterBuff','filterDebuff',
- 'filterSocket','filterPriceMin','filterPriceMax','auditOnly','auditKind','catalogCount','catalog'];
+ 'filterSocket','filterPriceMin','filterPriceMax','filterActiveCount','auditOnly','auditKind','catalogCount','catalog'];
 const elements=Object.fromEntries(names.map(id=>[id,node(id)]));
 elements.auditKind.value='all';
 const fixtures=[
@@ -83,6 +83,7 @@ update('filterSocket','2');
 update('filterPriceMin','10');
 update('filterPriceMax','11');
 assert.deepEqual(visible(),['氷の鎧'],'All metadata filters should combine with AND');
+assert.equal(elements.filterActiveCount.textContent,'7条件','Collapsed panel must display active constraints');
 update('filterPriceMax','10');
 assert.equal(visible().length,0,'Price upper bound must be inclusive and constrain matches');
 code('clearCatalogFilters()');
@@ -90,6 +91,7 @@ assert.equal(visible().length,4,'Clear should reset all filters');
 assert.equal(elements.filterPriceMin.value,'');
 assert.equal(elements.filterClass.value,'');
 assert.equal(elements.filterTag.value,'');
+assert.equal(elements.filterActiveCount.textContent,'','Reset clears hidden filter count');
 assert.equal(elements.auditKind.value,'all');
 
 update('filterPriceMin','0');
