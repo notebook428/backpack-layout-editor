@@ -71,10 +71,9 @@ function linkedBag(a){return bags.find(b=>b.uid===a.linkBag)||null}
 function childrenOf(b){return items.filter(a=>linkedBag(a)?.uid===b.uid)}
 function groupMembers(b){return [b]}
 function render(){renderBagOverlapTabs()}
-function atCell(x,y){
- return [...bags,...items,...gems.filter(g=>!g.stored)]
-  .findLast(a=>absCells(a).some(([u,v])=>u===x&&v===y))||null;
-}
+function hitFrom(collection,x,y){return collection.findLast(a=>absCells(a).some(([u,v])=>u===x&&v===y))||null}
+function gemAt(){return null}
+function topObjectAt(x,y){return hitFrom(items,x,y)||hitFrom(bags,x,y)}
 function reset(){
  bags=[
   {uid:'bag-a',presetId:'Bag A',type:'bag',x:1,y:1,rot:0},
@@ -97,6 +96,10 @@ assert.ok(overlapStart>0&&overlapEnd>overlapStart);
 assert.ok(dragStart>0&&dragEnd>dragStart);
 vm.runInContext(html.slice(stashStart,stashEnd),ctx);
 vm.runInContext(html.slice(overlapStart,overlapEnd),ctx);
+const atCellStart=html.indexOf('function atCell(x,y){',overlapEnd);
+const atCellEnd=html.indexOf('function moveRotate(',atCellStart);
+assert.ok(atCellStart>0&&atCellEnd>atCellStart);
+vm.runInContext(html.slice(atCellStart,atCellEnd),ctx);
 vm.runInContext(html.slice(dragStart,dragEnd),ctx);
 const inspect=()=>JSON.parse(vm.runInContext('inspect()',ctx));
 const buttons=()=>tabs.querySelectorAll('button');
