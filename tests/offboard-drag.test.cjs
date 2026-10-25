@@ -52,7 +52,7 @@ const ctx = vm.createContext({
 });
 vm.runInContext(`
 let bags=[],items=[],stash=[],gems=[],debugMarks=[],selected=null,hovered=null;
-let drag=null,rangeDrag=null,rangeMode=false,debugMode=false,mode='auto',undoStack=[],redoStack=[];
+let drag=null,rangeDrag=null,rangeMode=false,debugMode=false,mode='auto',overlapPickedBag=null,undoStack=[],redoStack=[];
 let rangeSelection=new Set();
 function state(){return JSON.parse(JSON.stringify({bags,items,stash,gems,debugMarks}))}
 function restore(s){bags=JSON.parse(JSON.stringify(s.bags));items=JSON.parse(JSON.stringify(s.items));
