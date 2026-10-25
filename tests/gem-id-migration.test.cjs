@@ -125,6 +125,29 @@ bundleImported=JSON.parse(vm.runInContext('JSON.stringify({bags,items,stash,gems
 assert.equal(bundleImported.stash[0].type,'bag');
 assert.equal(bundleImported.stash[1].storedWithBag,'bag-bundle');
 assert.equal(bundleImported.gems[0].hostId,'item-bundle');
+// In-progress layouts may intentionally place ordinary items outside all bags.
+// Save/load must keep their positions and any mounted gems intact.
+const temporaryOutsideLayout={
+  format:'recho-backpack-editor',version:2,grid:{width:9,height:7},
+  bags:[],stash:[],
+  items:[{uid:'temporary-item',presetId:'common-ice-armor',x:3,y:2,rot:0}],
+  gems:[{uid:'temporary-gem',presetId:'common-chipped-ruby',x:3,y:2,rot:0,
+    hostId:'temporary-item',slot:0,stored:false}]
+};
+ctx.input=JSON.stringify(temporaryOutsideLayout);
+vm.runInContext('loadJSON(input)',ctx);
+let tempImported=JSON.parse(vm.runInContext('JSON.stringify({bags,items,stash,gems})',ctx));
+assert.equal(tempImported.bags.length,0);
+assert.deepEqual([tempImported.items[0].x,tempImported.items[0].y],[3,2]);
+assert.equal(tempImported.gems[0].hostId,'temporary-item');
+const tempExport=JSON.parse(vm.runInContext('JSON.stringify(makeLayoutDocument())',ctx));
+ctx.input=JSON.stringify(tempExport);
+vm.runInContext('loadJSON(input)',ctx);
+tempImported=JSON.parse(vm.runInContext('JSON.stringify({bags,items,gems})',ctx));
+assert.equal(tempImported.bags.length,0);
+assert.deepEqual([tempImported.items[0].x,tempImported.items[0].y],[3,2]);
+assert.equal(tempImported.gems[0].hostId,'temporary-item');
+
 // A corrupt saved file with duplicate UIDs must be rejected before it can
 // silently break gem.hostId, item.linkBag or storedWithBag relationships.
 const duplicateUidLayout={
