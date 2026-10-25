@@ -49,7 +49,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 .debug-tools #debugCount{color:#f1d49f;font-size:12px}
 #board.debug-active{cursor:crosshair;outline:2px solid #a88acb;outline-offset:1px}
 </style></head><body>
-<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.44</span></header>
+<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.45</span></header>
 <main>
 <aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><label class="tiny" style="display:block;margin:0 0 6px"><input type="checkbox" id="auditOnly"> 共通アイテムの要照合だけ表示</label><select class="field" id="auditKind" aria-label="要照合の種類" style="margin-bottom:9px"><option value="all">形状または☆が未照合</option><option value="shape">形状が暫定・未照合</option><option value="stars">☆が未確認</option></select><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。Shift+Pで通常の一覧にプリーステスのアイテムを追加・解除できます。</div></aside>
 <section class="panel center"><div class="starting-sets">
@@ -914,12 +914,21 @@ function renderStash(){
 function stashBag(b,{bundleIds=null,recordChange=true}={}){
  if(!bags.some(x=>x.uid===b.uid))return false;
  const childIds=new Set(bundleIds??childrenOf(b).map(x=>x.uid));
+ // An unlinked item may still rely on this bag when several bags overlap.
+ // Include it only if removing this bag would uncover at least one body cell.
+ const remainingCoverage=new Set(bags.filter(x=>x.uid!==b.uid)
+   .flatMap(x=>absCells(x).map(([x,y])=>y*W+x)));
+ const bagCells=new Set(absCells(b).map(([x,y])=>y*W+x));
+ for(const a of items){
+  const cells=absCells(a).map(([x,y])=>y*W+x);
+  if(cells.some(k=>bagCells.has(k)&&!remainingCoverage.has(k)))childIds.add(a.uid);
+ }
  const children=items.filter(x=>childIds.has(x.uid));
  if(recordChange)record();
  bags=bags.filter(x=>x.uid!==b.uid);
  items=items.filter(x=>!childIds.has(x.uid));
  stash.push(b);
- for(const a of children){a.storedWithBag=b.uid;stash.push(a)}
+ for(const a of children){if(!a.linkBag)a.linkBag=b.uid;a.storedWithBag=b.uid;stash.push(a)}
  selected=null;hovered=null;resetRange();render();
  toast('バッグを中身'+children.length+'個と一緒に保管しました');
  return true;
@@ -960,6 +969,18 @@ function stashAll(){
  rangeSelection.clear();selected=null;hovered=null;render();toast('アイテムをまとめて保管しました');
 }
 function stashSelected(){const bag=bags.find(x=>x.uid===selected);if(bag){stashBag(bag);return}let a=items.find(x=>x.uid===selected),gem=gems.find(x=>x.uid===selected);if(!a&&!gem)return;if(gem&&gem.hostId){toast('装着中の宝石は先に外してね');return}record();if(a){items=items.filter(x=>x.uid!==a.uid);stash.push(a)}else{gem.stored=true}selected=null;hovered=null;render();toast('保管ボックスへ移動しました')}
+// Standalone item returns must never create an uncovered or colliding body.
+function findStashItemSpot(a){
+ const g=shape(a),coverage=bagUnion(),occupied=new Set(items.flatMap(x=>absCells(x).map(([u,v])=>v*W+u)));
+ let best=null;
+ for(let y=0;y<=H-g.height;y++)for(let x=0;x<=W-g.width;x++){
+  const keys=g.body.map(([u,v])=>(y+v)*W+(x+u));
+  if(keys.some(k=>!coverage.has(k)||occupied.has(k)))continue;
+  const score=(Math.abs(x-a.x)+Math.abs(y-a.y))*100+y*W+x;
+  if(!best||score<best.score)best={x,y,score};
+ }
+ return best;
+}
 function returnFromStash(id){
  const a=stash.find(x=>x.uid===id);if(!a)return;
  if(a.type==='bag'){
@@ -972,7 +993,9 @@ function returnFromStash(id){
   for(const child of contents){child.x+=dx;child.y+=dy;delete child.storedWithBag;items.push(child)}
   if(mode!=='auto')mode='bag';selected=id;render();toast(getP(a).name+' と中身'+contents.length+'個を戻しました');return;
  }
- const p=getP(a),spot=findSpot(p,a.rot);record();stash=stash.filter(x=>x.uid!==id);a.x=spot.x;a.y=spot.y;delete a.storedWithBag;items.push(a);if(mode!=='auto')mode='item';selected=id;render();toast(p.name+' を盤面に戻しました');
+ const p=getP(a),spot=findStashItemSpot(a);
+ if(!spot){toast('バッグの空きマスがありません。スペースを確保してから戻してね');return}
+ record();stash=stash.filter(x=>x.uid!==id);a.x=spot.x;a.y=spot.y;delete a.storedWithBag;items.push(a);if(mode!=='auto')mode='item';selected=id;render();toast(p.name+' を盤面に戻しました');
 }
 function rotateInStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;if(a.type==='bag'&&stash.some(x=>x.storedWithBag===id)){toast('中身入りバッグは盤面に戻してから回転してね');return}record();a.rot=(a.rot+1)%4;render()}
 function deleteFromStash(id){let a=stash.find(x=>x.uid===id);if(!a)return;record();for(const gem of gems.filter(q=>q.hostId===id)){gem.hostId=null;gem.slot=null;gem.stored=true}if(a.type==='bag')for(const child of stash.filter(q=>q.storedWithBag===id)){delete child.storedWithBag;if(child.linkBag===id)child.linkBag=null}stash=stash.filter(x=>x.uid!==id);render()}
@@ -1187,9 +1210,17 @@ function endDrag(e){
  }
  if(!drag)return;canvas.classList.remove('dragging');const a=list().find(x=>x.uid===drag.id);const validDrop=e?.type==='pointerup'&&Math.hypot(e.clientX-drag.startClientX,e.clientY-drag.startClientY)>=12;
  if(a&&validDrop&&isOutsideBoard(e)&&(a.type==='item'||a.type==='gem'||a.type==='bag')){
-   if(a.type==='bag'){stashBag(a,{bundleIds:drag.bundleIds,recordChange:false})}
+   if(a.type==='bag'){
+     // A drop-to-stash is one operation, not an intermediate board move:
+     // restore the pre-drag geometry so bag and children retain their offsets.
+     const before=drag.before;
+     bags=deep(before.bags);items=deep(before.items);stash=deep(before.stash);
+     gems=deep(before.gems);debugMarks=deep(before.debugMarks);
+     const original=bags.find(x=>x.uid===a.uid);
+     if(original)stashBag(original,{bundleIds:drag.bundleIds,recordChange:false});
+    }
     else if(a.type==='item'){items=items.filter(x=>x.uid!==a.uid);stash.push(a);toast('アイテムを宝石ごと保管しました')}
-   else{a.hostId=null;a.slot=null;a.stored=true;toast('宝石を保管ボックスへ移動しました')}
+   else{const pos=gemCell(a);a.x=pos.x;a.y=pos.y;a.hostId=null;a.slot=null;a.stored=true;toast('宝石を保管ボックスへ移動しました')}
    selected=null;hovered=null;
  }else if(a&&drag.moved&&a.type==='gem'&&e?.type==='pointerup'){const c=cellFromEvent(e);if(inBoard(c.x,c.y)){const hosts=items.filter(canSocket).filter(q=>absCells(q).some(([x,y])=>x===c.x&&y===c.y));const host=hosts.at(-1);if(host&&!attachGem(a,host,c.x,c.y))toast('装着できません。ソケットの空きと位置を確認してね');}}
 
@@ -1227,7 +1258,7 @@ function validateDef(p){return !!(p&&typeof p.id==='string'&&/^[\w-]{1,90}$/.tes
 // Canonical IDs are common-*. Historical definitions remain in docs/legacy-gem-id-history-2026-10-24.json.
 const LEGACY_GEM_ID_MAP={"gem-ruby-chipped":"common-chipped-ruby","gem-ruby-flawed":"common-flawed-ruby","gem-ruby-flawless":"common-flawless-ruby","gem-ruby-perfect":"common-perfect-ruby","gem-emerald-chipped":"common-chipped-emerald","gem-emerald-flawed":"common-flawed-emerald","gem-emerald-flawless":"common-flawless-emerald","gem-emerald-perfect":"common-perfect-emerald","gem-sapphire-chipped":"common-chipped-sapphire","gem-sapphire-flawed":"common-flawed-sapphire","gem-sapphire-flawless":"common-flawless-sapphire","gem-sapphire-perfect":"common-perfect-sapphire"};
 function loadJSON(text){let o=JSON.parse(text);if(o.format!=='recho-backpack-editor'||o.grid?.width!==W||o.grid?.height!==H||!Array.isArray(o.bags)||!Array.isArray(o.items))throw Error('本エディタ用9×7配置JSONではありません');if(!Array.isArray(o.stash)&&o.stash!=null)throw Error('保管データが不正です');if(o.gems!=null&&!Array.isArray(o.gems))throw Error('宝石データが不正です');if(o.debugMarks!=null&&!Array.isArray(o.debugMarks))throw Error('マーカーデータが不正です');if(o.items.length+o.bags.length+(o.stash?.length||0)+(o.gems?.length||0)>250)throw Error('配置・保管数が多すぎます（上限250個）');if((o.debugMarks?.length||0)>63)throw Error('マーカーは最大63マスです');let incoming=new Map();for(const p of o.definitions||[])if(validateDef(p)&&!['original-greatsword','original-ripsaw','pyromancer-book-of-ice'].includes(p.id)&&!Object.prototype.hasOwnProperty.call(LEGACY_GEM_ID_MAP,p.id))incoming.set(p.id,p);let currentMap=new Map(byId);for(const [id,p] of incoming)if(!currentMap.has(id))currentMap.set(id,p);
-  let seen=new Set();function sanitize(a,type){if(a?.presetId&&Object.prototype.hasOwnProperty.call(LEGACY_GEM_ID_MAP,a.presetId))a={...a,presetId:LEGACY_GEM_ID_MAP[a.presetId]};if(a?.presetId==='original-greatsword')a={...a,presetId:'common-impractically-large-greatsword'};if(a?.presetId==='original-ripsaw')a={...a,presetId:'common-rib-saw-blade'};if(!a||typeof a.presetId!=='string'||!currentMap.has(a.presetId))throw Error('未登録のプリセットがあります');const p=currentMap.get(a.presetId);if(type!=='stash'&&p.type!==type)throw Error('バッグ/アイテムの分類が一致しません');if(!p.shape?.length)throw Error('形状未確認のプリセットが含まれています');if(!Number.isInteger(a.x)||!Number.isInteger(a.y)||!Number.isInteger(a.rot)||a.rot<0||a.rot>3)throw Error('座標または回転値が不正です');let g=geom(p,a.rot),cells=g.body.map(([x,y])=>[x+a.x,y+a.y]);if(cells.some(([x,y])=>!inBoard(x,y))){if(['priest-cow','priest-lion'].includes(p.id)){const pos={x:Math.max(0,Math.min(a.x,W-g.width)),y:Math.max(0,Math.min(a.y,H-g.height))};a={...a,...pos};}else if(type!=='stash')throw Error('盤面外に出る配置があります');}let id=typeof a.uid==='string'&&a.uid.length<=80&&!seen.has(a.uid)?a.uid:uid();seen.add(id);return{uid:id,presetId:p.id,x:a.x,y:a.y,rot:a.rot,linkBag:typeof a.linkBag==='string'?a.linkBag:null,color:(typeof a.color==='string'&&(/^#[0-9a-f]{6}$/i.test(a.color)||/^hsl\(\d{1,3} \d{1,3}% \d{1,3}%\)$/.test(a.color)))?a.color:colorFor(p),type:p.type,...(type==='stash'&&p.type==='item'&&typeof a.storedWithBag==='string'?{storedWithBag:a.storedWithBag}:{})}}
+  let seen=new Set();function sanitize(a,type){if(a?.presetId&&Object.prototype.hasOwnProperty.call(LEGACY_GEM_ID_MAP,a.presetId))a={...a,presetId:LEGACY_GEM_ID_MAP[a.presetId]};if(a?.presetId==='original-greatsword')a={...a,presetId:'common-impractically-large-greatsword'};if(a?.presetId==='original-ripsaw')a={...a,presetId:'common-rib-saw-blade'};if(!a||typeof a.presetId!=='string'||!currentMap.has(a.presetId))throw Error('未登録のプリセットがあります');const p=currentMap.get(a.presetId);if(type!=='stash'&&p.type!==type)throw Error('バッグ/アイテムの分類が一致しません');if(!p.shape?.length)throw Error('形状未確認のプリセットが含まれています');if(!Number.isInteger(a.x)||!Number.isInteger(a.y)||!Number.isInteger(a.rot)||a.rot<0||a.rot>3)throw Error('座標または回転値が不正です');let g=geom(p,a.rot),cells=g.body.map(([x,y])=>[x+a.x,y+a.y]);if(cells.some(([x,y])=>!inBoard(x,y))){if(['priest-cow','priest-lion'].includes(p.id)){const pos={x:Math.max(0,Math.min(a.x,W-g.width)),y:Math.max(0,Math.min(a.y,H-g.height))};a={...a,...pos};}else if(type!=='stash')throw Error('盤面外に出る配置があります');}if(typeof a.uid==='string'&&a.uid.length<=80&&seen.has(a.uid))throw Error('配置データに重複した内部IDがあります');let id=typeof a.uid==='string'&&a.uid.length<=80?a.uid:uid();seen.add(id);return{uid:id,presetId:p.id,x:a.x,y:a.y,rot:a.rot,linkBag:typeof a.linkBag==='string'?a.linkBag:null,color:(typeof a.color==='string'&&(/^#[0-9a-f]{6}$/i.test(a.color)||/^hsl\(\d{1,3} \d{1,3}% \d{1,3}%\)$/.test(a.color)))?a.color:colorFor(p),type:p.type,...(type==='stash'&&p.type==='item'&&typeof a.storedWithBag==='string'?{storedWithBag:a.storedWithBag}:{})}}
   let nb=o.bags.map(a=>sanitize(a,'bag')),ni=o.items.map(a=>sanitize(a,'item')),ns=(o.stash||[]).map(a=>sanitize(a,'stash'));
  const storedBagIds=new Set(ns.filter(a=>a.type==='bag').map(a=>a.uid));
  for(const a of ns)if(a.storedWithBag&&!storedBagIds.has(a.storedWithBag))delete a.storedWithBag;
@@ -1378,7 +1409,7 @@ window.addEventListener('blur',()=>{ctrlSoloArmed=false;});
 canvas.addEventListener('pointerdown',()=>{ctrlSoloArmed=false;});
 buildStarterSets();buildCatalog();render();
 // Expose a limited, read-only test hook to automate verification without changing app state.
-window.__rechoTest={cycleMode,togglePriestessCatalog,rotateAtCell,activeCatalogDefs,getMode:()=>mode,priestessOnly:()=>priestessOnly,setMode,deleteSelected,setSelected:(id)=>{selected=id;render()},setDebugMode,setDebugSymbol,paintDebugAt,debugCoordinates,debugMarks:()=>deep(debugMarks),attachGem,bagCandidates,linkedBag,moveBagGroup,rotateBagGroup,stashAdd:stashSelected,stashAll,stashReturn:returnFromStash,stashBag,bagReturnSpot,range:()=>({mode:rangeMode,selected:[...rangeSelection]}),chooseRange,moveRange,rotateRange,toggleRangeMode,options:()=>deep(options),render:()=>render(),png:()=>makePNGCanvas(),counts:()=>({bags:bags.length,items:items.length,stash:stash.length,gems:gems.length,debugMarks:debugMarks.length,errors:validate().number,open:bagUnion().size}),displayCell:(x,y)=>displayCell(x,y),snapshot:()=>state(),exportDocument:()=>deep(makeLayoutDocument()),geom:(id,r)=>geom(byId.get(id),r),load:loadJSON,starterSets:()=>STARTER_SETS.map(s=>({id:s.id,className:s.className,title:s.title,bags:s.bags,items:s.items})),applyStarterSet};
+window.__rechoTest={cycleMode,togglePriestessCatalog,rotateAtCell,activeCatalogDefs,getMode:()=>mode,priestessOnly:()=>priestessOnly,setMode,deleteSelected,setSelected:(id)=>{selected=id;render()},setDebugMode,setDebugSymbol,paintDebugAt,debugCoordinates,debugMarks:()=>deep(debugMarks),attachGem,bagCandidates,linkedBag,moveBagGroup,rotateBagGroup,stashAdd:stashSelected,stashAll,stashReturn:returnFromStash,stashBag,bagReturnSpot,findStashItemSpot,range:()=>({mode:rangeMode,selected:[...rangeSelection]}),chooseRange,moveRange,rotateRange,toggleRangeMode,options:()=>deep(options),render:()=>render(),png:()=>makePNGCanvas(),counts:()=>({bags:bags.length,items:items.length,stash:stash.length,gems:gems.length,debugMarks:debugMarks.length,errors:validate().number,open:bagUnion().size}),displayCell:(x,y)=>displayCell(x,y),snapshot:()=>state(),exportDocument:()=>deep(makeLayoutDocument()),geom:(id,r)=>geom(byId.get(id),r),load:loadJSON,starterSets:()=>STARTER_SETS.map(s=>({id:s.id,className:s.className,title:s.title,bags:s.bags,items:s.items})),applyStarterSet};
 })();
 
 </script>
