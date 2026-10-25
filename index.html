@@ -48,8 +48,17 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 .debug-tools .debug-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .debug-tools #debugCount{color:#f1d49f;font-size:12px}
 #board.debug-active{cursor:crosshair;outline:2px solid #a88acb;outline-offset:1px}
+/* Hover a shared bag cell to choose which of the overlapping bags to grab.
+   This is a DOM overlay, not part of PNG exports or saved layout state. */
+.bag-overlap-tabs{position:absolute;z-index:5;display:flex;flex-direction:column;gap:3px;padding:5px;max-width:210px;background:#111d30f2;border:1px solid #d8b980;border-radius:9px;box-shadow:0 7px 20px #0008;pointer-events:auto}
+.bag-overlap-tabs .bag-tab-title{color:#f1d49f;font-size:10px;font-weight:700;line-height:1.3}
+.bag-overlap-tabs button{max-width:198px;min-height:28px;text-align:left;border:1px solid #667b9f;border-radius:6px;background:#283b56;color:#f2f4ff;cursor:grab;padding:4px 7px;font:600 11px/1.35 system-ui,"Yu Gothic",sans-serif;touch-action:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bag-overlap-tabs button[aria-pressed="true"]{background:#594c7f;border-color:#f1d49f;color:#fff5d4}
+.bag-overlap-tabs button:hover,.bag-overlap-tabs button:focus-visible{outline:2px solid #f1d49f;outline-offset:0}
+.bag-overlap-tabs button:active{cursor:grabbing}
+@media(max-width:780px){.bag-overlap-tabs{max-width:150px;padding:4px}.bag-overlap-tabs button{max-width:138px;font-size:10px;min-height:27px}}
 </style></head><body>
-<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.46</span></header>
+<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.47</span></header>
 <main>
 <aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><label class="tiny" style="display:block;margin:0 0 6px"><input type="checkbox" id="auditOnly"> 共通アイテムの要照合だけ表示</label><select class="field" id="auditKind" aria-label="要照合の種類" style="margin-bottom:9px"><option value="all">形状または☆が未照合</option><option value="shape">形状が暫定・未照合</option><option value="stars">☆が未確認</option></select><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。Shift+Pで通常の一覧にプリーステスのアイテムを追加・解除できます。</div></aside>
 <section class="panel center"><div class="starting-sets">
@@ -73,7 +82,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
   <button class="btn small" id="debugClose" type="button">閉じる</button></div>
   <span class="hint">Shift+Dで閉じる。通常アイテムの移動は一時停止。JSON保存・Undo対応。</span>
 </div>
-<div class="board-frame"><div class="board-outer"><div class="axis-y" aria-label="Y座標の目盛り（下から1〜7）"><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div><canvas id="board" width="720" height="560" tabindex="0" aria-label="9列7行のバッグ配置盤面。左下のマスは1,1で、右方向にX、上方向にYが増えます"></canvas><div class="axis-corner" aria-hidden="true">↗</div><div class="axis-x" aria-label="X座標の目盛り（左から1〜9）"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></div></div></div><div class="coord-readout"><span>左下のマス：(1, 1) ・ X → / Y ↑</span><strong id="cursorCoord" aria-live="polite">カーソル：(－, －)</strong></div><div class="status" id="status" aria-live="polite"></div>
+<div class="board-frame"><div class="board-outer"><div class="axis-y" aria-label="Y座標の目盛り（下から1〜7）"><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div><canvas id="board" width="720" height="560" tabindex="0" aria-label="9列7行のバッグ配置盤面。左下のマスは1,1で、右方向にX、上方向にYが増えます"></canvas><div id="bagOverlapTabs" class="bag-overlap-tabs" role="group" aria-label="重なったバッグの選択" hidden></div><div class="axis-corner" aria-hidden="true">↗</div><div class="axis-x" aria-label="X座標の目盛り（左から1〜9）"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></div></div></div><div class="coord-readout"><span>左下のマス：(1, 1) ・ X → / Y ↑</span><strong id="cursorCoord" aria-live="polite">カーソル：(－, －)</strong></div><div class="status" id="status" aria-live="polite"></div>
 <div class="stash" id="stashZone"><div class="stash-header"><h3>▣ 保管ボックス <span id="stashCount">0個</span></h3><span>バッグ・アイテム・宝石を盤面外へドラッグすると保管。バッグの中身は一緒に保管します</span></div><div class="stash-items" id="stashItems" aria-live="polite"></div></div>
 <div class="controls-footer"><button class="btn" id="save">JSON 保存</button><button class="btn" id="load">JSON 読み込み</button><input class="file-input" type="file" id="file" accept="application/json,.json"><button class="btn primary" id="copyPng" title="配置図と凡例を画像としてコピー">画像をコピー</button><button class="btn" id="png">PNG 書き出し</button><label><input id="pngStars" type="checkbox" checked> 画像に☆・◆・◇・△を含める</label></div></section>
 <aside class="panel right"><div><h2>色別凡例</h2><div class="tiny">同じアイテムは同じ色。個数は配置数。</div><div class="legend" id="legend" aria-live="polite"></div><div class="tiny" style="margin:13px 0 6px;color:#f1d49f">配置バッグ</div><div class="legend" id="bagLegend" aria-live="polite" style="max-height:130px"></div><div class="kv"><span>バッグ開放マス</span><b id="coverage">0 / 63</b></div><div class="kv"><span>通常アイテム</span><b id="itemCount">0</b></div><div class="kv"><span>宝石</span><b id="gemCount">0</b></div><div class="tiny" style="color:#f1d49f;margin-top:10px">💎 宝石凡例</div><div class="legend" id="gemLegend" style="max-height:110px"></div></div><div><hr class="section-break"><h2>選択中</h2><div id="selection" class="selection tiny">盤面のアイテムをクリックして選択。</div><hr class="section-break"><h2>操作のヒント</h2><ul class="tips"><li>「初期装備セット」で各クラスの初期バッグと初期アイテムを対応する位置・向きで一括配置できます。</li><li>アイテムをドラッグして移動。☆はホバーと移動中だけ見えます。</li><li>バッグの移動は「バッグ」レイヤーへ切替。「中身ごと」ONでアイテムも追従します。</li><li>宝石を装着するには💎宝石レイヤーで宝石を武器・防具のマスへドラッグ。取り外しも同じレイヤーから。</li><li>バッグをまたぐアイテムは通常アイテムレイヤーで選び、右の「選択中」から追従先を指定できます。</li><li><b>R</b> 回転、<b>Delete</b> 削除、<b>B</b> 保管、<b>Ctrl+Z</b> 戻す。</li><li>「保管する」で選択した通常アイテムを退避。保管ボックスの「戻す」で空き場所に再配置。</li><li>赤枠は重複かバッグ外。赤枠でも編集・JSON保存できます。</li><li>座標は左下のマスを (1,1) として表示します。右へX、上へYが増えます。</li></ul><details class="options"><summary>⚙ 表示オプション</summary><label class="opt-label" for="itemInset">アイテムとバッグのすき間 <b id="insetValue">12 px</b></label><input id="itemInset" type="range" min="6" max="18" step="1" value="12"><div class="tiny">数値を大きくすると、背景のバッグがよく見えます。設定はこのブラウザに保存します。</div></details><div class="note" style="margin-top:12px">原作初期装備は7クラス×2パターン、計14セットの配置位置と向きをユーザー作成の再現図に合わせて収録。初期位置は自動配置ではありません。原作アイテムの☆等、未確認情報は引き続き要照合です。今回調査した原作バッグ19種類はゲーム画面で形状を確認済み。びっくりサックは配置対象から除外しました。検証用テトロミノも引き続き使えます。v0.8では宝石の表示サイズを小さくしています。宝石とバッグ内の通常アイテムは別レイヤーです。原作アイテム名は日本語Wikiと照合したものから順次改訂。未照合の名称・☆・形状には現行版との差があり得ます。 一部の原作プリセットは☆座標の調査中。<b>☆未確認</b>と書かれたものは、☆が無いという意味ではありません。</div></div></aside>
@@ -696,6 +705,7 @@ let definitions=[...PRESETS], byId=new Map(definitions.map(x=>[x.id,x]));
 let bags=[],items=[],stash=[],gems=[],debugMarks=[],debugMode=false,debugSymbol='☆',selected=null,hovered=null,mode='auto',drag=null,undoStack=[],redoStack=[],uidCounter=1;
 let priestessOnly=false,ctrlSoloArmed=false; // priestessOnly is the legacy flag name; true now means include Priestess in the normal catalog.
 let rangeMode=false,rangeSelection=new Set(),rangeDrag=null; // temporary multi-selection, excluded from JSON exports
+let overlapCell=null,overlapTabKey=""; // ephemeral selection tabs, never saved
 const isEditableTarget=el=>!!(el&&(['INPUT','TEXTAREA','SELECT'].includes(el.tagName)||el.isContentEditable));
 // Layout JSON is separate from browser-local display preferences.
 const OPTIONS_KEY='recho-backpack-options-v1';
@@ -873,7 +883,7 @@ function renderBoard(ct,{exportStars=false,highlight=true,exportDebug=debugMode}
   if(highlight){ct.textBaseline='alphabetic';}
   return v;
 }
-function render(){renderBoard(ctx);if(debugMode)$('debugCount').textContent=debugMarks.length+'個';let v=validate();$('status').classList.toggle('bad',v.number>0);$('status').textContent=v.number?`⚠ ${v.number} 個のアイテムに配置エラー：${[...new Set([...v.flags.values()].flatMap(s=>[...s]))].join('・')}。このまま編集できます。`:`✓ 配置エラーなし。バッグ ${v.free.size} マス使用可能。クリックで選択、ドラッグして移動できます。`;
+function render(){renderBoard(ctx);renderBagOverlapTabs();if(debugMode)$('debugCount').textContent=debugMarks.length+'個';let v=validate();$('status').classList.toggle('bad',v.number>0);$('status').textContent=v.number?`⚠ ${v.number} 個のアイテムに配置エラー：${[...new Set([...v.flags.values()].flatMap(s=>[...s]))].join('・')}。このまま編集できます。`:`✓ 配置エラーなし。バッグ ${v.free.size} マス使用可能。クリックで選択、ドラッグして移動できます。`;
  $('coverage').textContent=`${v.free.size} / 63`;$('itemCount').textContent=items.length;$('gemCount').textContent=gems.length;
  const counts=new Map();for(const a of items){let k=a.presetId;counts.set(k,(counts.get(k)||0)+1)}
  $('legend').replaceChildren();for(const [id,n] of [...counts].sort(([a],[b])=>sorted(byId.get(a),byId.get(b)))){let p=byId.get(id),row=document.createElement('div');row.className='legend-item';let sw=document.createElement('span');sw.className='swatch';sw.style.background=items.find(a=>a.presetId===id)?.color||colorFor(p);let name=document.createElement('span');name.textContent=p.name;let count=document.createElement('span');count.className='count';count.textContent='×'+n;row.append(sw,name,count);$('legend').append(row)}if(!counts.size)$('legend').textContent='まだアイテムがありません。';
@@ -1141,6 +1151,71 @@ function findSpot(p,rotation=0){let g=geom(p,rotation),union=bagUnion(),occupied
 function addPreset(id){const p=byId.get(id);if(!p)return;if(p.pending||!p.shape?.length){toast('形状が未確認のため、まだ配置できません');return;}let spot=findSpot(p);record();let gem=isGemPreset(p),a={uid:uid(),presetId:p.id,x:spot.x,y:spot.y,rot:0,color:colorFor(p),type:gem?'gem':p.type};(gem?gems:p.type==='bag'?bags:items).push(a);if(mode!=='auto')mode=gem?'gem':p.type;selected=a.uid;hovered=null;render();toast(p.name+' を追加しました')}
 function cellFromEvent(e){let r=canvas.getBoundingClientRect();let mx=(e.clientX-r.left)/r.width*W,my=(e.clientY-r.top)/r.height*H;return{x:Math.floor(mx),y:Math.floor(my)}}
 function isOutsideBoard(e){const r=canvas.getBoundingClientRect();return e.clientX<r.left||e.clientX>=r.right||e.clientY<r.top||e.clientY>=r.bottom}
+// Only cells occupied by two or more bags show the selector.
+function overlappingBagsAt(x,y){
+ if(!inBoard(x,y))return [];
+ return bags.filter(a=>absCells(a).some(([cx,cy])=>cx===x&&cy===y)).reverse();
+}
+function setOverlapCell(c){
+ const eligible=(mode==='bag'||mode==='auto')&&!debugMode&&!rangeMode&&!drag&&!rangeDrag;
+ const next=eligible&&c&&overlappingBagsAt(c.x,c.y).length>=2?{x:c.x,y:c.y}:null;
+ if(next?.x===overlapCell?.x&&next?.y===overlapCell?.y)return;
+ overlapCell=next;
+ renderBagOverlapTabs();
+}
+function selectBagFromTab(id){
+ const bag=bags.find(a=>a.uid===id);if(!bag)return false;
+ selected=id;hovered=id;render();return true;
+}
+function startBagTabDrag(id,e){
+ if(e.button!==0||debugMode||rangeMode||drag||rangeDrag)return;
+ const a=bags.find(b=>b.uid===id);if(!a)return;
+ e.preventDefault();e.stopPropagation();
+ const c=cellFromEvent(e);
+ selected=a.uid;hovered=a.uid;
+ drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,
+  before:state(),pointer:e.pointerId,startClientX:e.clientX,startClientY:e.clientY,
+  moved:false,members:groupMembers(a),bundleIds:childrenOf(a).map(x=>x.uid)};
+ canvas.focus();canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging');
+ render();
+}
+function renderBagOverlapTabs(){
+ const panel=$('bagOverlapTabs');
+ if(!panel)return;
+ const optionsForCell=overlapCell&&overlappingBagsAt(overlapCell.x,overlapCell.y);
+ if(debugMode||rangeMode||drag||rangeDrag||!(mode==='bag'||mode==='auto')||!optionsForCell||optionsForCell.length<2){
+  panel.hidden=true;return;
+ }
+ const key=optionsForCell.map(a=>a.uid).join('|');
+ if(key!==overlapTabKey){
+  overlapTabKey=key;panel.replaceChildren();
+  const title=document.createElement('span');title.className='bag-tab-title';title.textContent='重なったバッグを選択';panel.append(title);
+  optionsForCell.forEach((a,i)=>{
+   const button=document.createElement('button');button.type='button';button.dataset.bagId=a.uid;
+   button.textContent=(i+1)+' · '+getP(a).name+' ('+a.uid.slice(-4)+')';
+   button.title=getP(a).name+' を選択。押したままドラッグで移動';
+   button.addEventListener('pointerdown',e=>startBagTabDrag(a.uid,e));
+   button.addEventListener('click',()=>selectBagFromTab(a.uid));
+   panel.append(button);
+  });
+ }
+ for(const button of panel.querySelectorAll('button'))button.setAttribute('aria-pressed',String(button.dataset.bagId===selected));
+ panel.hidden=false;
+ const cells=optionsForCell.map(a=>new Set(absCells(a).map(([x,y])=>y*W+x)));
+ const shared=[...cells[0]].filter(k=>cells.every(set=>set.has(k)));
+ const pivot=shared.length?shared:[overlapCell.y*W+overlapCell.x];
+ const x=Math.max(...pivot.map(k=>k%W)),y=Math.min(...pivot.map(k=>Math.floor(k/W)));
+ const boardRect=canvas.getBoundingClientRect(),outerRect=canvas.parentElement.getBoundingClientRect();
+ const px=boardRect.width/W,py=boardRect.height/H;
+ // Place the tabs at the upper-right edge of the overlapping region,
+ // but clamp into the visible board on small screens and near edges.
+ const desiredLeft=(x+1)*px-8;
+ const desiredTop=y*py+3;
+ const left=Math.max(2,Math.min(desiredLeft,boardRect.width-panel.offsetWidth-2));
+ const top=Math.max(2,Math.min(desiredTop,boardRect.height-panel.offsetHeight-2));
+ panel.style.left=Math.round(boardRect.left-outerRect.left+left)+'px';
+ panel.style.top=Math.round(boardRect.top-outerRect.top+top)+'px';
+}
 function topObjectAt(x,y,forRange=false){
  const gem=gemAt(x,y);
  if(gem){
@@ -1188,8 +1263,8 @@ canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;canvas.focus();
    }
    selected=null;hovered=null;canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging');render();return;
  }
- let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,startClientX:e.clientX,startClientY:e.clientY,moved:false,members:a.type==='bag'?groupMembers(a):null,bundleIds:a.type==='bag'?childrenOf(a).map(x=>x.uid):null};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
-canvas.addEventListener('pointermove',e=>{if((drag&&drag.pointer!==e.pointerId)||(rangeDrag&&rangeDrag.pointer!==e.pointerId))return;let c=cellFromEvent(e);showCursorCoord(c);if(debugMode)return;
+ setOverlapCell(c);let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,startClientX:e.clientX,startClientY:e.clientY,moved:false,members:a.type==='bag'?groupMembers(a):null,bundleIds:a.type==='bag'?childrenOf(a).map(x=>x.uid):null};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
+canvas.addEventListener('pointermove',e=>{if((drag&&drag.pointer!==e.pointerId)||(rangeDrag&&rangeDrag.pointer!==e.pointerId))return;let c=cellFromEvent(e);showCursorCoord(c);if(debugMode)return;if(!drag&&!rangeDrag)setOverlapCell(c);
  if(rangeDrag){
    if(rangeDrag.kind==='select'){rangeDrag.end={x:Math.max(0,Math.min(W-1,c.x)),y:Math.max(0,Math.min(H-1,c.y))}}
    else if(inBoard(c.x,c.y)){
@@ -1246,7 +1321,17 @@ window.addEventListener('pointerup',endDrag,true);
 window.addEventListener('pointercancel',cancelDrag,true);
 canvas.addEventListener('lostpointercapture',cancelDrag);
 window.addEventListener('blur',()=>cancelDrag());
-canvas.addEventListener('pointerleave',()=>{if(!drag&&!rangeDrag){hovered=null;showCursorCoord({x:-1,y:-1});render()}});
+canvas.addEventListener('pointerleave',e=>{
+ if(drag||rangeDrag)return;
+ if($('bagOverlapTabs').contains(e.relatedTarget))return;
+ overlapCell=null;hovered=null;showCursorCoord({x:-1,y:-1});render();
+});
+$('bagOverlapTabs').addEventListener('pointerleave',e=>{
+ if(drag||rangeDrag)return;
+ if(e.relatedTarget===canvas){setOverlapCell(cellFromEvent(e));return}
+ overlapCell=null;renderBagOverlapTabs();
+});
+window.addEventListener('resize',renderBagOverlapTabs);
 
 function fileSafe(s){return s.replace(/[\\/:*?"<>|]/g,'_')}
 function download(data,name,type){let blob=data instanceof Blob?data:new Blob([data],{type});const u=URL.createObjectURL(blob);let a=document.createElement('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
@@ -1415,7 +1500,7 @@ window.addEventListener('blur',()=>{ctrlSoloArmed=false;});
 canvas.addEventListener('pointerdown',()=>{ctrlSoloArmed=false;});
 buildStarterSets();buildCatalog();render();
 // Expose a limited, read-only test hook to automate verification without changing app state.
-window.__rechoTest={cycleMode,togglePriestessCatalog,rotateAtCell,activeCatalogDefs,getMode:()=>mode,priestessOnly:()=>priestessOnly,setMode,deleteSelected,setSelected:(id)=>{selected=id;render()},setDebugMode,setDebugSymbol,paintDebugAt,debugCoordinates,debugMarks:()=>deep(debugMarks),attachGem,bagCandidates,linkedBag,moveBagGroup,rotateBagGroup,stashAdd:stashSelected,stashAll,stashReturn:returnFromStash,stashBag,bagReturnSpot,findStashItemSpot,range:()=>({mode:rangeMode,selected:[...rangeSelection]}),chooseRange,moveRange,rotateRange,toggleRangeMode,options:()=>deep(options),render:()=>render(),png:()=>makePNGCanvas(),counts:()=>({bags:bags.length,items:items.length,stash:stash.length,gems:gems.length,debugMarks:debugMarks.length,errors:validate().number,open:bagUnion().size}),displayCell:(x,y)=>displayCell(x,y),snapshot:()=>state(),exportDocument:()=>deep(makeLayoutDocument()),geom:(id,r)=>geom(byId.get(id),r),load:loadJSON,starterSets:()=>STARTER_SETS.map(s=>({id:s.id,className:s.className,title:s.title,bags:s.bags,items:s.items})),applyStarterSet};
+window.__rechoTest={cycleMode,togglePriestessCatalog,rotateAtCell,activeCatalogDefs,getMode:()=>mode,priestessOnly:()=>priestessOnly,setMode,deleteSelected,setSelected:(id)=>{selected=id;render()},setDebugMode,setDebugSymbol,paintDebugAt,debugCoordinates,debugMarks:()=>deep(debugMarks),attachGem,bagCandidates,linkedBag,moveBagGroup,rotateBagGroup,stashAdd:stashSelected,stashAll,stashReturn:returnFromStash,stashBag,bagReturnSpot,findStashItemSpot,overlappingBagsAt,setOverlapCell,selectBagFromTab,startBagTabDrag,overlapTabs:()=>({cell:overlapCell&&{...overlapCell},ids:overlapCell?overlappingBagsAt(overlapCell.x,overlapCell.y).map(x=>x.uid):[]}),range:()=>({mode:rangeMode,selected:[...rangeSelection]}),chooseRange,moveRange,rotateRange,toggleRangeMode,options:()=>deep(options),render:()=>render(),png:()=>makePNGCanvas(),counts:()=>({bags:bags.length,items:items.length,stash:stash.length,gems:gems.length,debugMarks:debugMarks.length,errors:validate().number,open:bagUnion().size}),displayCell:(x,y)=>displayCell(x,y),snapshot:()=>state(),exportDocument:()=>deep(makeLayoutDocument()),geom:(id,r)=>geom(byId.get(id),r),load:loadJSON,starterSets:()=>STARTER_SETS.map(s=>({id:s.id,className:s.className,title:s.title,bags:s.bags,items:s.items})),applyStarterSet};
 })();
 
 </script>
