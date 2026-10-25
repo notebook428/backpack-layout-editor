@@ -10,6 +10,7 @@ for(const id of ['filterClass','filterRarity','filterTagList','filterTagMode','f
                   'filterPriceMin','filterPriceMax','clearCatalogFilters','catalogFilterPanel','filterActiveCount'])
  assert.ok(html.includes('id="'+id+'"'),'Missing filter control '+id);
 assert.ok(html.includes("$('clearCatalogFilters').addEventListener('click',clearCatalogFilters)"));
+assert.ok(html.includes("$('filterTagList').addEventListener('change',filterCatalog)"),'Checkbox changes must trigger filtering');
 const start=html.indexOf('function activeCatalogDefs(){');
 const end=html.indexOf('function toast(s){',start);
 assert.ok(start>0&&end>start,'Could not locate production catalogue filters');
@@ -70,7 +71,7 @@ const tagChips=()=>elements.filterTagList.querySelectorAll('input');
 const selectedTags=()=>tagChips().filter(i=>i.checked).map(i=>i.value);
 const pickTags=(...values)=>{
  for(const option of tagChips())option.checked=values.includes(option.value);
- elements.filterTagList.listeners.change();
+ code('filterCatalog()');
 };
 code('buildCatalog()');
 assert.equal(visible().length,4,'Priestess must be opt-in');
