@@ -64,7 +64,7 @@ function record(){undoStack.push(state());redoStack.length=0}
 function resetRange(){rangeSelection.clear();rangeDrag=null}
 function childrenOf(b){return items.filter(a=>a.linkBag===b.uid)}
 function bagUnion(){return new Set(bags.flatMap(a=>absCells(a).map(([x,y])=>y*W+x)))}
-function atCell(x,y){return [...bags,...items,...gems.filter(g=>!g.stored)].findLast(a=>a.x===x&&a.y===y)||null}
+function atCell(x,y){return [...bags,...items,...gems.filter(g=>!g.stored)].findLast(a=>{const p=a.type==='gem'?gemCell(a):a;return p.x===x&&p.y===y})||null}
 function reset(type='item',x=1,y=1){
  bags=[];items=[];stash=[];gems=[];undoStack=[];redoStack=[];selected=null;hovered=null;
  drag=null;rangeDrag=null;rangeMode=false;
