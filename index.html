@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Backpack Battles バッグ配置エディタ | Recho</title><style>
 :root{color-scheme:dark;--bg:#0e1525;--panel:#182238;--panel2:#1e2c45;--edge:#32425e;--text:#eff1f9;--dim:#acb9ce;--gold:#f1d49f;--violet:#bba6f3;--red:#ff6f82}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#2a3354 0%,#0e1525 58%);color:var(--text);font:14px/1.6 system-ui,-apple-system,"Yu Gothic",Meiryo,sans-serif}header{max-width:1480px;margin:auto;padding:22px 25px 10px;display:flex;align-items:end;justify-content:space-between;gap:15px;flex-wrap:wrap}h1{margin:0;font:700 clamp(23px,2.3vw,34px)/1.25 Georgia,"Yu Mincho",serif;letter-spacing:.02em}header .eyebrow{font-size:11px;letter-spacing:.22em;color:var(--gold);font-weight:800}header p{margin:5px 0 0;color:var(--dim)}.version{color:#b4c6e6;border:1px solid var(--edge);border-radius:50px;padding:6px 13px;font-size:12px}main{max-width:1480px;margin:auto;padding:12px 22px 22px;display:grid;grid-template-columns:minmax(232px,270px) minmax(530px,1fr) minmax(235px,290px);gap:16px;align-items:start}.panel{background:linear-gradient(155deg,#1b2740,#162037);border:1px solid var(--edge);border-radius:16px;padding:16px;box-shadow:0 10px 35px #0002}.panel h2{font-size:16px;margin:0 0 10px;color:var(--gold)}.tiny{font-size:11px;color:var(--dim)}.field{width:100%;padding:10px 11px;background:#111b2f;border:1px solid #394965;border-radius:8px;color:var(--text);font:inherit;margin-bottom:9px}.field:focus{outline:2px solid #9983d8}.catalog-controls{display:flex;gap:8px}.catalog-controls select{flex:1;min-width:0}.catalog-filter-panel{margin:2px 0 10px;padding:10px;border:1px solid #546580;border-radius:10px;background:#182740}
-.catalog-filter-panel summary{font-size:12px;font-weight:700;color:#efdaad;cursor:pointer}
+.catalog-filter-panel summary{font-size:12px;font-weight:700;color:#efdaad;cursor:pointer}.catalog-filter-panel summary .active-count{display:inline-block;margin-left:5px;color:#191d31;background:#f1d49f;border-radius:20px;padding:0 6px;font-size:10px}.catalog-filter-panel summary .active-count:empty{display:none}
 .catalog-filter-panel[open] summary{margin-bottom:9px}
 .catalog-filter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
 .catalog-filter-grid label{font-size:11px;color:#b8c7e2;min-width:0}
@@ -71,7 +71,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 </style></head><body>
 <header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.49</span></header>
 <main>
-<aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><label class="tiny" style="display:block;margin:0 0 6px"><input type="checkbox" id="auditOnly"> 共通アイテムの要照合だけ表示</label><select class="field" id="auditKind" aria-label="要照合の種類" style="margin-bottom:9px"><option value="all">形状または☆が未照合</option><option value="shape">形状が暫定・未照合</option><option value="stars">☆が未確認</option></select><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><details class="catalog-filter-panel" id="catalogFilterPanel"><summary>詳細検索 · クラス／レアリティ／属性／効果／価格</summary><div class="catalog-filter-grid">
+<aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><label class="tiny" style="display:block;margin:0 0 6px"><input type="checkbox" id="auditOnly"> 共通アイテムの要照合だけ表示</label><select class="field" id="auditKind" aria-label="要照合の種類" style="margin-bottom:9px"><option value="all">形状または☆が未照合</option><option value="shape">形状が暫定・未照合</option><option value="stars">☆が未確認</option></select><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><details class="catalog-filter-panel" id="catalogFilterPanel"><summary>詳細検索 · クラス／レアリティ／属性／効果／価格 <span class="active-count" id="filterActiveCount" aria-live="polite"></span></summary><div class="catalog-filter-grid">
 <label>クラス<select id="filterClass" class="field" aria-label="クラス"><option value="">すべてのクラス</option></select></label>
 <label>レアリティ<select id="filterRarity" class="field" aria-label="レアリティ"><option value="">すべてのレアリティ</option></select></label>
 <label>属性・タグ<select id="filterTag" class="field" aria-label="属性・タグ"><option value="">すべての属性</option></select></label>
@@ -1555,6 +1555,9 @@ function clearCatalogFilters(){
 }
 function filterCatalog(){
  const available=activeCatalogDefs(),filters=catalogFilterValues();
+ const activeCount=['className','rarity','tag','buff','debuff'].filter(k=>!!filters[k]).length
+  +Number(filters.socket!==null)+Number(filters.minPrice!==null)+Number(filters.maxPrice!==null);
+ $('filterActiveCount').textContent=activeCount?activeCount+'条件':'';
  const filtered=available.filter(p=>catalogMatches(p,filters)).sort(sorted);
  $('catalogCount').textContent=`${filtered.length} / ${available.length} プリセットを表示${priestessOnly?'（プリーステス追加中）':''}`;
  let listEl=$('catalog');listEl.replaceChildren();let frag=document.createDocumentFragment();
