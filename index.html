@@ -12,6 +12,7 @@
 
 /* Off-board storage: neither backpack coverage nor item collision affects it. */
 .move-together{display:flex;gap:5px;align-items:center;background:#28354e;border:1px solid #526282;padding:6px 9px;border-radius:7px;color:#efe0ff!important;cursor:pointer}.move-together input{accent-color:#bd9dec}.gem-key{font-weight:800;color:#f1d49f}.select-link{width:100%;padding:7px;margin-top:7px;background:#152138;border:1px solid #687895;color:#fff;border-radius:7px}.selection .btn{margin-top:7px}.stash{margin-top:15px;border:1px solid #52627e;border-radius:12px;padding:13px;background:#111d30}
+.stash.drop-target{border-color:#eac77e;background:#2e2940;box-shadow:0 0 0 2px #eac77e66}
 .stash-header{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 .stash-header h3{margin:0;color:#f1d49f;font-size:15px}
 .stash-header span{font-size:12px;color:#b7c7df}
@@ -48,7 +49,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 .debug-tools #debugCount{color:#f1d49f;font-size:12px}
 #board.debug-active{cursor:crosshair;outline:2px solid #a88acb;outline-offset:1px}
 </style></head><body>
-<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.41</span></header>
+<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.42</span></header>
 <main>
 <aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><label class="tiny" style="display:block;margin:0 0 6px"><input type="checkbox" id="auditOnly"> 共通アイテムの要照合だけ表示</label><select class="field" id="auditKind" aria-label="要照合の種類" style="margin-bottom:9px"><option value="all">形状または☆が未照合</option><option value="shape">形状が暫定・未照合</option><option value="stars">☆が未確認</option></select><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。Shift+Pで通常の一覧にプリーステスのアイテムを追加・解除できます。</div></aside>
 <section class="panel center"><div class="starting-sets">
@@ -56,7 +57,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
   <select id="startSet" class="field" aria-label="呼び出す初期装備セット"><option value="">クラスを選ぶと初期配置を呼び出します…</option></select>
   <div class="tiny" id="startSetInfo">初期配置14セットを再現します。現在の配置がある場合は上書きを確認します。</div>
 </div><div class="toolbar"><button class="btn danger" id="new" title="バッグ・アイテム・宝石・保管中のアイテムをすべて消去">全消去</button><button class="btn" id="undo" title="Ctrl+Z">↶ 戻す</button><button class="btn" id="redo" title="Ctrl+Y">↷ やり直す</button><button class="btn" id="rotate" title="R キー">⟳ 回転</button><button class="btn danger" id="delete" title="D / Delete キー">削除</button><button class="btn" id="storeSelected" title="Bキーで選択中のアイテムを保管">▣ 保管する</button><button class="btn" id="storeAll" title="盤面上の通常アイテムと宝石をまとめて保管。バッグは残ります">▣ 全部保管</button><button class="btn" id="rangeSelect" title="Shift+Sでも切替可能。盤面をドラッグして範囲指定">▧ 範囲選択</button></div><div class="tiny range-hint" id="rangeHint" aria-live="polite">範囲選択：ボタンまたはShift+S → ドラッグで囲む → ドラッグで移動／Rで一括回転</div>
-<div class="mode-wrap"><label>選択レイヤー</label><button class="btn small modebtn active" data-mode="item">通常アイテム</button><button class="btn small modebtn" data-mode="bag">バッグ</button><button class="btn small modebtn" data-mode="gem">💎 宝石</button><button class="btn small modebtn" data-mode="auto" title="表示が上にある対象を優先して選択（宝石→通常アイテム→バッグ）">上層から操作</button><span class="tiny">Ctrl単独：レイヤー切替（通常アイテム→バッグ→宝石→上層から操作） · 右クリック/R：回転 · D：削除 · Shift+P：プリーステス一覧</span><label class="move-together"><input id="moveTogether" type="checkbox" checked> バッグを中身ごと動かす</label></div>
+<div class="mode-wrap"><label>選択レイヤー</label><button class="btn small modebtn" data-mode="item">通常アイテム</button><button class="btn small modebtn" data-mode="bag">バッグ</button><button class="btn small modebtn" data-mode="gem">💎 宝石</button><button class="btn small modebtn active" data-mode="auto" title="表示が上にある対象を優先して選択（宝石→通常アイテム→バッグ）">上層から操作</button><span class="tiny">Ctrl単独：レイヤー切替（上層から操作→通常アイテム→バッグ→宝石） · 右クリック/R：回転 · D：削除 · Shift+P：プリーステス一覧</span><label class="move-together"><input id="moveTogether" type="checkbox" checked> バッグを中身ごと動かす</label></div>
 <div class="debug-tools" id="debugTools" hidden aria-label="開発用の説明マーカー">
   <strong>✎ 説明用マーカー</strong><span class="hint">盤面のマスをクリックして置く／同じ記号を押し直して消す</span>
   <button class="btn small debug-marker-btn active" type="button" data-symbol="☆" title="星印（影響範囲の説明）">☆</button>
@@ -73,7 +74,7 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
   <span class="hint">Shift+Dで閉じる。通常アイテムの移動は一時停止。JSON保存・Undo対応。</span>
 </div>
 <div class="board-frame"><div class="board-outer"><div class="axis-y" aria-label="Y座標の目盛り（下から1〜7）"><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div><canvas id="board" width="720" height="560" tabindex="0" aria-label="9列7行のバッグ配置盤面。左下のマスは1,1で、右方向にX、上方向にYが増えます"></canvas><div class="axis-corner" aria-hidden="true">↗</div><div class="axis-x" aria-label="X座標の目盛り（左から1〜9）"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></div></div></div><div class="coord-readout"><span>左下のマス：(1, 1) ・ X → / Y ↑</span><strong id="cursorCoord" aria-live="polite">カーソル：(－, －)</strong></div><div class="status" id="status" aria-live="polite"></div>
-<div class="stash" id="stashZone"><div class="stash-header"><h3>▣ 保管ボックス <span id="stashCount">0個</span></h3><span>盤面の外でアイテムを一時保管 · ドラッグでも移動できます</span></div><div class="stash-items" id="stashItems" aria-live="polite"></div></div>
+<div class="stash" id="stashZone"><div class="stash-header"><h3>▣ 保管ボックス <span id="stashCount">0個</span></h3><span>アイテム・宝石を盤面外へドラッグして離すと保管（バッグは対象外）</span></div><div class="stash-items" id="stashItems" aria-live="polite"></div></div>
 <div class="controls-footer"><button class="btn" id="save">JSON 保存</button><button class="btn" id="load">JSON 読み込み</button><input class="file-input" type="file" id="file" accept="application/json,.json"><button class="btn primary" id="copyPng" title="配置図と凡例を画像としてコピー">画像をコピー</button><button class="btn" id="png">PNG 書き出し</button><label><input id="pngStars" type="checkbox" checked> 画像に☆・◆・◇・△を含める</label></div></section>
 <aside class="panel right"><div><h2>色別凡例</h2><div class="tiny">同じアイテムは同じ色。個数は配置数。</div><div class="legend" id="legend" aria-live="polite"></div><div class="tiny" style="margin:13px 0 6px;color:#f1d49f">配置バッグ</div><div class="legend" id="bagLegend" aria-live="polite" style="max-height:130px"></div><div class="kv"><span>バッグ開放マス</span><b id="coverage">0 / 63</b></div><div class="kv"><span>通常アイテム</span><b id="itemCount">0</b></div><div class="kv"><span>宝石</span><b id="gemCount">0</b></div><div class="tiny" style="color:#f1d49f;margin-top:10px">💎 宝石凡例</div><div class="legend" id="gemLegend" style="max-height:110px"></div></div><div><hr class="section-break"><h2>選択中</h2><div id="selection" class="selection tiny">盤面のアイテムをクリックして選択。</div><hr class="section-break"><h2>操作のヒント</h2><ul class="tips"><li>「初期装備セット」で各クラスの初期バッグと初期アイテムを対応する位置・向きで一括配置できます。</li><li>アイテムをドラッグして移動。☆はホバーと移動中だけ見えます。</li><li>バッグの移動は「バッグ」レイヤーへ切替。「中身ごと」ONでアイテムも追従します。</li><li>宝石を装着するには💎宝石レイヤーで宝石を武器・防具のマスへドラッグ。取り外しも同じレイヤーから。</li><li>バッグをまたぐアイテムは通常アイテムレイヤーで選び、右の「選択中」から追従先を指定できます。</li><li><b>R</b> 回転、<b>Delete</b> 削除、<b>B</b> 保管、<b>Ctrl+Z</b> 戻す。</li><li>「保管する」で選択した通常アイテムを退避。保管ボックスの「戻す」で空き場所に再配置。</li><li>赤枠は重複かバッグ外。赤枠でも編集・JSON保存できます。</li><li>座標は左下のマスを (1,1) として表示します。右へX、上へYが増えます。</li></ul><details class="options"><summary>⚙ 表示オプション</summary><label class="opt-label" for="itemInset">アイテムとバッグのすき間 <b id="insetValue">12 px</b></label><input id="itemInset" type="range" min="6" max="18" step="1" value="12"><div class="tiny">数値を大きくすると、背景のバッグがよく見えます。設定はこのブラウザに保存します。</div></details><div class="note" style="margin-top:12px">原作初期装備は7クラス×2パターン、計14セットの配置位置と向きをユーザー作成の再現図に合わせて収録。初期位置は自動配置ではありません。原作アイテムの☆等、未確認情報は引き続き要照合です。今回調査した原作バッグ19種類はゲーム画面で形状を確認済み。びっくりサックは配置対象から除外しました。検証用テトロミノも引き続き使えます。v0.8では宝石の表示サイズを小さくしています。宝石とバッグ内の通常アイテムは別レイヤーです。原作アイテム名は日本語Wikiと照合したものから順次改訂。未照合の名称・☆・形状には現行版との差があり得ます。 一部の原作プリセットは☆座標の調査中。<b>☆未確認</b>と書かれたものは、☆が無いという意味ではありません。</div></div></aside>
 </main><div class="footer">本ツールはファン制作の非公式エディタです。ゲーム本編や制作者とは無関係です。配置データはブラウザ内で処理され、運営者の独自サーバーには送信されません。<a href="item-registration.html">アイテム登録アシスタント</a> · <a href="info.html#terms">利用規約</a> · <a href="info.html#disclaimer">免責事項</a> · <a href="info.html#privacy">プライバシー</a> · <a href="info.html#changes">更新履歴</a> · <a href="info.html#guide">使い方</a></div><div id="toast" role="status"></div>
@@ -692,7 +693,7 @@ const READINGS={
 'priest-bible':'せいしょ','base-leather-bag':'かわのかばん','base-rat':'ねずみ','base-snowball':'ゆきだま'};
 const sorted=(a,b)=>(a.reading||READINGS[a.id]||a.name).localeCompare((b.reading||READINGS[b.id]||b.name),'ja');
 let definitions=[...PRESETS], byId=new Map(definitions.map(x=>[x.id,x]));
-let bags=[],items=[],stash=[],gems=[],debugMarks=[],debugMode=false,debugSymbol='☆',selected=null,hovered=null,mode='item',drag=null,undoStack=[],redoStack=[],uidCounter=1;
+let bags=[],items=[],stash=[],gems=[],debugMarks=[],debugMode=false,debugSymbol='☆',selected=null,hovered=null,mode='auto',drag=null,undoStack=[],redoStack=[],uidCounter=1;
 let priestessOnly=false,ctrlSoloArmed=false; // priestessOnly is the legacy flag name; true now means include Priestess in the normal catalog.
 let rangeMode=false,rangeSelection=new Set(),rangeDrag=null; // temporary multi-selection, excluded from JSON exports
 const isEditableTarget=el=>!!(el&&(['INPUT','TEXTAREA','SELECT'].includes(el.tagName)||el.isContentEditable));
@@ -1054,6 +1055,7 @@ function findSpot(p,rotation=0){let g=geom(p,rotation),union=bagUnion(),occupied
 }
 function addPreset(id){const p=byId.get(id);if(!p)return;if(p.pending||!p.shape?.length){toast('形状が未確認のため、まだ配置できません');return;}let spot=findSpot(p);record();let gem=isGemPreset(p),a={uid:uid(),presetId:p.id,x:spot.x,y:spot.y,rot:0,color:colorFor(p),type:gem?'gem':p.type};(gem?gems:p.type==='bag'?bags:items).push(a);if(mode!=='auto')mode=gem?'gem':p.type;selected=a.uid;hovered=null;render();toast(p.name+' を追加しました')}
 function cellFromEvent(e){let r=canvas.getBoundingClientRect();let mx=(e.clientX-r.left)/r.width*W,my=(e.clientY-r.top)/r.height*H;return{x:Math.floor(mx),y:Math.floor(my)}}
+function isOutsideBoard(e){const r=canvas.getBoundingClientRect();return e.clientX<r.left||e.clientX>=r.right||e.clientY<r.top||e.clientY>=r.bottom}
 function topObjectAt(x,y,forRange=false){
  const gem=gemAt(x,y);
  if(gem){
@@ -1101,7 +1103,7 @@ canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;canvas.focus();
    }
    selected=null;hovered=null;canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging');render();return;
  }
- let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,moved:false,members:a.type==='bag'?groupMembers(a):null};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
+ let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;selected=a?.uid||null;hovered=a?.uid||null;if(a){drag={id:a.uid,offx:c.x-a.x,offy:c.y-a.y,lastx:c.x,lasty:c.y,before:state(),pointer:e.pointerId,startClientX:e.clientX,startClientY:e.clientY,moved:false,members:a.type==='bag'?groupMembers(a):null};canvas.setPointerCapture(e.pointerId);canvas.classList.add('dragging')}render()});
 canvas.addEventListener('pointermove',e=>{let c=cellFromEvent(e);showCursorCoord(c);if(debugMode)return;
  if(rangeDrag){
    if(rangeDrag.kind==='select'){rangeDrag.end={x:Math.max(0,Math.min(W-1,c.x)),y:Math.max(0,Math.min(H-1,c.y))}}
@@ -1112,20 +1114,26 @@ canvas.addEventListener('pointermove',e=>{let c=cellFromEvent(e);showCursorCoord
    }
    render();return;
  }
- if(drag){let a=list().find(x=>x.uid===drag.id);if(a&&inBoard(c.x,c.y)){
+ if(drag){let a=list().find(x=>x.uid===drag.id);$('stashZone').classList.toggle('drop-target',!!a&&(a.type==='item'||a.type==='gem')&&isOutsideBoard(e));if(a&&inBoard(c.x,c.y)){
  if(a.type==='bag') {const dx=c.x-drag.lastx,dy=c.y-drag.lasty;if(dx||dy){moveBagGroup(a,dx,dy,drag.members);drag.moved=true}}
  else if(a.type==='gem'){if(c.x!==drag.lastx||c.y!==drag.lasty){a.hostId=null;a.slot=null;a.stored=false;Object.assign(a,clampPos(a,c.x,c.y));drag.moved=true}}
  else{let pos=clampPos(a,c.x-drag.offx,c.y-drag.offy);if(pos.x!==a.x||pos.y!==a.y){a.x=pos.x;a.y=pos.y;drag.moved=true}}
  drag.lastx=c.x;drag.lasty=c.y;render()}}else{let a=inBoard(c.x,c.y)?atCell(c.x,c.y):null;if(hovered!==a?.uid){hovered=a?.uid||null;render()}}});
 function endDrag(e){
+ $('stashZone').classList.remove('drop-target');
  if(rangeDrag){
    const r=rangeDrag;rangeDrag=null;canvas.classList.remove('dragging');
    if(r.kind==='select'){chooseRange(r.start,r.end);toast(rangeSelection.size?rangeMembers().length+'個を選択しました':'選択範囲にアイテムがありません')}
    else if(r.moved&&JSON.stringify(state())!==JSON.stringify(r.before)){undoStack.push(r.before);if(undoStack.length>70)undoStack.shift();redoStack.length=0}
    render();return;
  }
- if(!drag)return;canvas.classList.remove('dragging');const a=list().find(x=>x.uid===drag.id);if(a&&drag.moved&&a.type==='gem'&&e){const c=cellFromEvent(e);if(inBoard(c.x,c.y)){const hosts=items.filter(canSocket).filter(q=>absCells(q).some(([x,y])=>x===c.x&&y===c.y));const host=hosts.at(-1);if(host&&!attachGem(a,host,c.x,c.y))toast('装着できません。ソケットの空きと位置を確認してね');}}
- if(a&&a.type==='item'&&e){const z=$('stashZone').getBoundingClientRect();if(e.clientX>=z.left&&e.clientX<=z.right&&e.clientY>=z.top&&e.clientY<=z.bottom){items=items.filter(x=>x.uid!==a.uid);stash.push(a);selected=null;hovered=null;toast('アイテムを宝石ごと保管しました')}}
+ if(!drag)return;canvas.classList.remove('dragging');const a=list().find(x=>x.uid===drag.id);const validDrop=e?.type==='pointerup'&&Math.hypot(e.clientX-drag.startClientX,e.clientY-drag.startClientY)>=12;
+ if(a&&validDrop&&isOutsideBoard(e)&&(a.type==='item'||a.type==='gem')){
+   if(a.type==='item'){items=items.filter(x=>x.uid!==a.uid);stash.push(a);toast('アイテムを宝石ごと保管しました')}
+   else{a.hostId=null;a.slot=null;a.stored=true;toast('宝石を保管ボックスへ移動しました')}
+   selected=null;hovered=null;
+ }else if(a&&drag.moved&&a.type==='gem'&&e?.type==='pointerup'){const c=cellFromEvent(e);if(inBoard(c.x,c.y)){const hosts=items.filter(canSocket).filter(q=>absCells(q).some(([x,y])=>x===c.x&&y===c.y));const host=hosts.at(-1);if(host&&!attachGem(a,host,c.x,c.y))toast('装着できません。ソケットの空きと位置を確認してね');}}
+
  if(JSON.stringify(state())!==JSON.stringify(drag.before)){undoStack.push(drag.before);if(undoStack.length>70)undoStack.shift();redoStack.length=0}drag=null;render()}
 canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);canvas.addEventListener('lostpointercapture',endDrag);canvas.addEventListener('pointerleave',()=>{if(!drag){hovered=null;showCursorCoord({x:-1,y:-1});render()}});
 
