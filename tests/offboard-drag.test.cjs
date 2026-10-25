@@ -191,22 +191,51 @@ assert.equal(snapshot().stash.find(x=>x.uid==='child').x,2,'Stash should use pre
 vm.runInContext("returnFromStash('sample')",ctx);
 assert.equal(snapshot().items[0].x-snapshot().bags[0].x,1,'Child offsets survive an independent bag drag');
 
-// Returning a standalone item without a covering bag must not create errors.
+// Restoring is an editing operation: bag coverage must not block it.
+// An unchanged saved position should win even when there are no bags.
 reset('item',1,1);
 vm.runInContext("selected='sample';stashSelected()",ctx);
-const beforeRejectedReturn=snapshot().undo;
+const undoAfterStash=snapshot().undo;
 vm.runInContext("returnFromStash('sample')",ctx);
-assert.equal(snapshot().stash.length,1);
-assert.equal(snapshot().undo,beforeRejectedReturn,'Rejected returns must not create Undo state');
-vm.runInContext("bags.push({uid:'cover',type:'bag',presetId:'bag',x:1,y:1,rot:0});returnFromStash('sample')",ctx);
-assert.equal(snapshot().items.length,1,'A free covered cell should allow return');
+assert.equal(snapshot().items.length,1,'Item should return without any bag');
 assert.equal(snapshot().stash.length,0);
+assert.deepEqual([snapshot().items[0].x,snapshot().items[0].y],[1,1],'Prefer the stored position');
+assert.equal(snapshot().undo,undoAfterStash+1,'Successful return must be Undoable');
+vm.runInContext('undo()',ctx);
+assert.equal(snapshot().stash.length,1,'Undo returns the item to storage');
+vm.runInContext('redo()',ctx);
+assert.equal(snapshot().items.length,1,'Redo restores the same item');
+assert.deepEqual([snapshot().items[0].x,snapshot().items[0].y],[1,1]);
 
-// A colliding item must never be restored on top of another item.
+// When the saved position and every bag cell is occupied, a free spot
+// outside bags must be used instead of rejecting the return.
 reset('item',1,1);
-vm.runInContext("selected='sample';stashSelected();bags.push({uid:'cover',type:'bag',presetId:'bag',x:1,y:1,rot:0});items.push({uid:'occupied',type:'item',presetId:'stone',x:1,y:1,rot:0})",ctx);
+vm.runInContext(`
+selected='sample';stashSelected();
+bags.push({uid:'cover',type:'bag',presetId:'bag',x:1,y:1,rot:0});
+items.push({uid:'occupied1',type:'item',presetId:'stone',x:1,y:1,rot:0});
+items.push({uid:'occupied2',type:'item',presetId:'stone',x:2,y:1,rot:0});
+`,ctx);
 vm.runInContext("returnFromStash('sample')",ctx);
-assert.equal(snapshot().items.find(x=>x.uid==='sample').x,2,'Use the next free covered cell');
+const outsideReturn=snapshot();
+const placed=outsideReturn.items.find(x=>x.uid==='sample');
+assert.ok(placed,'Return must succeed even when bag is full');
+assert.equal(outsideReturn.stash.length,0);
+assert.ok(![1,2].includes(placed.x)||placed.y!==1,'Must not overlap occupied cells');
+assert.equal(vm.runInContext("bagUnion().has(items.find(x=>x.uid==='sample').y*9+items.find(x=>x.uid==='sample').x)",ctx),false,
+  'Temporary restored item may be placed outside all bags');
+
+// The only unavoidable refusal is when there is no collision-free space
+// anywhere on the 9x7 board; a refusal must not change Undo history.
+reset('item',1,1);
+vm.runInContext(`
+selected='sample';stashSelected();
+for(let y=0;y<7;y++)for(let x=0;x<9;x++)items.push({uid:'fill-'+x+'-'+y,type:'item',presetId:'stone',x,y,rot:0});
+`,ctx);
+const undoBeforeFullReturn=snapshot().undo;
+vm.runInContext("returnFromStash('sample')",ctx);
+assert.equal(snapshot().stash.length,1,'Fully occupied board must keep item in storage');
+assert.equal(snapshot().undo,undoBeforeFullReturn,'Rejected return must not change Undo');
 
 // Dragging a mounted gem straight outside must capture its true cell
 // before clearing its host and socket.
@@ -259,4 +288,4 @@ down();move(115,85);up(115,85);
 assert.equal(snapshot().gems.length,1);
 assert.equal(snapshot().gems[0].stored,true);
 assert.equal(snapshot().undo,1);
-console.log('PASS: overlapping bags, dragged bag coordinates, safe item returns, gem detach, Undo/Redo, JSON-adjacent storage, cancellation.');
+console.log('PASS: overlapping bags, temporary off-bag returns, fallback without collision, full-board refusal, Undo/Redo and gem integrity.');
