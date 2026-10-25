@@ -1053,7 +1053,7 @@ async function copyDebugCoordinates(){
   try{await navigator.clipboard.writeText(text);toast('座標リストをコピーしました')}
   catch(_){window.prompt('以下の座標をコピーしてください',text)}
 }
-function setMode(v){if(mode!==v&&rangeMode)resetRange();mode=v;hovered=null;selected=null;render()}
+function setMode(v){if(mode!==v&&rangeMode)resetRange();mode=v;hovered=null;selected=null;overlapCell=null;render()}
 function cycleMode(){const order=['item','bag','gem','auto'];setMode(order[(order.indexOf(mode)+1)%order.length]);toast('操作レイヤー：'+({bag:'バッグ',item:'通常アイテム',gem:'宝石',auto:'上層から操作'}[mode]));}
 function togglePriestessCatalog(){priestessOnly=!priestessOnly;$('search').value='';$('category').value='';if(priestessOnly)$('auditOnly').checked=false;$('auditOnly').disabled=priestessOnly;$('auditKind').disabled=priestessOnly;buildCatalog();toast(priestessOnly?'通常アイテム＋プリーステスを表示':'通常アイテムのみ表示');}
 function rangeMembers(){
@@ -1128,7 +1128,7 @@ function rotateRange(){
  render();toast('選択範囲をまとめて90°回転しました');
 }
 function state(){return deep({bags,items,stash,gems,debugMarks})}
-function restore(s){bags=deep(s.bags||[]);items=deep(s.items||[]);stash=deep(s.stash||[]);gems=deep(s.gems||[]);debugMarks=deep(s.debugMarks||[]);selected=null;hovered=null;drag=null;resetRange();render()}
+function restore(s){bags=deep(s.bags||[]);items=deep(s.items||[]);stash=deep(s.stash||[]);gems=deep(s.gems||[]);debugMarks=deep(s.debugMarks||[]);selected=null;hovered=null;drag=null;overlapCell=null;resetRange();render()}
 function record(){undoStack.push(state());if(undoStack.length>70)undoStack.shift();redoStack.length=0}
 function undo(){if(drag)return;if(undoStack.length){redoStack.push(state());restore(undoStack.pop())}}
 function redo(){if(drag)return;if(redoStack.length){undoStack.push(state());restore(redoStack.pop())}}
@@ -1305,13 +1305,13 @@ function endDrag(e){
    selected=null;hovered=null;
  }else if(a&&drag.moved&&a.type==='gem'&&e?.type==='pointerup'){const c=cellFromEvent(e);if(inBoard(c.x,c.y)){const hosts=items.filter(canSocket).filter(q=>absCells(q).some(([x,y])=>x===c.x&&y===c.y));const host=hosts.at(-1);if(host&&!attachGem(a,host,c.x,c.y))toast('装着できません。ソケットの空きと位置を確認してね');}}
 
- if(JSON.stringify(state())!==JSON.stringify(drag.before)){undoStack.push(drag.before);if(undoStack.length>70)undoStack.shift();redoStack.length=0}drag=null;render()}
+ if(JSON.stringify(state())!==JSON.stringify(drag.before)){undoStack.push(drag.before);if(undoStack.length>70)undoStack.shift();redoStack.length=0}drag=null;setOverlapCell(isOutsideBoard(e)?null:cellFromEvent(e));render()}
 // Use a window-level release so drops still finish when pointer capture changes.
 function cancelDrag(e){
  const active=rangeDrag||drag;
  if(!active||(e?.pointerId!=null&&active.pointer!==e.pointerId))return;
  const before=active.before;
- drag=null;rangeDrag=null;
+ drag=null;rangeDrag=null;overlapCell=null;
  $('stashZone').classList.remove('drop-target');
  canvas.classList.remove('dragging');
  if(before&&JSON.stringify(state())!==JSON.stringify(before))restore(before);
