@@ -45,7 +45,7 @@ const ctx = vm.createContext({
   canSocket: () => false,
   absCells: a => a.type==='bag'?[[a.x,a.y],[a.x+1,a.y]]:[[a.x,a.y]],
   shape: a => a.type==='bag'?({width:2,height:1,body:[[0,0],[1,0]]}):({width:1,height:1,body:[[0,0]]}),
-  getP: a => ({name:a.presetId}), findSpot: () => ({x:1,y:1})
+  getP: a => ({name:a.presetId}), findSpot: () => ({x:1,y:1}),deep: x => JSON.parse(JSON.stringify(x))
 });
 vm.runInContext(`
 let bags=[],items=[],stash=[],gems=[],debugMarks=[],selected=null,hovered=null;
@@ -56,6 +56,10 @@ function restore(s){bags=JSON.parse(JSON.stringify(s.bags));items=JSON.parse(JSO
  stash=JSON.parse(JSON.stringify(s.stash));gems=JSON.parse(JSON.stringify(s.gems));
  debugMarks=JSON.parse(JSON.stringify(s.debugMarks));drag=null;rangeDrag=null;selected=null;hovered=null;render()}
 function list(){return [...bags,...items,...gems]}
+function gemCell(g){const h=items.find(a=>a.uid===g.hostId);
+ return h?{x:h.x+1,y:h.y}:{x:g.x,y:g.y}}
+function undo(){if(undoStack.length){redoStack.push(state());restore(undoStack.pop())}}
+function redo(){if(redoStack.length){undoStack.push(state());restore(redoStack.pop())}}
 function record(){undoStack.push(state());redoStack.length=0}
 function resetRange(){rangeSelection.clear();rangeDrag=null}
 function childrenOf(b){return items.filter(a=>a.linkBag===b.uid)}
@@ -132,8 +136,11 @@ assert.equal(bundled.stash.length,0);
 assert.equal(bundled.items[0].x-bundled.bags[0].x,1,'Item offset must survive');
 assert.equal(bundled.gems[0].hostId,'child');
 assert.equal(bundled.items[0].storedWithBag,undefined);
-vm.runInContext('restore(undoStack.pop())',ctx);
+vm.runInContext('undo()',ctx);
 assert.equal(snapshot().stash.length,2,'Undo return should restore the bag bundle');
+vm.runInContext('redo()',ctx);
+assert.equal(snapshot().bags.length,1,'Redo return should put the bag back');
+assert.equal(snapshot().gems[0].hostId,'child','Redo must keep gem host');
 
 // The toolbar storage path also supports bags with their contents.
 reset('bag',1,1);
@@ -155,6 +162,61 @@ const undoBefore=snapshot().undo;
 vm.runInContext("returnFromStash('sample')",ctx);
 assert.equal(snapshot().stash.length,2);
 assert.equal(snapshot().undo,undoBefore);
+
+
+// Two overlapping bags: keep an item if the other bag still covers it,
+// but bundle any item that would become uncovered, even without linkBag.
+reset('bag',1,1);
+vm.runInContext(`
+bags.push({uid:'second',presetId:'bag2',type:'bag',x:2,y:1,rot:0});
+items.push({uid:'exclusive',presetId:'item-a',type:'item',x:1,y:1,rot:0});
+items.push({uid:'shared',presetId:'item-b',type:'item',x:2,y:1,rot:0});
+selected='sample';stashSelected();
+`,ctx);
+let overlap=snapshot();
+assert.deepEqual(overlap.items.map(x=>x.uid),['shared'],'Other bag should retain covered item');
+assert.equal(overlap.stash.length,2,'Uncovered item should travel with stashed bag');
+assert.equal(overlap.stash.find(x=>x.uid==='exclusive').storedWithBag,'sample');
+vm.runInContext("returnFromStash('sample')",ctx);
+assert.deepEqual(snapshot().items.map(x=>x.uid),['shared','exclusive']);
+assert.equal(snapshot().bags.length,2);
+
+// If a bag is moved independently before being dragged off-board,
+// its original child offsets must still be preserved on return.
+reset('bag',1,1);
+vm.runInContext("items.push({uid:'child',presetId:'armor',type:'item',x:2,y:1,rot:0,linkBag:'sample'})",ctx);
+down();move(35,15);move(115,85);up(115,85);
+assert.equal(snapshot().stash.find(x=>x.uid==='sample').x,1,'Stash should use pre-drag bag coordinates');
+assert.equal(snapshot().stash.find(x=>x.uid==='child').x,2,'Stash should use pre-drag child coordinates');
+vm.runInContext("returnFromStash('sample')",ctx);
+assert.equal(snapshot().items[0].x-snapshot().bags[0].x,1,'Child offsets survive an independent bag drag');
+
+// Returning a standalone item without a covering bag must not create errors.
+reset('item',1,1);
+vm.runInContext("selected='sample';stashSelected()",ctx);
+const beforeRejectedReturn=snapshot().undo;
+vm.runInContext("returnFromStash('sample')",ctx);
+assert.equal(snapshot().stash.length,1);
+assert.equal(snapshot().undo,beforeRejectedReturn,'Rejected returns must not create Undo state');
+vm.runInContext("bags.push({uid:'cover',type:'bag',presetId:'bag',x:1,y:1,rot:0});returnFromStash('sample')",ctx);
+assert.equal(snapshot().items.length,1,'A free covered cell should allow return');
+assert.equal(snapshot().stash.length,0);
+
+// A colliding item must never be restored on top of another item.
+reset('item',1,1);
+vm.runInContext("selected='sample';stashSelected();bags.push({uid:'cover',type:'bag',presetId:'bag',x:1,y:1,rot:0});items.push({uid:'occupied',type:'item',presetId:'stone',x:1,y:1,rot:0})",ctx);
+vm.runInContext("returnFromStash('sample')",ctx);
+assert.equal(snapshot().items.find(x=>x.uid==='sample').x,2,'Use the next free covered cell');
+
+// Dragging a mounted gem straight outside must capture its true cell
+// before clearing its host and socket.
+reset('item',2,1);
+vm.runInContext("gems.push({uid:'gem-attached',presetId:'ruby',type:'gem',x:0,y:0,rot:0,hostId:'sample',slot:0,stored:false})",ctx);
+down(35,15);move(115,85);up(115,85);
+const removedGem=snapshot().gems[0];
+assert.equal(removedGem.stored,true);
+assert.equal(removedGem.hostId,null);
+assert.deepEqual([removedGem.x,removedGem.y],[3,1],'A detached gem must keep its original visible position');
 
 // A tiny accidental move over the canvas edge is not an intentional drop.
 reset('item',8,1);
@@ -197,4 +259,4 @@ down();move(115,85);up(115,85);
 assert.equal(snapshot().gems.length,1);
 assert.equal(snapshot().gems[0].stored,true);
 assert.equal(snapshot().undo,1);
-console.log('PASS: item/gem/bag storage, bundled restore/undo/delete, no-room protection, threshold and pointer cancellation.');
+console.log('PASS: overlapping bags, dragged bag coordinates, safe item returns, gem detach, Undo/Redo, JSON-adjacent storage, cancellation.');
