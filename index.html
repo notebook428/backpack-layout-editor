@@ -6,6 +6,15 @@
 .catalog-filter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
 .catalog-filter-grid label{font-size:11px;color:#b8c7e2;min-width:0}
 .catalog-filter-grid .field{margin:3px 0 0;padding:7px 6px;min-width:0;font-size:12px}
+.catalog-tag-filters{grid-column:1/-1;min-width:0;margin:0;padding:8px 7px;border:1px solid #4d6383;border-radius:8px}
+.catalog-tag-filters legend{font-size:11px;color:#b8c7e2;padding:0 4px}
+.catalog-tag-list{display:flex;flex-wrap:wrap;gap:5px;max-height:142px;overflow:auto}
+.catalog-tag-option{display:inline-flex;align-items:center;gap:4px;padding:4px 7px;border:1px solid #4f6587;border-radius:99px;background:#253652;color:#e2eaff;cursor:pointer;font-size:11px;user-select:none;line-height:1.4}
+.catalog-tag-option input{margin:0;accent-color:#e3c288}
+.catalog-tag-option:has(input:checked){background:#61517f;border-color:#efce90;color:#fff6d5}
+.catalog-tag-toolbar{display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap}
+.catalog-tag-toolbar label{font-size:11px;color:#b8c7e2}
+.catalog-tag-toolbar select{width:auto;max-width:100%;margin:0;padding:4px 6px;font-size:11px}
 .catalog-price-fields{display:flex;gap:5px;align-items:center}
 .catalog-price-fields input{width:0;flex:1}
 .catalog-filter-footer{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:9px;flex-wrap:wrap}
@@ -69,17 +78,17 @@ canvas#board{grid-column:2;grid-row:1;width:100%;height:auto;aspect-ratio:9/7;mi
 .bag-overlap-tabs button:active{cursor:grabbing}
 @media(max-width:780px){.bag-overlap-tabs{max-width:150px;padding:4px}.bag-overlap-tabs button{max-width:138px;font-size:10px;min-height:27px}}
 </style></head><body>
-<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.49</span></header>
+<header><div><div class="eyebrow">RECHO × HOTATE · CREATIVE TOOL</div><h1>バッグ配置エディタ <span aria-hidden="true">✦</span></h1><p>9 × 7 のバッグに、構想を詰め込もう。</p></div><a class="version" href="item-registration.html" style="text-decoration:none">🗂 アイテム登録</a><span class="version">Backpack Battles 非公式ツール · v0.61.50</span></header>
 <main>
 <aside class="panel left"><h2>アイテムを追加</h2><input id="search" class="field" placeholder="名前で検索（英語名も可）" aria-label="アイテム検索"><label class="tiny" style="display:block;margin:0 0 6px"><input type="checkbox" id="auditOnly"> 共通アイテムの要照合だけ表示</label><select class="field" id="auditKind" aria-label="要照合の種類" style="margin-bottom:9px"><option value="all">形状または☆が未照合</option><option value="shape">形状が暫定・未照合</option><option value="stars">☆が未確認</option></select><div class="catalog-controls"><select id="category" class="field" aria-label="カテゴリ"><option value="">すべてのカテゴリ</option></select></div><details class="catalog-filter-panel" id="catalogFilterPanel"><summary>詳細検索 · クラス／レアリティ／属性／効果／価格 <span class="active-count" id="filterActiveCount" aria-live="polite"></span></summary><div class="catalog-filter-grid">
 <label>クラス<select id="filterClass" class="field" aria-label="クラス"><option value="">すべてのクラス</option></select></label>
 <label>レアリティ<select id="filterRarity" class="field" aria-label="レアリティ"><option value="">すべてのレアリティ</option></select></label>
-<label>属性・タグ<select id="filterTag" class="field" aria-label="属性・タグ"><option value="">すべての属性</option></select></label>
+<fieldset class="catalog-tag-filters"><legend>属性・タグ（複数選択可）</legend><div id="filterTagList" class="catalog-tag-list" aria-label="属性タグの選択肢"></div><div class="catalog-tag-toolbar"><label for="filterTagMode">タグの一致条件</label><select id="filterTagMode" class="field" aria-label="複数タグの一致条件"><option value="all">すべて含む（AND）</option><option value="any">いずれか含む（OR）</option></select></div></fieldset>
 <label>バフ<select id="filterBuff" class="field" aria-label="バフ"><option value="">すべてのバフ</option></select></label>
 <label>デバフ<select id="filterDebuff" class="field" aria-label="デバフ"><option value="">すべてのデバフ</option></select></label>
 <label>ソケット<select id="filterSocket" class="field" aria-label="ソケット数"><option value="">指定なし</option><option value="0">0個</option><option value="1">1個以上</option><option value="2">2個以上</option><option value="3">3個以上</option></select></label>
 <label style="grid-column:1/-1">価格（G）<span class="catalog-price-fields"><input id="filterPriceMin" class="field" type="number" min="0" step="1" placeholder="下限" aria-label="最低価格"><span>〜</span><input id="filterPriceMax" class="field" type="number" min="0" step="1" placeholder="上限" aria-label="最高価格"></span></label>
-</div><div class="catalog-filter-footer"><span class="tiny">条件はすべて AND 検索。未設定の価格・レアリティは指定時に対象外。</span><button type="button" id="clearCatalogFilters" class="btn catalog-clear">条件をリセット</button></div></details><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。Shift+Pで通常の一覧にプリーステスのアイテムを追加・解除できます。</div></aside>
+</div><div class="catalog-filter-footer"><span class="tiny">異なる検索項目は AND 検索。タグ内の AND／OR は切替可能。未設定の価格・レアリティは指定時に対象外。</span><button type="button" id="clearCatalogFilters" class="btn catalog-clear">条件をリセット</button></div></details><div id="catalogCount" class="tiny" aria-live="polite"></div><div class="catalog-list" id="catalog" aria-label="追加するアイテム一覧"></div><div class="tiny">＋で個別追加。初期装備は中央のセット選択から。非公式プリーステスのアイテムは初期状態では非表示です。Shift+Pで通常の一覧にプリーステスのアイテムを追加・解除できます。</div></aside>
 <section class="panel center"><div class="starting-sets">
   <div class="start-caption"><strong>🧳 初期装備セット</strong><span>7クラス・全14種</span></div>
   <select id="startSet" class="field" aria-label="呼び出す初期装備セット"><option value="">クラスを選ぶと初期配置を呼び出します…</option></select>
@@ -1505,12 +1514,22 @@ function resetCatalogSelect(id,label,values){
  for(const value of all)el.append(new Option(value,value));
  el.value=all.includes(old)?old:'';
 }
+function rebuildCatalogTagChoices(values){
+ const root=$('filterTagList'),previous=new Set([...root.querySelectorAll('input')].filter(el=>el.checked).map(el=>el.value));
+ root.replaceChildren();
+ for(const tag of [...new Set(values.filter(x=>typeof x==='string'&&x.trim()))].sort((a,b)=>a.localeCompare(b,'ja'))){
+  const label=document.createElement('label');label.className='catalog-tag-option';
+  const input=document.createElement('input');input.type='checkbox';input.value=tag;input.checked=previous.has(tag);
+  const text=document.createElement('span');text.textContent=tag;label.append(input,text);root.append(label);
+ }
+}
+function catalogSelectedTags(){return [...$('filterTagList').querySelectorAll('input')].filter(el=>el.checked).map(el=>el.value)}
 function buildCatalog(){
  const available=activeCatalogDefs();
  resetCatalogSelect('category','すべてのカテゴリ',available.flatMap(p=>[p.category||'その他',...(Array.isArray(p.categories)?p.categories:[])]));
  resetCatalogSelect('filterClass','すべてのクラス',available.map(p=>p.className));
  resetCatalogSelect('filterRarity','すべてのレアリティ',available.map(p=>p.rarity));
- resetCatalogSelect('filterTag','すべての属性',available.flatMap(p=>p.tags||[]));
+ rebuildCatalogTagChoices(available.flatMap(p=>p.tags||[]));
  resetCatalogSelect('filterBuff','すべてのバフ',available.flatMap(p=>p.buffs||[]));
  resetCatalogSelect('filterDebuff','すべてのデバフ',available.flatMap(p=>p.debuffs||[]));
  filterCatalog();
@@ -1521,7 +1540,7 @@ function catalogFilterValues(){
  const price=parse=>parse===''?null:Number(parse);
  return{tokens:catalogQueryTokens($('search').value),category:$('category').value,
   className:$('filterClass').value,rarity:$('filterRarity').value,
-  tag:$('filterTag').value,buff:$('filterBuff').value,debuff:$('filterDebuff').value,
+  tags:catalogSelectedTags(),tagMode:$('filterTagMode').value,buff:$('filterBuff').value,debuff:$('filterDebuff').value,
   socket:$('filterSocket').value===''?null:Number($('filterSocket').value),
   minPrice:price($('filterPriceMin').value),maxPrice:price($('filterPriceMax').value),
   audit:$('auditOnly').checked,auditKind:$('auditKind').value};
@@ -1531,7 +1550,10 @@ function catalogMatches(p,f){
  if(f.category&&p.category!==f.category&&!(Array.isArray(p.categories)&&p.categories.includes(f.category)))return false;
  if(f.className&&p.className!==f.className)return false;
  if(f.rarity&&p.rarity!==f.rarity)return false;
- if(f.tag&&!(p.tags||[]).includes(f.tag))return false;
+ if(f.tags.length){
+  const tags=Array.isArray(p.tags)?p.tags:[];
+  if(f.tagMode==='any'?!f.tags.some(tag=>tags.includes(tag)):!f.tags.every(tag=>tags.includes(tag)))return false;
+ }
  if(f.buff&&!(p.buffs||[]).includes(f.buff))return false;
  if(f.debuff&&!(p.debuffs||[]).includes(f.debuff))return false;
  if(f.socket!==null&&!(Number.isInteger(p.socketCount)&&p.socketCount>=f.socket))return false;
@@ -1549,13 +1571,15 @@ function catalogMatches(p,f){
  return true;
 }
 function clearCatalogFilters(){
- for(const id of ['search','category','filterClass','filterRarity','filterTag','filterBuff','filterDebuff','filterSocket','filterPriceMin','filterPriceMax'])$(id).value='';
+ for(const id of ['search','category','filterClass','filterRarity','filterBuff','filterDebuff','filterSocket','filterPriceMin','filterPriceMax'])$(id).value='';
+ for(const input of $('filterTagList').querySelectorAll('input'))input.checked=false;
+ $('filterTagMode').value='all';
  $('auditOnly').checked=false;$('auditKind').value='all';
  filterCatalog();
 }
 function filterCatalog(){
  const available=activeCatalogDefs(),filters=catalogFilterValues();
- const activeCount=['className','rarity','tag','buff','debuff'].filter(k=>!!filters[k]).length
+ const activeCount=['className','rarity','buff','debuff'].filter(k=>!!filters[k]).length+filters.tags.length
   +Number(filters.socket!==null)+Number(filters.minPrice!==null)+Number(filters.maxPrice!==null);
  $('filterActiveCount').textContent=activeCount?activeCount+'条件':'';
  const filtered=available.filter(p=>catalogMatches(p,filters)).sort(sorted);
@@ -1581,7 +1605,8 @@ function toast(s){let el=$('toast');el.textContent=s;el.classList.add('show');cl
 function reset(){if((list().length||stash.length||debugMarks.length)&&!confirm('バッグ・アイテム・宝石・保管箱・説明マーカーをすべて消去しますか？（Ctrl+Zで元に戻せます）'))return;record();bags=[];items=[];stash=[];gems=[];debugMarks=[];selected=null;resetRange();render()}
 document.querySelectorAll('.modebtn').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
 $('auditOnly').addEventListener('change',filterCatalog);$('auditKind').addEventListener('change',filterCatalog);$('search').addEventListener('input',filterCatalog);$('category').addEventListener('change',filterCatalog);
-for(const id of ['filterClass','filterRarity','filterTag','filterBuff','filterDebuff','filterSocket'])$(id).addEventListener('change',filterCatalog);
+for(const id of ['filterClass','filterRarity','filterBuff','filterDebuff','filterSocket','filterTagMode'])$(id).addEventListener('change',filterCatalog);
+$('filterTagList').addEventListener('change',filterCatalog);
 for(const id of ['filterPriceMin','filterPriceMax'])$(id).addEventListener('input',filterCatalog);
 $('clearCatalogFilters').addEventListener('click',clearCatalogFilters);
 $('startSet').addEventListener('change',e=>{if(!applyStarterSet(e.target.value))e.target.value=''});
