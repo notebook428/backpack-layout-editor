@@ -11,6 +11,7 @@ on:
       - "tests/offboard-drag.test.cjs"
       - "tests/bag-overlap-tabs.test.cjs"
       - "tests/drag-rotation.test.cjs"
+      - "tests/catalog-filters.test.cjs"
       - ".github/workflows/gem-id-migration.yml"
   workflow_dispatch:
 jobs:
@@ -29,3 +30,5 @@ jobs:
         run: node tests/bag-overlap-tabs.test.cjs
       - name: Verify drag rotations near the board boundary
         run: node tests/drag-rotation.test.cjs
+      - name: Verify advanced catalog filters
+        run: node tests/catalog-filters.test.cjs
