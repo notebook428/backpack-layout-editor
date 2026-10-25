@@ -125,4 +125,19 @@ bundleImported=JSON.parse(vm.runInContext('JSON.stringify({bags,items,stash,gems
 assert.equal(bundleImported.stash[0].type,'bag');
 assert.equal(bundleImported.stash[1].storedWithBag,'bag-bundle');
 assert.equal(bundleImported.gems[0].hostId,'item-bundle');
+// A corrupt saved file with duplicate UIDs must be rejected before it can
+// silently break gem.hostId, item.linkBag or storedWithBag relationships.
+const duplicateUidLayout={
+  format:'recho-backpack-editor',grid:{width:9,height:7},bags:[],items:[],
+  stash:[
+   {uid:'collision',presetId:'base-leather-bag',x:0,y:0,rot:0},
+   {uid:'collision',presetId:'common-ice-armor',x:0,y:0,rot:0,storedWithBag:'collision'}
+  ]
+};
+const beforeBadImport=JSON.stringify(vm.runInContext('state()',ctx));
+ctx.input=JSON.stringify(duplicateUidLayout);
+assert.throws(()=>vm.runInContext('loadJSON(input)',ctx),/重複した内部ID/,
+  'Duplicate UIDs should never be silently remapped');
+assert.equal(JSON.stringify(vm.runInContext('state()',ctx)),beforeBadImport,
+  'Rejected imports must leave current layout unchanged');
 console.log('PASS: 12 legacy gem IDs, actual layout importer, v0.7 migration, JSON roundtrip, rejection, catalogue uniqueness, confirmed data and registration aliases.');
